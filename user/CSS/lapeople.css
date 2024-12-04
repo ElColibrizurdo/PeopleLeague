@@ -1,0 +1,200 @@
+
+
+.nav_top{
+    display:flex;
+    justify-content: center;
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 94px;
+    position: fixed;
+}   
+
+
+.nav_top_1{
+    display: flex;
+}
+.nav_top_1 a{
+    color: #004789;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+}
+
+.nav_top_2{
+    display:inline-flex;
+    align-items: center;
+    display: flex;
+    gap: 24px ;
+    color: #004789;
+    cursor: pointer;
+
+    text-decoration: none;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+}
+.nav_top_2 a{
+    text-decoration: none;
+    color: #004789;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    /*display: none;*/
+}
+
+.nav_top_links{
+    margin-top: 30px;
+    margin-left: 36px;
+    margin-right:36px;
+    width: 100%;
+    display: flex; 
+    position: relative;
+    justify-content: space-between;
+    height: 43.8%;
+}
+
+
+
+.headear_img{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.btn{
+    
+    cursor: pointer;
+}
+
+
+.union_header{
+    top: -12px;
+     height: 117%;
+     position: absolute;
+    }
+.union_header_img {            
+    height: 100%;
+    position:relative;
+}
+
+
+.carta{
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    display: grid;
+    position: relative;
+    /*grid-template-rows: 298px 96px;*/
+    grid-template-areas:"img_carta"
+                        "txt_carta";
+}   
+    .carta_estado{
+        border-radius: 4px;
+        background: #FFFFFF;
+        height: 32px;
+        width: 96px;
+        top: 12px;
+        right: 12px;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color:  #004789;
+        opacity: 1;/*para ocultar el estado en cundo no sea deseado poner en 0 */
+
+    }
+    .carta_estado a{
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+    .img_carta{
+        grid-area: img_carta;
+         object-fit: cover;
+         width: 100%;
+
+         height: 100%;
+
+    }
+    .div_txt_carta{
+        background-color: #f15d2a;
+        position:absolute;
+        display:flex;
+        bottom: 0px;
+        width: 100%;
+    }
+    .txt_carta{
+        grid-area: txt_carta;
+        padding: 10px 10px 10px 10px;
+        width: 100%;
+    }
+        .txt_carta_1{
+            overflow: hidden;
+            height: 52px;
+            color:  #FFFFFF;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .txt_carta_1 a{
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 600;
+                color:  #FFFFFF;
+                line-height: normal;
+            }
+        .txt_carta_2{
+            display: flex;
+            justify-content: space-between;
+            color: #FFFFFF;
+        }
+            .txt_carta_2 a{
+
+                text-align: center;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+
+            
+        /*  corazon*/
+            .container_corazon input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+              }
+
+              .container_corazon {
+                display: block;
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                width:30px;
+              }
+
+              .container_corazon svg {
+                position: relative;
+                top: 0;
+                left: 0;
+                height: 30px;
+                width: 30px;
+                transition: all 0.3s;
+                fill: #f5865f;
+              }
+
+              .container_corazon svg:hover {
+                transform: scale(1.1);
+              }
+
+              .container_corazon input:checked ~ svg {
+                fill: #ffffff;
+              }
+        /*corazon*/
+
+    
