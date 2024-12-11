@@ -234,9 +234,9 @@ app.post('/upload', upload.array('images'), async  (req, res) => {
 
     
 
-    if (!req.file || req.files.length == 0) {
+    /*if (!req.file || req.files.length == 0) {
         return res.status(400).send('No se ha subido ningún archivo.');
-      }
+      }*/
 
       const {id} = req.body
       const uploadedFiles = req.files.map(file => ({
@@ -244,6 +244,8 @@ app.post('/upload', upload.array('images'), async  (req, res) => {
         path: file.path,
         url: `${req.protocol}://${req.get('host')}/img/${file.filename}`
         }));
+
+        
 
         res.json({
             message: 'Archivos subidos exitosamente',

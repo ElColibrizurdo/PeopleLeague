@@ -465,6 +465,9 @@ function SubirImagen(params) {
 
 
 if (new URLSearchParams(window.location.search).get('idProducto')) {
+
+    console.log('Vamos a modificiar ');
+    
     
     MostrarDatos(new URLSearchParams(window.location.search).get('idProducto'))
 

@@ -68,20 +68,56 @@ const mostrar_productos = async (req, res) => {
 const agregar_producto = async (req, res) => {
     console.log('agregar_producto = async (req, res)');
 
-    const { nombre, precio, tipo, equipo, jugador, numero, imagenes, coloresID, medidasID, stock } = req.body
+    const { nombre, precio, tipo, coloresID, equipo, jugador, numero, stock, estatus, medidasID } = req.body
     let qEquipo = null    
     if(equipo > 0){
         qEquipo = parseInt(equipo)
     }
-    let qNumero = null    
-    if(numero > 0){
-        qNumero = parseInt(numero)
+    let qNumero = null 
+
+    console.log(jugador);
+    console.log(typeof(jugador));
+    
+    
+    if(numero == null){
+
+        qNumero = null
+    } else {
+
+        qNumero = numero
     }
+
+    if (jugador == "") {
+        
+        qJugador = null
+        console.log('La id es');
+        console.log(qJugador);
+        
+        
+    } else {
+
+        qJugador = jugador
+    }
+    
+    if (tipo.length == 0) {
+        
+        qTipo = null
+    } else {
+
+        qTipo = tipo
+    }
+
+    if (precio == "") {
+         qPrecio = null
+    } else {
+        qPrecio = precio
+    }
+    
 
     try {
         
         const row = await db.query('INSERT INTO producto (idTipo, descripcion, idEquipo, idJugador, numero, precio, stock, estado) VALUES (?,?, ?,?, ?,?,?,?)'
-            , [parseInt(tipo), nombre, qEquipo, parseInt(jugador), qNumero, precio, stock, 0])
+            , [qTipo, nombre, qEquipo, qJugador, qNumero, qPrecio, stock, estatus])
 
         console.log("agregar_producto: row: " , row);
 
@@ -92,43 +128,22 @@ const agregar_producto = async (req, res) => {
                 console.log(rowC);
             })
 
-            medidasID.forEach(async element => {
-                const rowM = await db.query('INSERT INTO productomedidas (idProducto, idMedida) VALUES (?,?)', [row[0].insertId, element])
-                console.log(rowM);
-            })
+            console.log(medidasID);
+            
+
+            if (medidasID) {
+                
+                medidasID.forEach(async element => {
+                    const rowM = await db.query('INSERT INTO productomedidas (idProducto, idMedida) VALUES (?,?)', [row[0].insertId, element])
+                    console.log(rowM);
+                })
+            }
+
+            
         }
 
         console.log("row[0].insertId:" , row[0].insertId);
 
-        imagenes.forEach((element, indice) => {
-
-            const rutaOriginal = path.join(__dirname, '..', 'img', element)
-            
-            if (indice == 0) {
-                
-                const rutaDestino = path.join(__dirname, '..', '..','..','user','img','articulos', row[0].insertId + '.png')
-
-                fs.rename(rutaOriginal, rutaDestino, (err) => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log('se movio');
-                    }
-                })
-            } else {
-
-                const rutaDestino = path.join(__dirname, '..', '..','..','user','img','articulos', row[0].insertId + '_' + indice + '.png') 
-
-                fs.rename(rutaOriginal, rutaDestino, (err) => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log('se movio');
-                    }
-                })
-            }
-            
-        })
 
 
 

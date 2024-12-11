@@ -89,7 +89,7 @@ async function MostrarColores(params) {
 
 tempFile = []
 
-function ImagenesTemporales(params, event) {
+/*function ImagenesTemporales(params, event) {
 
     console.log(event);
     console.log(params);
@@ -125,7 +125,7 @@ function ImagenesTemporales(params, event) {
 
     
     SubirImagenes(new URLSearchParams(window.location.search).get('idProducto'))
-}
+}*/
 
 function SubirImagenes(id) {
     
@@ -145,7 +145,13 @@ function SubirImagenes(id) {
     })
     .then(response => response.text())  // Si esperas texto en la respuesta
     .then(result => {
-        console.log('Resultado:', result);  // Imprimir el resultado del servidor
+        console.log(typeof(result)); 
+        
+        if (result) {
+            
+            parent.location.href = '/productos'
+
+        }// Imprimir el resultado del servidor
         // Aquí puedes manejar la respuesta, por ejemplo mostrar la imagen subida:
         
         //document.body.innerHTML += result; // Mostrar la URL de la imagen
@@ -194,12 +200,9 @@ async function RemoverVariante(params) {
 async function AgregarProducto() {
 
     const nombres = []
-    
+    const select = document.getElementById('jugadores')
     const form = document.getElementById('form')
-    console.log(form);
-    
     const formData = new FormData(form)
-    console.log(formData);
 
     const imagenes = document.querySelectorAll('[nombre]')
     console.log(imagenes);
@@ -218,6 +221,8 @@ async function AgregarProducto() {
     })
 
     console.log(coloresID);
+
+    
     
 
     try {
@@ -233,16 +238,19 @@ async function AgregarProducto() {
                 precio: formData.get('precio'),
                 tipo: formData.get('tipo'),
                 coloresID,
-                equipo: 1,
-                imagenes: nombres,
-                equipoP: formData.get('equipos'),
-                jugador: parseInt(formData.get('jugadores')),
+                equipo: formData.get('equipos'),
+                jugador: formData.get('jugadores'),
+                numero: select.options[select.selectedIndex].getAttribute('numero'),
                 stock: parseInt(formData.get('stock')),
                 estatus: parseInt(formData.get('estatus'))
             })
         })
     
         const data = await responde.json()
+
+        console.log(data);
+        
+
         SubirImagenes(data[0].insertId)
 
     } catch (error) {
@@ -261,7 +269,7 @@ async function ExtraerCategoriasColores() {
     const response = await fetch('/auth/categorias?tipo= ' )
     const data = await response.json()
 
-    const seleccion = `<option value="5">---Seleccion---</option>`
+    const seleccion = `<option value="">---Seleccion---</option>`
     const selector = document.getElementById('tipo')
 
     selector.innerHTML += seleccion
@@ -347,7 +355,7 @@ async function ObtenerJugadores() {
         data.forEach(element => {
 
 
-            const jugador = `<option value="${element.id}">${element.nombre} ${element.numero} "${element.apodo}"</option>`
+            const jugador = `<option value="${element.id}" numero="${element.numero}">${element.nombre} ${element.numero} "${element.apodo}"</option>`
             
             selector.innerHTML += jugador
         })
