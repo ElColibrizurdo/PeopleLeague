@@ -473,11 +473,15 @@ if (new URLSearchParams(window.location.search).get('idProducto')) {
 
     //const btnFinalizar = document.getElementById('finalizar')
     //btnFinalizar.setAttribute('onclick', 'ModificarProducto()')
-
+    agregarproducto
     const btnFinalizar = document.getElementById('finalizar')
 
     btnFinalizar.setAttribute('onclick', 'ModificarProducto()')
     const btnSubirImagen = document.getElementById('image')
+
+    const btnInsertIMG =document.getElementById('image')
+
+    btnInsertIMG.setAttribute('onchange', `SubirImagenes(${new URLSearchParams(window.location.search).get('idProducto')})`)
 
     //btnSubirImagen.setAttribute('enctype', 'NuevaImagen(this, event)')
     //btnSubirImagen.removeAttribute('onchange')

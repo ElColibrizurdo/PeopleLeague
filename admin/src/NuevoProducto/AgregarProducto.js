@@ -127,7 +127,7 @@ tempFile = []
     SubirImagenes(new URLSearchParams(window.location.search).get('idProducto'))
 }*/
 
-function SubirImagenes(id) {
+function SubirImagen(id) {
     
     console.log(id)
     
@@ -248,10 +248,10 @@ async function AgregarProducto() {
     
         const data = await responde.json()
 
-        console.log(data);
+        console.log(data[0].insertId);
         
-
         SubirImagenes(data[0].insertId)
+        parent.location.href = '/productos'
 
     } catch (error) {
         console.log(error);

@@ -32,12 +32,10 @@ async function BorrarImagen(event, params) {
 
 console.log('Manejo imagenes');
 
+tempFile = []
 
 function ImagenesTemporales(params, event) {
-
-    console.log(event);
-    
-    
+  
     tempFile.push(event.target.files[0])
 
     const fila = document.createElement('li')
@@ -98,3 +96,54 @@ async function NuevaImagen(params) {
         
     }
 }
+
+function SubirImagenes(id) {
+    
+    console.log(id)
+    
+    const formData = new FormData()
+    formData.append('id', id)
+
+    tempFile.forEach((element,index) => {
+        formData.append(`images`, element)
+    })
+    
+    let link = '/upload'
+
+    console.log(window.location.pathname);
+    
+
+    const path = {
+        '/agregarCategoria': '?categoria',
+        '/catalogoequipos': '?equipo',
+        '/agregarBanner': '?banners',
+        '/agregarProducto': '?producto'
+    }
+
+    link += path[window.location.pathname] 
+
+    console.log(link);
+    
+
+    fetch(link, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())  // Si esperas texto en la respuesta
+    .then(result => {
+        console.log(typeof(result)); 
+        
+        // Imprimir el resultado del servidor
+        // Aquí puedes manejar la respuesta, por ejemplo mostrar la imagen subida:
+        
+        //document.body.innerHTML += result; // Mostrar la URL de la imagen
+        //.parent.location.href = '/productos'
+    })
+    .catch(error => {
+        console.error('Error al subir la imagen:', error);
+    });
+
+    
+}
+
+console.log(window.location.pathname);

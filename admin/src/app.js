@@ -101,6 +101,10 @@ app.get('/agregarColores', (req, res) => {
     res.sendFile(path.join(__dirname, 'CatalogoColores' ,'AgregarColor.html'))
 })
 
+app.get('/agregarBanner', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Banners', 'Banners.html'))
+})
+
 
 /*
 // Require the upload middleware
@@ -131,10 +135,15 @@ const storage = multer.diskStorage({
 
             const parts = fullUrl.split('?')
 
+            console.log(parts);
+            
+
             if (parts[1] == 'equipo') {
                 uploadPath = path.join(__dirname, 'img', 'logos')
             } else if (parts[1] == 'banners') {
                 uploadPath = path.join(__dirname, 'img', 'banners')
+            } else if (parts[1] == 'categoria') {
+                uploadPath = path.join(__dirname, 'img', 'tipo')
             } else {
                 uploadPath = path.join(__dirname, 'img', 'articulos')
             }
