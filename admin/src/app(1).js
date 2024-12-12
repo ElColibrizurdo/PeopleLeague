@@ -111,6 +111,11 @@ const storage = multer.diskStorage({
                 uploadPath = path.join(__dirname, 'img', 'articulos')
             }
 
+            console.log(parts);
+            console.log(uploadPath);
+            
+            
+
 
             cb(null, uploadPath)
         } catch (error) {
@@ -134,6 +139,8 @@ const storage = multer.diskStorage({
         let filePath 
         let baseName = id + path.extname(file.originalname)  
 
+        console.log('Nombre original');
+        console.log(file);
         
 
         try {
@@ -144,7 +151,7 @@ const storage = multer.diskStorage({
 
             if (parts[1] == 'equipo') {
                 
-                baseName = 'logo_' + id + '.png'
+                baseName = 'logo_' + id 
                 filePath = path.join(__dirname, 'img', 'logos')
             } else if (parts[1] == 'banners') {
                 

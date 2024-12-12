@@ -115,9 +115,10 @@ function SubirImagenes(id) {
 
     const path = {
         '/agregarCategoria': '?categoria',
-        '/catalogoequipos': '?equipo',
+        '/editarEquipo': '?equipo',
         '/agregarBanner': '?banners',
-        '/agregarProducto': '?producto'
+        '/agregarProducto': '?producto',
+        '/agregarTalla': '?medida'
     }
 
     link += path[window.location.pathname] 

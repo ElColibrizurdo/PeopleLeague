@@ -1,7 +1,13 @@
 
 const url = window.location.search
 
-if (url.includes('idEquipo=')) {
+console.log(url.includes('id'));
+
+
+if (url.includes('id')) {
+
+    console.log(url);
+    
     
     const btnAceptar = document.getElementById('finalizar')
 
@@ -9,7 +15,11 @@ if (url.includes('idEquipo=')) {
 
     const currentURL = new URLSearchParams(url)
 
-    MostrarEquipo(currentURL.get('idEquipo'))
+    const inputIMG = document.getElementById('image')
+
+    inputIMG.setAttribute('onchange', 'ActualizarIMG(this, event)')
+
+    MostrarEquipo(currentURL.get('id'))
 }
 
 async function MostrarEquipo(params) {
@@ -18,8 +28,14 @@ async function MostrarEquipo(params) {
     const data = await response.json()
 
     console.log(params);
+
+    console.log(data);
+    
     
     const equipo = data.find(obj => obj.id == params)
+
+    console.log(equipo);
+    
 
     console.log(equipo.nombre);
 
@@ -60,29 +76,44 @@ async function ModificarEquipo(params) {
     }
 }
 
-function ActualizarIMG(nombre) {
+function ActualizarIMG(params, event) {
     
-    console.log(nombre);
-    console.log(inpuImage);
+    // console.log(nombre);
+    // console.log(inpuImage);
     
-    const formData = new FormData()
-    formData.append('id', nombre)
-    formData.append('images', inpuImage)
+    // const formData = new FormData()
+    // formData.append('id', nombre)
+    // formData.append('images', inpuImage)
 
-    fetch('/upload?equipo', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.text())  // Si esperas texto en la respuesta
-    .then(result => {
-        console.log('Resultado:', result);  // Imprimir el resultado del servidor
-        // Aquí puedes manejar la respuesta, por ejemplo mostrar la imagen subida:
-         // Mostrar la URL de la imagen
-         cerrarPage()
-    })
-    .catch(error => {
-        console.error('Error al subir la imagen:', error);
-    });
+    // fetch('/upload?equipo', {
+    //     method: 'POST',
+    //     body: formData
+    // })
+    // .then(response => response.text())  // Si esperas texto en la respuesta
+    // .then(result => {
+    //     console.log('Resultado:', result);  // Imprimir el resultado del servidor
+    //     // Aquí puedes manejar la respuesta, por ejemplo mostrar la imagen subida:
+    //      // Mostrar la URL de la imagen
+    //      cerrarPage()
+    // })
+    // .catch(error => {
+    //     console.error('Error al subir la imagen:', error);
+    // });
+
+    const lista = document.getElementById('imagenes')
+
+    if (lista.childNodes != 1) {
+      
+        lista.innerHTML = ""
+    } 
+
+    const currentURL = new URLSearchParams(url)
+
+    console.log(currentURL.get('id'));
+    
+
+    ImagenesTemporales(params, event)
+    SubirImagenes(currentURL.get('id'))
 }
 
 function MostrarImagenExistente(params) {
@@ -115,6 +146,8 @@ function MostrarImagenExistente(params) {
         const img = document.createElement('img')
         img.src = '../img/logos/' + params.files[0].name
 
+        img.style = 'max-width: 70px;'
+
         const btn = document.createElement('button')
         btn.textContent = 'eliminar'
 
@@ -132,5 +165,12 @@ function MostrarImagenExistente(params) {
     }
 
     inpuImage = params.files[0]
+}
+
+function EliminarIMG(params) {
+    
+    
+
+    EliminarImagen()
 }
 

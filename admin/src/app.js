@@ -144,6 +144,8 @@ const storage = multer.diskStorage({
                 uploadPath = path.join(__dirname, 'img', 'banners')
             } else if (parts[1] == 'categoria') {
                 uploadPath = path.join(__dirname, 'img', 'tipo')
+            } else if (parts[1] == 'medida') {
+                uploadPath = path.join(__dirname, 'img', 'medidas')
             } else {
                 uploadPath = path.join(__dirname, 'img', 'articulos')
             }
@@ -171,6 +173,11 @@ const storage = multer.diskStorage({
         let filePath 
         let baseName = id + path.extname(file.originalname)  
 
+        console.log('Nombre original');
+        console.log(file.mimetype);
+        console.log(id);
+        
+
         console.log(baseName);
         
 
@@ -189,6 +196,11 @@ const storage = multer.diskStorage({
                 
                 baseName = id
                 filePath = path.join(__dirname, 'img', 'banners')
+
+            } else if (parts[1] == 'medida') {
+                
+                baseName = id + '.png'
+                filePath = path.join(__dirname, 'img', 'medidas')
 
             } else {
 

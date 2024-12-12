@@ -21,7 +21,7 @@ async function AgregarEquipo() {
     
     if (data.affectedRows == 1) {
         
-        SubirImagen(data.insertId)
+        SubirImagenes(data.insertId)
     }
 
 }
@@ -30,19 +30,11 @@ let inpuImage
 
 function SubirImagen(nombre) {
     
-    console.log(nombre);
-    
-
     const image = document.getElementById('image').files
 
-    console.log(image);
-    
-    
     const formData = new FormData()
     formData.append('id', nombre)
     formData.append('image', inpuImage)
-
-    
 
     fetch('/upload?equipo', {
         method: 'POST',
@@ -59,31 +51,17 @@ function SubirImagen(nombre) {
     });
 }
 
-function MostrarImagen(params) {
+function MostrarImagen(params, event) {
     
-    const fila = document.createElement('li')
+    const lista = document.getElementById('imagenes')
 
-    fila.setAttribute('nombre', params.files[0])
-        document.body.innerHTML += params.files[0]
-
-    localStorage.setItem('img', params.files[0])
-
-    const label = document.createElement('label')
-    label.innerText = params.files[0].name
-    const btn = document.createElement('button')
-    btn.textContent = 'eliminar'
-    label.appendChild(btn)
-
+    if (lista.childNodes != 1) {
+      
+        lista.innerHTML = ""
+    } 
     
-    fila.appendChild(label)
-    btn.setAttribute('onclick', 'RemoverImage(this)')
+    ImagenesTemporales(params, event)
 
-    const lista = document.getElementById('lista')
-    console.log(fila);
-    
-    //lista.appendChild(fila)
-    console.log(params.files);
-    inpuImage = params.files[0]
 }
 
 function RemoverImage(params) {

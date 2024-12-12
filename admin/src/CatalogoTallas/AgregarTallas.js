@@ -1,20 +1,13 @@
-async function AgregarPortada(params) {
+const lista = document.getElementById('imagenes')
 
-    console.log(params.files[0]);
-    
+    console.log(lista.childNodes);
+async function AgregarPortada(params, event) {
 
-    const formData = new FormData()
-    formData.append('image', params.files[0])
-    
-    fetch('/upload', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.text())
-    .then(result => {
+    const lista = document.getElementById('imagenes')
         
-        
-    })
+    lista.innerHTML = ''    
+
+    ImagenesTemporales(params, event)
 
 }
 
@@ -24,19 +17,30 @@ async function AgregarRegistro() {
 
     const formData = new FormData(form)
 
-    const responde = await fetch('/auth/agregarTalla', {
+    
+
+    const responde = await fetch('/auth/agregarMedida', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             nombre: formData.get('nombre'),
-            color: formData.get('color')
+            descripcion: formData.get('descripcion')
         })
     })
 
-
     const data = await responde.json()
+
+    if (data.a == 1) {
+        
+        SubirImagenes(data.id)
+
+        window.location.href = '/catalogotallas'
+    }
+
+
+   
 
     console.log(data);
     

@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 const path = require('path')
 const multer = require('multer');
 const { log } = require('console')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const { arch } = require('os');
 
 const estadisticas = async (req, res) => {
 
@@ -449,12 +450,45 @@ const BuscarImagenEquipo = async (req, res) => {
     }
 }
 
+const BuscarImagenMedida = async ( req, res) => {
+
+    const id = req.query.id
+
+    try {
+        
+        const directorio = path.join(__dirname, '..', 'img', 'medidas')
+        const archivo = await fs.readdir(directorio)
+
+        const archivoFiltrado = archivo
+        .filter(arch => arch.startsWith(`${id}.`))
+        .map(arch => ({
+            name:arch,
+            rutaCompleta: path.join(directorio, arch),
+            nombre: path.extname(arch)
+        }))
+
+        console.log(archivoFiltrado);
+        
+
+        res.json(archivoFiltrado[0])
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
 const EliminarImagen = async (req, res) => {
 
     const id = req.query.directorio
 
+    console.log(req.originalurl);
+    console.log(req.get('host'));
     
     const filePath = path.join(__dirname, '..', id)
+
+    console.log(filePath);
+    
 
     try {
         console.log("EliminarImagen:", id);
@@ -727,38 +761,18 @@ const EliminarMedida = async (req, res) => {
 
 const AgregarMedida = async (req, res) => {
 
-    const { nombre, color } = req.body
+    const { nombre, descripcion  } = req.body
 
-    let clave = nombre.slice(0,3).toUpperCase()
-
-    console.log("AgregarMedida:", req.body);
-    
     try {
         
-        const [existe] = await db.query('SELECT EXISTS (SELECT 1 FROM color WHERE nombre = ? OR hexadecimal = ?) AS existe', [nombre, color])
+        const [row] = await db.query('INSERT INTO medida (nombre, descripcion) VALUES (?,?)', [nombre, descripcion])
 
-        console.log(existe);
+        console.log(row);
 
-        if (existe[0].existe == 0) {
-            
-            const [existeClave] = await db.query('SELECT COUNT(*) AS cantidad FROM color WHERE clave LIKE ?', [clave + '%'])
-
-            console.log(existeClave);
-
-            if (existeClave[0].cantidad >= 1 ) {
-                
-                clave += existeClave[0].cantidad + 1
-            }
-
-            console.log(clave);
-            
-
-            const [row] = await db.query('INSERT INTO color (clave, nombre, hexadecimal) VALUES (?,?,?)', [clave, nombre.toUpperCase(), color])
-            res.json(row)
-        }
+        res.json({a: row.affectedRows, id: row.insertId})
+        
 
     } catch (error) {
-        
         console.log(error);
         
     }
@@ -918,6 +932,25 @@ const ExtraerMedidas = async (req, res) => {
     }
 }
 
+const MostrarMedida = async (req, res) => {
+
+    const id = req.query.id
+
+    try {
+        
+        const [row] = await db.query('SELECT nombre, descripcion FROM medida WHERE id = ?', [parseInt(id)])
+
+        console.log(row[0]);
+        
+
+        res.json(row[0])
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
 const ExtraerMedidasProducto = async (req, res) => {
 
     const id = req.query.id
@@ -1064,4 +1097,4 @@ const AgregarBanner = async (req, res) => {
 }
 
 
-module.exports = { ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }
+module.exports = { BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }
