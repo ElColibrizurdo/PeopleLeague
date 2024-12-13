@@ -478,6 +478,25 @@ const BuscarImagenMedida = async ( req, res) => {
     }
 }
 
+const BuscarImagen = async (req, res) => {
+
+    const id = req.query.id
+    const directorio = req.query.directorio
+
+    try {
+        
+        const filePath = path.join(__dirname, '..', 'img', directorio)
+        const archivo = await fs.readdir(filePath)
+
+        const archivoFiltrado = archivo
+        //.filter(arch => arch.startsWith(`${id}`.))
+
+    } catch (error) {
+        
+    }
+
+}
+
 const EliminarImagen = async (req, res) => {
 
     const id = req.query.directorio
@@ -780,18 +799,16 @@ const AgregarMedida = async (req, res) => {
 
 const ModificarMedida = async (req, res) => {
 
-    const { id, nombre, color } = req.body
+    const { id, nombre, descripcion } = req.body
 
     try {
         
-        const [row] = await db.query('UPDATE color SET nombre = ?, hexadecimal = ? WHERE id = ?', [nombre, color, id])
+        const [row] = await db.query('UPDATE medida SET nombre = ?, descripcion = ? WHERE id = ?', [nombre, descripcion, id])
 
-        console.log("ModificarMedida:", row);
         res.json(row)
 
     } catch (error) {
-        console.log(error);
-        
+        res.json({message: error.sqlMessage})
     }
 }
 
