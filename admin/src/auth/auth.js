@@ -1012,7 +1012,7 @@ const AgregarEquipo = async (req, res) => {
         const [mayor] = await db.query('SELECT MAX(orden) AS maximo FROM equipo')
         console.log(mayor);
         
-        const [row] = await db.query('INSERT INTO equipo (nombre, orden) VALUES (?,?)', [nombre, mayor[0].maximo + 1])
+        const [row] = await db.query('INSERT INTO equipo (nombre, orden, activo) VALUES (?,?, 1)', [nombre, mayor[0].maximo + 1])
 
         res.json(row)
 
