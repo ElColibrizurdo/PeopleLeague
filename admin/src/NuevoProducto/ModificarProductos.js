@@ -167,9 +167,6 @@ async function ExtraerMedidasProducto(id, ctrl) {
     })
 }
 
-
-
-
 async function MostrarDatos(id) {
     
     console.log("MostrarDatos(id):" + id);
@@ -432,8 +429,6 @@ async function EliminarLi(params) {
     params.parentNode.remove();
 }
 
-
-
 async function NuevaImagen(params) {
     console.log("NuevaImagen("+params);
     
@@ -465,8 +460,6 @@ async function NuevaImagen(params) {
         
     }
 }
-
-
 
 function SubirImagen(params) {
     console.log("SubirImagen("+params)
@@ -530,6 +523,8 @@ if (new URLSearchParams(window.location.search).get('idProducto')) {
     const btnFinalizar = document.getElementById('finalizar')
 
     btnFinalizar.setAttribute('onclick', 'ModificarProducto()')
+    btnFinalizar.innerText = 'Guardar'
+
     const btnSubirImagen = document.getElementById('image')
 
     const btnInsertIMG = document.getElementById('image')
