@@ -11,13 +11,15 @@ if (url.includes('id')) {
     
     const btnAceptar = document.getElementById('finalizar')
 
-    btnAceptar.setAttribute('onclick', 'ModificarEquipo(); ')
+    btnAceptar.setAttribute('onclick', 'ModificarEquipo(this); ')
+    btnAceptar.innerText = 'Guardar'
 
     const currentURL = new URLSearchParams(url)
 
     const inputIMG = document.getElementById('image')
 
     inputIMG.setAttribute('onchange', 'ActualizarIMG(this, event)')
+    
 
     MostrarEquipo(currentURL.get('id'))
 }
@@ -61,14 +63,18 @@ async function ModificarEquipo(params) {
     try {
 
         const nombre = document.getElementById('nombre')
-        const id = new URLSearchParams(url).get('idEquipo')
+        const id = new URLSearchParams(url).get('id')
+
+        console.log(nombre);
+        console.log(id);
+        
+        
         
         const response = await fetch(`/auth/modificarEquipo?name=${nombre.value}&id=${id}`)
         const data = await response.json()
 
         console.log(data);
-        ActualizarIMG(id)
-        cerrarPage()
+//        cerrarPage()
 
     } catch (error) {
         console.log(error);
@@ -78,28 +84,6 @@ async function ModificarEquipo(params) {
 
 function ActualizarIMG(params, event) {
     
-    // console.log(nombre);
-    // console.log(inpuImage);
-    
-    // const formData = new FormData()
-    // formData.append('id', nombre)
-    // formData.append('images', inpuImage)
-
-    // fetch('/upload?equipo', {
-    //     method: 'POST',
-    //     body: formData
-    // })
-    // .then(response => response.text())  // Si esperas texto en la respuesta
-    // .then(result => {
-    //     console.log('Resultado:', result);  // Imprimir el resultado del servidor
-    //     // Aquí puedes manejar la respuesta, por ejemplo mostrar la imagen subida:
-    //      // Mostrar la URL de la imagen
-    //      cerrarPage()
-    // })
-    // .catch(error => {
-    //     console.error('Error al subir la imagen:', error);
-    // });
-
     const lista = document.getElementById('imagenes')
 
     if (lista.childNodes != 1) {
@@ -112,8 +96,7 @@ function ActualizarIMG(params, event) {
     console.log(currentURL.get('id'));
     
 
-    ImagenesTemporales(params, event)
-    SubirImagenes(currentURL.get('id'))
+
 }
 
 function MostrarImagenExistente(params) {

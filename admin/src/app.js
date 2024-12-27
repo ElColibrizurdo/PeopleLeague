@@ -51,7 +51,7 @@ app.get('/catalogoTallas', (req, res) => {
     res.sendFile(path.join(__dirname, 'CatalogoTallas', 'Tallas.html'))
 })
 app.get('/agregarTalla', (req, res) => {
-    res.sendFile(path.join(__dirname, 'CatalogoTallas', 'agregarTalla.html'))
+    res.sendFile(path.join(__dirname, 'CatalogoTallas', 'AgregarTalla.html'))
 })
 
 app.get('/catalogoEquipos', (req, res) => {
@@ -146,6 +146,8 @@ const storage = multer.diskStorage({
                 uploadPath = path.join(__dirname, 'img', 'tipo')
             } else if (parts[1] == 'medida') {
                 uploadPath = path.join(__dirname, 'img', 'medidas')
+            } else if (parts[1] == 'talla') {
+                uploadPath = path.join(__dirname, 'img', 'medidas')
             } else {
                 uploadPath = path.join(__dirname, 'img', 'articulos')
             }
@@ -179,6 +181,8 @@ const storage = multer.diskStorage({
         
 
         console.log(baseName);
+        console.log(path.extname(file.originalname));
+        
         
 
         try {
@@ -190,16 +194,21 @@ const storage = multer.diskStorage({
 
             if (parts[1] == 'equipo') {
                 
-                baseName = 'logo_' + id + '.png'
+                baseName = 'logo_' + id + path.extname(file.originalname)
                 filePath = path.join(__dirname, 'img', 'logos')
             } else if (parts[1] == 'banners') {
                 
-                baseName = id
+                baseName = id + path.extname(file.originalname)
                 filePath = path.join(__dirname, 'img', 'banners')
 
             } else if (parts[1] == 'medida') {
                 
-                baseName = id + '.png'
+                baseName = id + path.extname(file.originalname)
+                filePath = path.join(__dirname, 'img', 'medidas')
+
+            } else if (parts[1] == 'talla') {
+                
+                baseName = id + path.extname(file.originalname)
                 filePath = path.join(__dirname, 'img', 'medidas')
 
             } else {

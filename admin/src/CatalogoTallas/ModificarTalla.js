@@ -7,6 +7,10 @@ if (url.includes('id')) {
     
     const btn = document.getElementById('btnAceptar')
     btn.setAttribute('onclick', 'ModificarMedidas()')
+    btn.innerText = 'Guardar'
+
+    const btnSubirIMG = document.getElementById('image')
+    btnSubirIMG.setAttribute('onchange', `SubirImagenes(${new URLSearchParams(url).get('id')})`)
 }
 
 

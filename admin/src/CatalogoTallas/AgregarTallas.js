@@ -32,6 +32,9 @@ async function AgregarRegistro() {
 
     const data = await responde.json()
 
+    console.log(data);
+    
+
     if (data.a == 1) {
         
         SubirImagenes(data.id)

@@ -62,6 +62,12 @@ function ImagenesTemporales(params, event) {
     btn.setAttribute('btnFila', filas.length)
 
     const lista = document.getElementById('imagenes')
+
+    if (window.location.pathname == '/agregarTalla') {
+        
+        lista.innerHTML = ''
+    }
+
     lista.appendChild(fila)
 }
 
@@ -99,7 +105,12 @@ async function NuevaImagen(params) {
 
 function SubirImagenes(id) {
     
-    ImagenesTemporales(id, event)
+    try {
+        
+        ImagenesTemporales(id, event)
+    } catch (error) {
+        
+    }
     
     console.log(id)
     
@@ -121,7 +132,9 @@ function SubirImagenes(id) {
         '/agregarCategoria': '?categoria',
         '/catalogoequipos': '?equipo',
         '/agregarBanner': '?banners',
-        '/agregarProducto': '?producto'
+        '/agregarProducto': '?producto',
+        '/editarEquipo': '?equipo',
+        '/agregarTalla': '?talla'
     }
 
     link += path[window.location.pathname] 
@@ -149,5 +162,6 @@ function SubirImagenes(id) {
         console.error('Error al subir la imagen:', error);
     });
 }
+
 
 console.log(window.location.pathname);
