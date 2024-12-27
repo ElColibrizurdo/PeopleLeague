@@ -526,9 +526,9 @@ const ActualizarProducto = async (req, res) => {
 
     const { id, descripcion, precio, tipo, equipo, jugador, numero, estado, stock, imagenes, coloresID, medidasID } = req.body
             // nombre, precio, tipo, equipo, jugador, numero, stock, stado, imagenes, coloresID, medidasID
-    let sNumero = '' 
+    let sNumero 
     let sequipo = '' 
-    let sjugador = '' 
+    let sjugador = jugador
     if(numero == '' || numero == undefined || numero == null ) { sNumero = null }
     if(jugador == '-1' || jugador == undefined || jugador == null ) { sjugador = null }
     if(equipo == '-1' || equipo == undefined || equipo == null ) { sequipo = 0 }
@@ -1113,5 +1113,25 @@ const AgregarBanner = async (req, res) => {
     
 }
 
+const ModificarProductoTipo = async (req, res) => {
 
-module.exports = { BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }
+    try {
+        
+        const id = req.query.id;
+        const idTipo = req.query.tipo;
+
+        console.log(id);
+        
+
+        const [row] = await db.query('UPDATE producto SET idTipo = ? WHERE id = ?;', [idTipo, id]);
+        console.log(row);
+        
+        res.json(row)
+
+    } catch (error) {
+        
+    }
+}
+
+
+module.exports = { ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }

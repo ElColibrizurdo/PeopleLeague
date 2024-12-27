@@ -99,6 +99,8 @@ async function NuevaImagen(params) {
 
 function SubirImagenes(id) {
     
+    ImagenesTemporales(id, event)
+    
     console.log(id)
     
     const formData = new FormData()
@@ -110,15 +112,16 @@ function SubirImagenes(id) {
     
     let link = '/upload'
 
-    console.log(window.location.pathname);
+    console.log(formData.get('id'));
+    console.log(formData.get('images'));
+    
     
 
     const path = {
         '/agregarCategoria': '?categoria',
-        '/editarEquipo': '?equipo',
+        '/catalogoequipos': '?equipo',
         '/agregarBanner': '?banners',
-        '/agregarProducto': '?producto',
-        '/agregarTalla': '?medida'
+        '/agregarProducto': '?producto'
     }
 
     link += path[window.location.pathname] 
@@ -133,6 +136,8 @@ function SubirImagenes(id) {
     .then(response => response.text())  // Si esperas texto en la respuesta
     .then(result => {
         console.log(typeof(result)); 
+        console.log(result);
+        
         
         // Imprimir el resultado del servidor
         // Aquí puedes manejar la respuesta, por ejemplo mostrar la imagen subida:
@@ -143,8 +148,6 @@ function SubirImagenes(id) {
     .catch(error => {
         console.error('Error al subir la imagen:', error);
     });
-
-    
 }
 
 console.log(window.location.pathname);

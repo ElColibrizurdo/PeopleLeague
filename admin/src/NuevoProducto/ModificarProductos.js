@@ -5,11 +5,11 @@ async function ExtraerCatTipo(id, ctrl) {
     const response = await fetch('/auth/categorias?tipo='+id)
     const data = await response.json()
 
-    //const ctrl = document.getElementById('tipo')
+
     data.forEach(element => {
-        const opcion = `<option value="${element.id}"  ${element.selected}  >${element.id +'-'+ element.nombre}</option>
-        `
-        ctrl.innerHTML += opcion
+         const opcion = `<option value="${element.id}"  ${element.selected}  >${element.id +'-'+ element.nombre}</option>
+         `
+         ctrl.innerHTML += opcion
     })
 }
 
@@ -107,6 +107,11 @@ async function ExtraerCatColor(id, ctrl) {
 function elemLi(ctrl, nombre, id){
 
     try {
+
+        console.log(id);
+        console.log(ctrl);
+        
+        
         
         const fila = document.createElement('li')
 
@@ -136,15 +141,25 @@ function elemLi(ctrl, nombre, id){
 }
 
 async function ExtraerColorProducto(id, ctrl) {
+
+    
+    
     
     const response = await fetch('/auth/coloresProducto?id='+id)
     const data = await response.json()
     data.row.forEach(element => {
+        console.log(element);
+        
         elemLi(ctrl, element.nombre, element.idColor);
     })
 }
 
 async function ExtraerMedidasProducto(id, ctrl) {
+
+    console.log(id);
+    console.log(ctrl);
+    
+
     const response = await fetch('/auth/medidasProducto?id='+id)
     const data = await response.json()
     data.row.forEach(element => {
@@ -171,14 +186,18 @@ async function MostrarDatos(id) {
     let estado = document.getElementById('estatus')
 
     let tipo = document.getElementById('tipo')
-    let equipo = document.getElementById('equipo')
-    let jugador = document.getElementById('jugador')
+    let equipo = document.getElementById('equipos')
+    let jugador = document.getElementById('jugadores')
 
     let color = document.getElementById('color')
     let colores = document.getElementById('colores')
 
     let medida = document.getElementById('medida')
     let medidas = document.getElementById('medidas')
+
+    console.log(data[0].idTipo);
+    tipo.value = data[0].idTipo
+    
 
     if (id>0) {
         data.forEach(async element => {
@@ -192,7 +211,7 @@ async function MostrarDatos(id) {
             precio.value = element.precio
             estado.value = element.estado
 
-            ExtraerCatTipo(element.idTipo, tipo)
+            //ExtraerCatTipo(element.idTipo, tipo)
             ExtraerCatEquipo(element.idEquipo, equipo)
             ExtraerCatJugador([element.idJugador, element.idEquipo], jugador)
 
@@ -234,6 +253,10 @@ async function MostrarDatos(id) {
                 ExtraerCatMedida(0, medida)
 
                 ExtraerColorProducto(element.id, colores)
+
+                console.log(medidas);
+                
+
                 ExtraerMedidasProducto(element.id, medidas)
             } catch (error) {
                 console.log(error);
@@ -283,6 +306,26 @@ function selecElem(ctrl, id){
     }
 }
 
+async function CambiarTipoProducto(params, event) {
+    
+    try {
+
+        console.log(params.value);
+        
+
+        let idProducto = new URLSearchParams(window.location.search).get('idProducto')
+        
+        const response = await fetch(`/auth/modificarTProducto?id=${idProducto}&tipo=${params.value}`)
+        const data = await response.json()
+
+        console.log(data);
+        
+
+    } catch (error) {
+        
+    }
+}
+
 async function ModificarProducto() {
     
     try {
@@ -293,8 +336,8 @@ async function ModificarProducto() {
         const estado = document.getElementById('estatus')
 
         const tipo = document.getElementById('tipo')
-        const equipo = document.getElementById('equipo')
-        const jugador = document.getElementById('jugador')
+        const equipo = document.getElementById('equipos')
+        const jugador = document.getElementById('jugadores')
 
         const colores = document.getElementById('colores')
         const medidas = document.getElementById('medidas')
@@ -303,6 +346,11 @@ async function ModificarProducto() {
         let data = []
         let coloresID = []
         let medidasID = []
+
+        console.log(jugador.value);
+        console.log(jugador.options[jugador.value].getAttribute('numero'));
+        
+        
 
         for (var p = 0; p < colores.children.length; p++) {
             coloresID.push( colores.children[p].value );
@@ -327,7 +375,7 @@ async function ModificarProducto() {
                     tipo: tipo.value,
                     equipo: equipo.value,
                     jugador: jugador.value,
-                    numero: numero.value,
+                    numero: jugador.options[jugador.value].getAttribute('numero'),
                     estado: estado.value,
                     stock: 0,
                     imagenes: idProducto+'.png',
@@ -366,7 +414,12 @@ async function ModificarProducto() {
             document.getElementById('btn_recargar').click();
         }
 
-        console.log(data);
+        console.log(data[0]);
+
+        if (data[0].affectedRows != 0) {
+            
+            location.reload()
+        }
         
     } catch (error) {
         console.log(error);
@@ -473,15 +526,19 @@ if (new URLSearchParams(window.location.search).get('idProducto')) {
 
     //const btnFinalizar = document.getElementById('finalizar')
     //btnFinalizar.setAttribute('onclick', 'ModificarProducto()')
-    agregarproducto
+    
     const btnFinalizar = document.getElementById('finalizar')
 
     btnFinalizar.setAttribute('onclick', 'ModificarProducto()')
     const btnSubirImagen = document.getElementById('image')
 
-    const btnInsertIMG =document.getElementById('image')
+    const btnInsertIMG = document.getElementById('image')
 
-    btnInsertIMG.setAttribute('onchange', `SubirImagenes(${new URLSearchParams(window.location.search).get('idProducto')})`)
+    btnInsertIMG.setAttribute('onchange', `SubirImagenes(${new URLSearchParams(window.location.search).get('idProducto')}, event)`)
+
+    const btnCambiarTipo = document.getElementById('tipo')
+    btnCambiarTipo.setAttribute('onchange', 'CambiarTipoProducto(this, event)')
+    
 
     //btnSubirImagen.setAttribute('enctype', 'NuevaImagen(this, event)')
     //btnSubirImagen.removeAttribute('onchange')

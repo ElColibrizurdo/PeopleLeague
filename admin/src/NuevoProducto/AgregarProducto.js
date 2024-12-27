@@ -46,6 +46,15 @@ function MostrarVariantes(event, params) {
     }
 }
 
+function MostrarMedidas(params) {
+    
+    console.log(params.options[params.selectedIndex].textContent);
+    
+
+    const lista = document.getElementById('medidas')
+    elemLi(lista, params.options[params.selectedIndex].textContent, params.value);
+}
+
 async function MostrarColores(params) {
 
     console.log(params);
@@ -67,65 +76,13 @@ async function MostrarColores(params) {
 
     const data = await response.json()    
 
-    const fila = document.createElement('li')
-
-    const label = document.createElement('label')
-    label.textContent = params.value
-    label.classList.add('colores')
-    label.setAttribute('color', params.options[params.selectedIndex].getAttribute('color'))
-
-    const btn = document.createElement('button')
-    btn.textContent = 'eliminar'
-    label.appendChild(btn)
-
-    fila.appendChild(label)
-    btn.setAttribute('onclick', 'RemoverVariante(this)')
-
-
-    const lista = document.getElementById('listaColores')
-    lista.appendChild(fila)
+    const lista = document.getElementById('colores')
+    elemLi(lista, params.value, params.options[params.selectedIndex].getAttribute('color'));
+    
     
 }
 
 tempFile = []
-
-/*function ImagenesTemporales(params, event) {
-
-    console.log(event);
-    console.log(params);
-    
-    
-    tempFile.push(event.target.files[0])
-
-    const fila = document.createElement('li')
-    fila.classList.add('fila')
-
-    const filas = document.querySelectorAll('.fila')
-    
-    fila.setAttribute('fila', filas.length)
-    
-    const img = document.createElement('img')
-    img.src = URL.createObjectURL(event.target.files[0])
-    img.style.maxWidth = '70px'
-
-    const label = document.createElement('label')
-    label.appendChild(img)
-
-    const btn = document.createElement('button')
-    btn.textContent = 'eliminar'
-    label.appendChild(btn)
-
-    
-    fila.appendChild(label)
-    btn.setAttribute('onclick', 'EliminarImagen(event, this)')
-    btn.setAttribute('btnFila', filas.length)
-
-    const lista = document.getElementById('imagenes')
-    lista.appendChild(fila)
-
-    
-    SubirImagenes(new URLSearchParams(window.location.search).get('idProducto'))
-}*/
 
 function SubirImagen(id) {
     
@@ -348,7 +305,7 @@ async function ObtenerJugadores() {
 
 
         const selector = document.getElementById('jugadores')
-        const seleccion = `<option value="">---Seleccion---</option>`
+        const seleccion = `<option value="0" numero="0">---Seleccion---</option>`
           
         selector.innerHTML += seleccion
 

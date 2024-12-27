@@ -256,6 +256,18 @@
                                 </div>
                             </div>
                             <div  style="display: flex; flex-direction: column">
+                                <label for="tipo" class="form-label"> Medidas *opcional*</label>
+                                <select name="medida" onclick="MostrarMedidas(this)" id="medida" class="form-control input_naranja" required>
+                                </select>
+                                <ul id="medidas"></ul>
+                                <div class="valid-feedback">
+                                    Exitoso!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Introduce esta información
+                                </div>
+                            </div>
+                            <div  style="display: flex; flex-direction: column">
                                 <label for="tipo" class="form-label"> Equipo *opcional*</label>
                                 <select name="equipos" id="equipos" class="form-control input_naranja" required>
                                 </select>
@@ -295,7 +307,7 @@
                                     
                                 </label>
                                 <select name="color" id="color" onclick="MostrarColores(this)" class="form-control input_naranja" required></select>
-                                <ul id="listaColores"></ul>
+                                <ul id="colores"></ul>
                                 <div class="valid-feedback">
                                     Exitoso!
                                 </div>
