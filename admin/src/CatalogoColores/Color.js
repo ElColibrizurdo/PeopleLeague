@@ -26,11 +26,14 @@ async function MostrarColores() {
 
     data.row.forEach(element => {
 
+        console.log(element);
+        
+
         const carta = `
         <div id="${element.id}" class="cart">
             <div class="contendor_cart_nombre">
                 <label class="checkBox_filtro"><input name="radio" type="checkbox"><div class="transition_checkbox"></div></label>
-                <img src="../../img/sin_img.png" alt="alt"/>
+                <div class="color" style="background-color:${element.hexadecimal}"></div>
                 <a href="/agregarColores?idColor=${element.id}">${element.nombre}</a>
             </div>
             <h2>${element.hexadecimal}</h2>
@@ -45,6 +48,7 @@ async function MostrarColores() {
         `
 
         fila.innerHTML += carta
+        
 
     });
     
