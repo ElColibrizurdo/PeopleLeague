@@ -7,17 +7,35 @@ async function mostrar_productos() {
     lista.replaceChildren();
 
     try {
+
+        const filtro = {
+            'Todo': '00',
+            'Nombre' : '01',
+            'Categoria': '10'
+        }
+
+        const orden = document.querySelector('.selecion_a').textContent
+
+        console.log(orden);
         
-        const response = await fetch('/auth/mostrarProductos?id=0')
+        
+
+        console.log(filtro[document.querySelector('.selecion_a').textContent]);
+        
+        const response = await fetch(`/auth/mostrarProductos?id=0&filtro=${filtro[document.querySelector('.selecion_a').textContent]}`)
         const data = await response.json()
 
         const cantidad = document.querySelector('.cantidad')
         cantidad.textContent = `(${data.length})`
 
+        
+
+        
+
         data.forEach(element => {
             console.log(element);
 
-            let estado = (element.estado == 0?'Agotado':(element.estado == 0?'Disponible':'Preventa'))
+            let estado = (element.estado == 0?'Agotado':(element.estado == 0?'Disponible':'PreBventa'))
 
             let carta
 

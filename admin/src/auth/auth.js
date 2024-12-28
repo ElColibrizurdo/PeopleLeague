@@ -36,7 +36,17 @@ const estadisticas = async (req, res) => {
 const mostrar_productos = async (req, res) => {
 
     const id = req.query.id
+    const filtro = req.query.filtro
+
+    console.log( 'filtro: ' +  filtro);
+    
     //console.log("mostrar_productos = async (req, res):id=", id);
+
+    const orden = {
+        '00': ``,
+        '01': 'ORDER BY p.descripcion ASC',
+        '10': 'ORDER BY tipoNombre ASC'
+    }
 
     try {
         
@@ -54,7 +64,8 @@ const mostrar_productos = async (req, res) => {
             + " LEFT JOIN colores_producto c ON p.id = c.idProducto "
             + " WHERE p.activo = 1 "
             + "  AND  p.id = Case When ? = 0 Then p.id else ? End "
-            + " GROUP BY p.id ", [id, id]
+            + " GROUP BY p.id "
+            + `${orden[filtro]}`, [id, id]
         )
         //console.log("mostrar_productos(query):", productos);
 
