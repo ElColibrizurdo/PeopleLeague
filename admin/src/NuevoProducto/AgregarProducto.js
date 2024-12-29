@@ -75,7 +75,7 @@ async function MostrarColores(params) {
     })
 
     const data = await response.json()    
-B
+
     const lista = document.getElementById('colores')
     elemLi(lista, params.value, params.options[params.selectedIndex].getAttribute('color'));
     
