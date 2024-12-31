@@ -19,7 +19,7 @@ async function MostrarJugadores() {
             <div class="cart">
                 <div class="contendor_cart_nombre">
                     <label class="checkBox_filtro"><input name="radio" type="checkbox"><div class="transition_checkbox"></div></label>
-                    <img src="../../img/sin_img.png" alt="alt">
+                    <img src="../../img/jugadores/${element.id}.png" alt="alt">
                     <a href="/agregarJugador?idJugador=${element.id}">${element.nombre}</a>
                 </div>
                 <h2>numero ${element.numero}</h2>
