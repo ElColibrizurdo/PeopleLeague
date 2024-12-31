@@ -1144,5 +1144,72 @@ const ModificarProductoTipo = async (req, res) => {
     }
 }
 
+const AgregarJUgador = async (req, res) => {
 
-module.exports = { ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }
+    try {
+        
+        const { nombre, apodo, numero, equipo } = req.body
+
+        console.log(nombre);
+        console.log(apodo);
+        console.log(numero);
+        console.log(equipo);
+        
+
+        const [row] = await db.query('INSERT INTO jugador (idEquipo, apodo, nombre, numero, activo, fechaAlta) VALUES (?,?,?,?,1,CURRENT_TIMESTAMP)', [equipo, apodo, nombre, numero])
+
+        console.log(row);
+        
+        res.json(row)
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+const MostrarJugador = async (req, res) => {
+
+    try {
+        
+        const id = req.query.id
+
+        const [row] = await db.query('SELECT nombre, apodo, idEquipo, numero FROM jugador WHERE id = ?', [id])
+
+        res.json(row[0])
+
+    } catch (error) {
+        
+    }
+}
+
+const ModificarJugador = async (req, res) => {
+
+    try {
+        
+        const id = req.query.id
+        const equipo = req.query.equpo
+        const nombre = req.query.nombre
+        const apodo = req.query.apodo
+        const numero = req.query.numero
+
+        console.log(id);
+        console.log(equipo);
+        console.log(nombre);
+        console.log(apodo);
+        console.log(numero);
+        
+
+        const [row] = await db.query('UPDATE jugador SET idEquipo = ?, nombre = ?, apodo = ?, numero = ? WHERE id = ?', [equipo, nombre, apodo, numero, id])
+
+        console.log(row);
+        
+
+        res.json(row)
+
+    } catch (error) {
+        
+    }
+}
+
+
+module.exports = {ModificarJugador, MostrarJugador, AgregarJUgador, ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }

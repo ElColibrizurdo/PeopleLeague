@@ -63,7 +63,7 @@ function ImagenesTemporales(params, event) {
 
     const lista = document.getElementById('imagenes')
 
-    if (window.location.pathname == '/agregarTalla') {
+    if (window.location.pathname == '/agregarTalla' || window.location.pathname == '/agregarJugador') {
         
         lista.innerHTML = ''
     }
@@ -134,7 +134,8 @@ function SubirImagenes(id) {
         '/agregarBanner': '?banners',
         '/agregarProducto': '?producto',
         '/editarEquipo': '?equipo',
-        '/agregarTalla': '?talla'
+        '/agregarTalla': '?talla',
+        '/agregarJugador': '?jugadores'
     }
 
     link += path[window.location.pathname] 

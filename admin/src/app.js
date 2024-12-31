@@ -105,6 +105,14 @@ app.get('/agregarBanner', (req, res) => {
     res.sendFile(path.join(__dirname, 'Banners', 'Banners.html'))
 })
 
+app.get('/jugadores', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Jugadores', 'MostrarJugadores.html'))
+})
+
+app.get('/agregarJugador', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Jugadores', 'AgregarJugador.html'))
+})
+
 
 /*
 // Require the upload middleware
@@ -148,6 +156,8 @@ const storage = multer.diskStorage({
                 uploadPath = path.join(__dirname, 'img', 'medidas')
             } else if (parts[1] == 'talla') {
                 uploadPath = path.join(__dirname, 'img', 'medidas')
+            } else if (parts[1] == 'jugadores') {
+                uploadPath = path.join(__dirname, 'img', 'jugadores')
             } else {
                 uploadPath = path.join(__dirname, 'img', 'articulos')
             }
@@ -210,6 +220,11 @@ const storage = multer.diskStorage({
                 
                 baseName = id + path.extname(file.originalname)
                 filePath = path.join(__dirname, 'img', 'medidas')
+
+            } else if (parts[1] == 'jugadores') {
+                
+                baseName = id + path.extname(file.originalname)
+                filePath = path.join(__dirname, 'img', 'jugadores') 
 
             } else {
 
