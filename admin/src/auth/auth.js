@@ -861,7 +861,20 @@ const MostrarCompras = async (req, res) => {
 
     try {
         
-        const [row] = await db.query('SELECT v.id, v.fechaPago, v.Total, d.estadoEnvio, noGuia, noPedido FROM venta v JOIN ventadetalle d ON v.id = d.idVenta ')
+        const [row] = await db.query('SELECT v.id AS "id_venta", vd.id AS "id_detalle", ' + 
+                'vd.idProducto, vd.cantidad, vd.total, v.fechaPago, ' +
+                'vd.estadoEnvio, vd.fechaAlta, vd.idMedida, ' + 
+                'v.noPedido, v.Total, v.noGuia, v.idCliente, ' +
+                'p.descripcion, m.nombre ' +  
+            'FROM venta v ' + 
+            'LEFT JOIN ventadetalle vd ' + 
+            'ON v.id = vd.idVenta ' + 
+            'LEFT JOIN producto p ' +
+            'ON vd.idProducto = p.id ' + 
+            'LEFT JOIN medida m ' + 
+            'ON vd.idMedida = m.id ' + 
+            'ORDER BY v.id ASC'
+        )
         res.json(row)
 
     } catch (error) {
