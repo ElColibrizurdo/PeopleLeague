@@ -1224,5 +1224,24 @@ const ModificarJugador = async (req, res) => {
     }
 }
 
+const ModificarStockInvenario = async (req, res) => {
 
-module.exports = {ModificarJugador, MostrarJugador, AgregarJUgador, ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }
+
+    const id = req.query.id
+    const stock = req.query.stock
+
+    console.log(stock);
+    console.log(id);
+    
+
+
+    const [row] = await db.query('UPDATE producto SET stock = ? WHERE id = ?', [stock, id])
+
+    console.log(row);
+
+    res.json(row)
+    
+}
+
+
+module.exports = {ModificarStockInvenario, ModificarJugador, MostrarJugador, AgregarJUgador, ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }
