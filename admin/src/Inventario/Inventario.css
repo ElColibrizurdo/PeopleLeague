@@ -460,4 +460,28 @@
             /*----------- Space -----------*/
         /*----------contendor-----------*/
     
+.filtros {
+    display: flex;
+    align-items: left;
+    gap: 5px;
+}
 
+.filtro_uso {
+    padding: 5px 5px 5px 15px;
+    width: 100%;
+    background-color: orangered;
+    color: white;
+    border-radius: 15px;
+    
+}
+
+.filtro_cerrar {
+    display: block;
+    border-radius: 50%;
+    width: 21px;
+    height: 21px;
+    text-align: center;
+    border-color: transparent;
+    line-height: 100%;
+    margin-left: 10px;
+}

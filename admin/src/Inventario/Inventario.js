@@ -26,12 +26,28 @@ async function mostrarProductos() {
 
     try {
 
+        const buscar = document.querySelector('.buscador').value
+
         const lista = document.querySelector('.div_scroll')
 
         lista.replaceChildren();
+
+        const filtro = document.querySelector('.selecion_a')
+        console.log(filtro.textContent);
         
-        const response = await fetch(`/auth/mostrarProductos?id=0&filtro=00`)
+        const bits = {
+            'Todo':'00',
+            'Jugador': '010',
+            'Nombre': '01',
+            'Estado En preventa': '100',
+            'Estado Agotado': '101'
+        }
+        
+        const response = await fetch(`/auth/mostrarProductos?id=0&filtro=${bits[filtro.textContent]}&busqueda=${buscar}`)
         const data = await response.json()
+
+        console.log(data);
+        
 
         data.forEach(element => {
             
@@ -46,7 +62,6 @@ async function mostrarProductos() {
                     <h2>${element.descripcion}</h2>
                 </div>
                 <h2>${element.jugadorNombre}</h2>
-                <h2>${element.estado}</h2>
                 <input type="text" name="stock" id="${element.id}" value="${element.stock}" onkeyup="if(event.key == 'Enter') ModificarStock(this)">
                 <select id="${element.id}_estado" onchange="CambiarEstado(this)">
                     <option value="1">Preventa</option>
@@ -110,4 +125,15 @@ async function CambiarEstado(params) {
     
     
     
+}
+
+async function AgregarFiltro(params) {
+    
+    console.log(params);
+    
+    mostrarProductos()
+    
+    // let filtro = `
+    //     <h1 class="filtro_uso">${params} <input class="filtro_cerrar" type="button" value="x"> </h1>        
+    // `
 }

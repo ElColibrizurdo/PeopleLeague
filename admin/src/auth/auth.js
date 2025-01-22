@@ -37,16 +37,33 @@ const mostrar_productos = async (req, res) => {
 
     const id = req.query.id
     const filtro = req.query.filtro
+    const busqueda = req.query.busqueda
 
     console.log( 'filtro: ' +  filtro);
+
+    console.log('busqueda: ' + busqueda);
+    
     
     //console.log("mostrar_productos = async (req, res):id=", id);
 
     const orden = {
-        '00': ``,
+        '00': ` `,
         '01': 'ORDER BY p.descripcion ASC',
-        '10': 'ORDER BY tipoNombre ASC'
+        '10': 'ORDER BY tipoNombre ASC',
+        '010': 'ORDER BY j.nombre ASC'
+    } 
+
+    const cuando = {
+        '00': ' ',
+        '100': ' AND estado = 1',
+        '101': ' AND estado = 0'
     }
+
+    console.log(cuando[filtro] || 'no se pollo');
+    console.log(orden[filtro] || 'no se polli');
+    
+    const ordo = orden[filtro] || ''
+    const when = cuando[filtro] || ''
 
     try {
         
@@ -63,9 +80,11 @@ const mostrar_productos = async (req, res) => {
             + " LEFT JOIN tipoproducto t     ON t.id = p.idTipo "
             + " LEFT JOIN colores_producto c ON p.id = c.idProducto "
             + " WHERE p.activo = 1 "
-            + "  AND  p.id = Case When ? = 0 Then p.id else ? End "
+            + `${cuando[filtro] || ''}`
+            + "  AND  p.id = Case When ? = 0 Then p.id else ? End " 
+            + ` AND p.descripcion LIKE "%${busqueda}%"`
             + " GROUP BY p.id "
-            + `${orden[filtro]}`, [id, id]
+            + `${ordo}`, [id, id]
         )
         //console.log("mostrar_productos(query):", productos);
 
