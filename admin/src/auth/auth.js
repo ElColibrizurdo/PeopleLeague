@@ -288,6 +288,19 @@ const login = async (req, res) => {
     }
 }
 
+const VerificarToken = async (req, res) => {
+
+    const token = req.query.token
+
+    console.log(token);
+
+    const decode = jwt.decode(token)
+
+    console.log(decode);
+    
+    res.json(decode)
+}
+
 const EliminarProducto = async (req, res) => {
 
     const { id } = req.body
@@ -1286,4 +1299,4 @@ const ModificarEstado = async (req, res) => {
 }
 
 
-module.exports = {ModificarEstado, ModificarStockInvenario, ModificarJugador, MostrarJugador, AgregarJUgador, ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }
+module.exports = {VerificarToken, ModificarEstado, ModificarStockInvenario, ModificarJugador, MostrarJugador, AgregarJUgador, ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }

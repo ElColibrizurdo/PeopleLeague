@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Admins/Admin.css">
-    <title>Usuarios</title>
+  <title>Producto</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="../Productos/Productos.css">
+  <link rel="stylesheet" href="../CSS/Datos.css">
+  <link rel="stylesheet" href="../css/lapeople.css">
+  
     <script>
         function cambiarClase() {
         var div = document.getElementById("subcontendor_1");
@@ -26,8 +32,15 @@
     
         }
     }
-        function cambiarClase_eliminar() {
+        function cambiarClase_eliminar(id) {
         var div = document.getElementById("pantalla_gris");
+        var btn = document.getElementById("btnEliminar");
+        
+        btn.addEventListener('click', function() {
+
+            Eliminar(id)
+        })
+
         if (div.classList.contains("active")) {
             div.classList.remove("active");
     
@@ -35,16 +48,19 @@
             div.classList.add("active");
     
         }
+
+        
     }
-    function nuevo_registro(){
-        window.location.href = "/agregarUsuario";
-    }
+    function nuevo_producto(){
+            window.location.href = "/agregarproducto";
+      }
+    
     </script>
 </head>
 <body>
     <div class="header">
         <div class="headear_img">
-            <img src="../../img/prueba_header_2.png" alt="alt"/>
+            <img src="../img/prueba_header_2.png" alt="alt"/>
         </div>
         <div class="contenedor-buscador">
             
@@ -56,7 +72,7 @@
             <p>¿Esta seguro de eliminar este producto?</p>
             <div class="contenedor_btn_eliminar">
                 <button class="btn_rechasar_eliminar" onclick="cambiarClase_eliminar()">Rechazar</button>
-                <button class="btn_aceptar_eliminar" onclick="cambiarClase_eliminar()">Aceptar</button>
+                <button id="btnEliminar" class="btn_aceptar_eliminar" onclick="cambiarClase_eliminar()">Aceptar</button>
             </div>
         </div>
     </div>
@@ -118,20 +134,18 @@
                 </svg>
                 <input type="checkbox" class="dropdown">
             </a>
-                <div class="subcontendor " id="subcontendor_2">
+                <div class="subcontendor active" id="subcontendor_2">
                     <div class="subcontendor_ocultar">
                         <a href="/catalogoequipos">Catálogos Equipos</a>
-                            <a href="/catalogotallas" >Catálogos Medidas</a>
-                            <a href="/catalogocolores">Catálogos Colores</a>
-                            <a href="/MostrarCategorias">Catálogos Categorías</a>
-                            <a href="/productos" >Productos</a>
-                        <a href="/jugadores" >Jugadores</a>
-                            <a href="/inventario">Inventario</a>
-                            <a href="/agregarBanner">Banners</a>
+                        <a href="/catalogotallas">Catálogos Medidas</a>
+                        <a href="/catalogocolores">Catálogos Colores</a>
+                        <a href="/MostrarCategorias">Catálogos Categorías</a>
+                        <a href="/productos" class="selecionado" >Productos</a>
+                        <a href="/inventario">Inventario</a>
                     </div>
                 </div>
 
-                <a class="selecionado"  href="/admins"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <a href="/admins"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
                 <mask id="mask0_2870_2506" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
                 <rect width="32" height="32" fill="#D9D9D9"/>
                 </mask>
@@ -154,7 +168,7 @@
                     </div>
                 </a>
                 <div class="linea_configuracion"></div>
-                <a href="/admins" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <a><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
                     <mask id="mask0_2870_2490" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
                     <rect width="32" height="32" fill="#D9D9D9"/>
                     </mask>
@@ -168,8 +182,8 @@
         </nav>
         <div class="Space">
             <div class="titulo_space">
-                <h1>Roles    <a></a></h1>
-                <button class="btn" onclick="nuevo_registro()" >
+                <h1>Productos <a class="cantidad"> (32)</a></h1>
+                <button class="btn" onclick="nuevo_producto()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <mask id="mask0_2901_1963" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                     <rect width="24" height="24" fill="#D9D9D9"/>
@@ -177,53 +191,166 @@
                     <g mask="url(#mask0_2901_1963)">
                     <path d="M11 13H5V11H11V5H13V11H19V13H13V19H11V13Z" fill="white"/>
                     </g>
-                    </svg>Nuevo Colaborador</button>
+                    </svg>Nuevo Producto</button>
             </div>
             <div class="contendedor_datos">
-                <div class="contendedor_titulo">
-                    <h1>Filtrar por: 
-                        <a class="abrir_modal"> Todo </a>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <mask id="mask0_2168_19732" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-                            <rect width="24" height="24" fill="#D9D9D9"/>
-                            </mask>
-                            <g mask="url(#mask0_2168_19732)">
-                            <path d="M11.9999 15.0538L6.34619 9.4L7.39994 8.34625L11.9999 12.9463L16.5999 8.34625L17.6537 9.4L11.9999 15.0538Z" fill="#3462D9"/>
-                            </g>
-                            </svg>
-                        <div class="modal_filtro_estadisticas active" id="modal_filtro_estadisticas_1" >
-                            <a class="selecion_a">Todo</a>
-                            <a>Disponible</a>
-                            <a>Preventa</a>
-                            <a>Agotado</a>
-                        </div>
-                    </h1>
-                    <div class="container-buscador">
-                        <input type="text"  placeholder="BUSCAR" name="text"  class="buscador">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" fill="#6F6D6D" height="22"  viewBox="0 0 23 24" >
-                        <path d="M21.0068 23.5L13.0644 15.5573C12.4432 16.0384 11.7268 16.4201 10.9153 16.7023C10.1037 16.9845 9.23624 17.1256 8.3128 17.1256C5.99252 17.1256 4.02699 16.3202 2.41619 14.7094C0.805397 13.0984 0 11.1329 0 8.8128C0 6.49273 0.805397 4.52719 2.41619 2.91619C4.02699 1.3054 5.99252 0.5 8.3128 0.5C10.6329 0.5 12.5983 1.3054 14.2091 2.91619C15.8201 4.52719 16.6256 6.49273 16.6256 8.8128C16.6256 9.74125 16.4845 10.6087 16.2023 11.4153C15.9199 
-                              12.2218 15.5382 12.9332 15.0573 13.5494L23.0072 21.5068L21.0068 23.5ZM8.3128 14.2764C9.83321 14.2764 11.1239 13.7459 12.1849 12.6849C13.2459 11.6241 13.7764 10.3334 13.7764 8.8128C13.7764 7.29218 13.2459 6.00148 12.1849 4.94069C11.1239 3.8797 9.83321 3.34921 8.3128 3.34921C6.79218 3.34921 5.50137 3.8797 4.44038 4.94069C3.3796 6.00148 2.84921 7.29218 2.84921 8.8128C2.84921 10.3334 3.3796 11.6241 4.44038 12.6849C5.50137 13.7459 6.79218 14.2764 8.3128 14.2764Z" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="contendedor_titulo_filtros">
-                    <label class="checkBox_filtro"><input name="radio" type="checkbox"><div class="transition_checkbox"></div></label>
-                    <h3>Nombre</h3>
-                    <h3>Rol</h3>
-                    <h3>Se unió el</h3>
+                            
+                <div class="Space">
+                  <div class="titulo_space">
+                      <h1>Producto <a class="cantidad"> (32)</a></h1>
+                      <button class="btn" onclick="cerrarPage()">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <mask id="mask0_2901_1963" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                          <rect width="24" height="24" fill="#D9D9D9"/>
+                          </mask>
+                          <g mask="url(#mask0_2901_1963)">
+                          <path d="M11 13H5V11H11V5H13V11H19V13H13V19H11V13Z" fill="white"/>
+                          </g>
+                          </svg>Cerrar</button>
+                  </div>
+                  <div class="contendedor_datos">
                     
-                </div>
-                <div class="div_scroll">
-                
-                  
+                      <div class="div_scroll">
+  
+                          <form id="form" class="row g-3 needs-validation form" onsubmit="ObtenerDatos(event)" novalidate>
+                              <div class="row">
+                                  <label for="nombre" class="col form-label">Nombre </label>
+                                  <input type="text" name="nombre" id="nombre" class="col form-control input_naranja" required>
+                                  <div class="valid-feedback">
+                                      Exitoso!
+                                  </div>
+                                  <div class="invalid-feedback">
+                                      Introduce esta información
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <label class="col form-label" for="precio" >Precio </label>
+                                  <input type="text" name="precio" id="precio" class="col form-control input_naranja" required>
+                                  <div class="valid-feedback">
+                                      Exitoso!
+                                  </div>
+                                  <div class="invalid-feedback">
+                                      Introduce esta información
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <label class="col form-label" for="estatus" >Estatus</label>
+                                  <select name="estatus" id="estatus" class="col form-control input_naranja" required>
+                                      <option value="1">Disponible</option>
+                                      <option value="0">Proximamente</option>
+                                  </select>
+                                  <div class="valid-feedback">
+                                      Exitoso!
+                                  </div>
+                                  <div class="invalid-feedback">
+                                      Introduce esta información
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <label for="equipo" class="col form-label">Equipo *opcional*</label>
+                                  <select name="equipo" id="equipo" class="col form-control input_naranja" required>
+                                      <option value="-1" > --- Seleccione --- </option>
+                                  </select>
+                                  <div class="valid-feedback">
+                                      Exitoso!
+                                  </div>
+                                  <div class="invalid-feedback">
+                                      Introduce esta información
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <label for="sku" class="col form-label">SKU</label>
+                                  <input type="text" name="sku" id="sku" class="col form-control input_naranja" required>
+                                  <div class="valid-feedback">
+                                      Exitoso!
+                                  </div>
+                                  <div class="invalid-feedback">
+                                      Introduce esta información
+                                  </div>
+                              </div>
+                              <div  class="row" >
+                                  <label for="tipo" class="col form-label"> Categoría </label>
+                                  <select name="tipo" id="tipo"       class="col form-control input_naranja" required>
+                                      <option value="-1" > --- Seleccione --- </option>
+                                  </select>
+                                  <div class="valid-feedback">
+                                      Exitoso!
+                                  </div>
+                                  <div class="invalid-feedback">
+                                      Introduce esta información
+                                  </div>
+                              </div>
+  
+                              <div  class="row">
+                                  <label for="jugador" class="col form-label"> Jugador </label>
+                                  <select name="jugador" id="jugador" class="col form-control input_naranja" required>
+                                      <option value="-1" > --- Seleccione --- </option>
+                                  </select>
+                                  <div class="valid-feedback">
+                                      Exitoso!
+                                  </div>
+                                  <div class="invalid-feedback">
+                                      Introduce esta información
+                                  </div>
+                              </div>
+  
+                              <div  class="row" >
+                                  <label for="image" class="col form-label">Imagenes</label>
+                                  <ul id="imagenes" class="col form-control input_naranja" > </ul>
+                                  <input type="file" name="image" id="image" accept="image/png" onchange="SubirImagen(this)" oninput="'/upload'" class="form-control input_naranja" required>
+                                  <div class="valid-feedback">
+                                      Exitoso!
+                                  </div>
+                                  <div class="invalid-feedback">
+                                      Introduce esta información
+                                  </div>
+                              </div>
+                              <div  class="row" >
+                                  <label for="color" class="col form-label"> Colores </label>
+                                  <ul id="colores" class="col form-control input_naranja"></ul>
+                                  <select name="color" id="color" onclick="MostrarColores(this)" class="form-control input_naranja" required>
+                                      <option value="-1" > --- Seleccione --- </option>
+                                  </select>
+                                  <div class="valid-feedback">
+                                      Exitoso!
+                                  </div>
+                                  <div class="invalid-feedback">
+                                      Introduce esta información
+                                  </div>
+                              </div>
+                              <div  class="row" >
+                                  <label for="medida" class="col form-label"> Medidas </label>
+                                  <ul id="medidas" class="col form-control input_naranja"></ul>
+                                  <select name="medida" id="medida" onclick="MostrarMedidas(this)" class="form-control input_naranja" required>
+                                      <option value="-1" > --- Seleccione --- </option>
+                                  </select>
+                                  <div class="valid-feedback">
+                                      Exitoso!
+                                  </div>
+                                  <div class="invalid-feedback">
+                                      Introduce esta información
+                                  </div>
+                              </div>
+                              <div class="col align-self-center btn_logIn">
+                                  <button class="btn_inciarSesion" id="finalizar" type="button" onclick="AgregarProducto(); cerrarPage();">Agregar</button>
+                              </div>
+  
+                          </form>
+              
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+      <script src="../NuevoProducto/AgregarProducto.js"></script>
+      <script src="../NuevoProducto/ModificarProductos.js"></script>
+  
+                      </div>
+
+                  </div>
                 </div>
                 
             </div>
         </div>
     </div>
-    <script src="../Admins/Admin.js"></script>
 </body>
-<script>
+ <script>
     const perfilItems = document.querySelectorAll('.abrir_modal');
 const modalItems = document.querySelectorAll('.modal_filtro_estadisticas');
 
