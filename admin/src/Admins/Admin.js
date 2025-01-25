@@ -46,7 +46,7 @@ async function MostrarUsuarios() {
                 </div>
                 <h2>${element.fechaAlta}</h2>
                        
-                <svg xmlns="http://www.w3.org/2000/svg" onclick="cambiarClase_eliminar()" width="24" height="24" viewBox="0 0 24 24"   fill="#6F6D6D">
+                <svg xmlns="http://www.w3.org/2000/svg" QIT="${element.id}" onclick="cambiarClase_eliminar(this)" width="24" height="24" viewBox="0 0 24 24"   fill="#6F6D6D">
                     <mask id="mask0_2039_18386" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                     <rect width="24" height="24" />
                     </mask>
@@ -64,17 +64,23 @@ async function MostrarUsuarios() {
     }
 }
 
-async function Opciones(params) {
+async function Opciones(params, txt) {
     
-    if (params.value == 'eliminar') {
+    console.log(params);
+    
+
+    if (txt == 'eliminar') {
         
         try {
             
-            const response = await fetch(`/auth/eliminarColaborador?id=${params.id}`)
+            const response = await fetch(`/auth/eliminarColaborador?id=${params.getAttribute('qit')}`)
 
             const data = await response.json()
 
             console.log(data);
+            console.log(params.parentNode);
+
+            params.parentNode.remove()
             
 
         } catch (error) {

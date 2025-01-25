@@ -341,7 +341,7 @@ const EliminarColaborador = async (req, res) => {
 
     try {
         
-        const row = await db.query('DELETE FROM usuario WHERE id = ?', [id])
+        const row = await db.query('UPDATE usuario SET Activo = 00 WHERE id = ?', [id])
 
         console.log("EliminarColaborador:", row);
         res.json(row)
@@ -356,6 +356,10 @@ const CrearColaborador = async (req, res) => {
 
     const { nombre, pass, apePa, apeMa, email, fecha } = req.body    
 
+    console.log(nombre);
+    console.log(pass);
+    
+
     try {
         
         const saltrounds = 19
@@ -367,7 +371,8 @@ const CrearColaborador = async (req, res) => {
         
 
         const row = await db.query('INSERT INTO usuario (name, email, password, Nombres, ApellidoPrimero, ApellidoSegundo, fechaNacimiento, role, verificado) VALUES (?,?,?,?,?,?,?,?,?)', [nombre, email, hash, nombre, apePa, apeMa, fecha,  'admin', 1])
-
+        console.log(row);
+        
         res.json([row])
 
     } catch (error) {

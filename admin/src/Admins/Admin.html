@@ -26,15 +26,23 @@
     
         }
     }
-        function cambiarClase_eliminar() {
-        var div = document.getElementById("pantalla_gris");
+        function cambiarClase_eliminar(params) {
+            
+            
+            
+        /* var div = document.getElementById("pantalla_gris");
+        console.log(div);
+        
         if (div.classList.contains("active")) {
             div.classList.remove("active");
-    
+            console.log(params);
         } else {
             div.classList.add("active");
+            //Opciones(params, "eliminar")
     
-        }
+        } */
+
+        Opciones(params, 'eliminar')
     }
     function nuevo_registro(){
         window.location.href = "/agregarUsuario";
@@ -232,9 +240,14 @@ perfilItems.forEach((perfilItem, index) => {
 const modalItem = modalItems[index];
 let hideTimeout;
 
-const clearAndSetHideTimeout = () => {
+const clearAndSetHideTimeout = (params) => {
+    console.log(params);
+    
     clearTimeout(hideTimeout);
     hideTimeout = setTimeout(() => {
+        console.log(modalItem);
+        
+        modalItem.dataset.someParam = params
         modalItem.classList.add("active");
     }, 400);
 };
@@ -242,6 +255,7 @@ const clearAndSetHideTimeout = () => {
 perfilItem.addEventListener('click', () => {
     clearTimeout(hideTimeout);
     modalItem.classList.toggle("active");
+    
     clearAndSetHideTimeout();
 });
 
@@ -257,9 +271,14 @@ modalItem.addEventListener('mouseover', () => {
 modalItem.addEventListener('mouseleave', clearAndSetHideTimeout);
 
 document.addEventListener('click', (event) => {
-    if (!modalItem.contains(event.target) && event.target !== perfilItem) {
-        clearAndSetHideTimeout();
-    }
+    console.log('Hola');
+    console.log(event.target);
+    
+    /* if (!modalItem.contains(event.target) && event.target !== perfilItem) {
+        clearAndSetHideTimeout(event.target);
+    } */
+
+    //Opciones(event.target, 'eliminar')
 });
 });
 

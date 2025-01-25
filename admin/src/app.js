@@ -113,6 +113,10 @@ app.get('/agregarJugador', (req, res) => {
     res.sendFile(path.join(__dirname, 'Jugadores', 'AgregarJugador.html'))
 })
 
+app.get('/agregarUsuario', ( req, res) => {
+    res.sendFile(path.join(__dirname, 'Admins', 'CrearAdmin.html'))
+})
+
 
 /*
 // Require the upload middleware

@@ -1,11 +1,25 @@
-async function CrearColaborador() {
-    
-    const email = document.getElementById('correo')
-    const nombre = document.getElementById('nombre')
-    const apellido = document.getElementById('apellido')
-    const contra = document.getElementById('contra')
 
+const formulario = document.getElementById('form')
+const pantallaCarga = document.getElementById('carga')
+        console.log(pantallaCarga);
+
+
+formulario.addEventListener('submit', async function (event) {
+
+    event.preventDefault()
+    
+    
+    const formData = event.target
+
+    console.log(formData.fecha.value);
+    
+    
     try {
+
+        const pantallaCarga = document.getElementById('carga')
+        console.log(pantallaCarga);
+        
+        pantallaCarga.classList.remove('d-none')
         
         const response = await fetch('/auth/agregarColaborador', {
             method: 'POST',
@@ -13,18 +27,21 @@ async function CrearColaborador() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                nombre: nombre.value,
-                pass: contra.value,
-                ape: apellido.value,
-                email: email.value
+                nombre: formData.nombre.value,
+                pass: formData.contra.value,
+                apePa: formData.apePa.value,
+                apeMa: formData.apeMa.value,
+                email: formData.email.value,
+                fecha: formData.fecha.value
             })
         })
 
         const data = await response.json()
-
+        //carga.classList.add('d-none')
         console.log(data);
         
         if (data[0][0].affectedRows == 1) {
+            pantallaCarga.classList.add('d-none')
             window.location.href = '/admins'
         }
 
@@ -32,4 +49,4 @@ async function CrearColaborador() {
         console.log(error);
         
     }
-}
+})
