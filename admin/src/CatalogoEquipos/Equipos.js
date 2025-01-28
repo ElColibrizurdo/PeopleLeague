@@ -1,5 +1,19 @@
 async function MostrarEquipos() {
 
+    let imagenes
+
+    try {
+        const responseIMG = await fetch('/auth/obtenerListaIMG?path=' + window.location.pathname)
+        const dataIMG = await responseIMG.json()
+        imagenes = dataIMG
+
+        console.log(dataIMG);
+    } catch (error) {
+        console.log(error);
+        
+    }
+    
+
     const tipo = document.querySelector('.abrir_modal')
 
     const tipos = {
@@ -26,11 +40,16 @@ async function MostrarEquipos() {
 
     data.forEach(element => {
 
+        const directorio = imagenes.find(item => item.includes(`${element.id}.`))
+
+        console.log(directorio);
+        
+
         const carta = `
         <div id="${element.id}" class="cart">
             <div class="contendor_cart_nombre">
                 <label class="checkBox_filtro"><input name="radio" type="checkbox"><div class="transition_checkbox"></div></label>
-                <img src="../../img/logos/logo_${element.id}.jpeg" alt="alt"/>
+                <img src="/img/logos/${directorio}" alt="alt"/>
                 <a href="/editarEquipo?id=${element.id}">${element.nombre}</a>
             </div>
             <h2>${element.orden}</h2>

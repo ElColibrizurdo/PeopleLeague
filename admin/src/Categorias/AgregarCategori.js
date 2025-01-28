@@ -67,9 +67,10 @@ function MostrarImagen(params, event) {
         lista.innerHTML = ''
     } 
 
+    const url = new URLSearchParams
     
     ImagenesTemporales(params, event)
-
+    SubirImagenes()
     
 
     // fila.setAttribute('nombre', params.files[0])

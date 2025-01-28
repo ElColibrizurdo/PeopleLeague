@@ -453,7 +453,7 @@ const BuscarImagenes = async (req, res) => {
 
     try {
         
-        const directorio = path.join(__dirname, '..', 'img', 'articulos')
+        const directorio = path.join(__dirname, '..', '..', '..', 'img', 'articulos')
         const archivos = await fs.readdir(directorio)
 
         const archivosFiltrado = archivos
@@ -476,7 +476,7 @@ const BuscarImagenEquipo = async (req, res) => {
 
     try {
         
-        const directorio = path.join(__dirname, '..', 'img', 'logos')
+        const directorio = path.join(__dirname, '..', '..', '..', 'img', 'logos')
         const archivo = await fs.readdir(directorio)
 
         const archivoFiltrado = archivo
@@ -504,7 +504,7 @@ const BuscarImagenMedida = async ( req, res) => {
 
     try {
         
-        const directorio = path.join(__dirname, '..', 'img', 'medidas')
+        const directorio = path.join(__dirname, '..', '..', '..', 'img', 'medidas')
         const archivo = await fs.readdir(directorio)
 
         const archivoFiltrado = archivo
@@ -533,7 +533,7 @@ const BuscarImagen = async (req, res) => {
 
     try {
         
-        const filePath = path.join(__dirname, '..', 'img', directorio)
+        const filePath = path.join(__dirname, '..', '..', '..', 'img', directorio)
         const archivo = await fs.readdir(filePath)
 
         const archivoFiltrado = archivo
@@ -982,7 +982,7 @@ const MostrarTalla = async (req, res) => {
 
     try {
         
-        const [row] = await db.query('SELECT v.id, v.nombre, v.descripcion, v.activo, v.fechaAlta FROM medida v WHERE activo = 1 ')
+        const [row] = await db.query('SELECT v.id, v.nombre, v.activo, v.fechaAlta FROM medida v WHERE activo = 1 ')
 
         res.json(row)
 
@@ -1016,7 +1016,7 @@ const MostrarMedida = async (req, res) => {
 
     try {
         
-        const [row] = await db.query('SELECT nombre, descripcion FROM medida WHERE id = ?', [parseInt(id)])
+        const [row] = await db.query('SELECT nombre, descipcion FROM medida WHERE id = ?', [parseInt(id)])
 
         console.log(row[0]);
         
@@ -1145,7 +1145,7 @@ const ObtenerBanners = async (req, res) => {
 
     try {
         
-        const directoruPath = path.join(__dirname, '../img/banners/')
+        const directoruPath = path.join(__dirname, '../../../img/banners/')
 
         const files = await fs.readdir(directoruPath)
 
@@ -1303,5 +1303,35 @@ const ModificarEstado = async (req, res) => {
     
 }
 
+const obtenerListaIMG = async (req, res) => {
 
-module.exports = {VerificarToken, ModificarEstado, ModificarStockInvenario, ModificarJugador, MostrarJugador, AgregarJUgador, ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }
+    const urlCompleta = req.query.path
+
+    console.log('la url completa es: ' + urlCompleta);
+
+    const pathN = {
+        '/catalogoequipos': 'logos',
+        '/catalogotallas': 'medidas',
+        '/MostrarCategorias': 'tipo',
+        '/productos': 'articulos',
+        '/jugadorez': 'jugadores',
+        '/inventario': 'articulos',
+        '/agregarBanner': 'banners'
+    }
+
+    const directorio = path.join(__dirname, `../../../img/${pathN[urlCompleta]}`)    
+    
+    console.log(directorio);
+    
+
+    const files = await fs.readdir(directorio)
+
+    console.log(files);
+    
+
+    res.json(files)
+    
+}
+
+
+module.exports = {obtenerListaIMG, VerificarToken, ModificarEstado, ModificarStockInvenario, ModificarJugador, MostrarJugador, AgregarJUgador, ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }

@@ -45,7 +45,7 @@ formulario.addEventListener('submit', async function (event) {
                 pantallaCarga.classList.add('d-none')
                 window.location.href = '/admins'
             }
-        } else {
+        } else {  
             alert('La contraseña no coincide!!!')
         }
         

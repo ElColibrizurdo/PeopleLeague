@@ -1,6 +1,19 @@
 
 
 async function mostrar_productos() {
+
+    let imagenes
+
+    try {
+        const responseIMG = await fetch('/auth/obtenerListaIMG?path=' + window.location.pathname)
+        const dataIMG = await responseIMG.json()
+        imagenes = dataIMG
+
+        console.log(dataIMG);
+    } catch (error) {
+        console.log(error);
+        
+    }
     
     const lista = document.querySelector('.div_scroll')
 
@@ -16,13 +29,13 @@ async function mostrar_productos() {
 
         const orden = document.querySelector('.selecion_a').textContent
 
-        console.log(orden);
+        const busqueda = document.querySelector('.buscador')
         
         
 
         console.log(filtro[document.querySelector('.selecion_a').textContent]);
         
-        const response = await fetch(`/auth/mostrarProductos?id=0&filtro=${filtro[document.querySelector('.selecion_a').textContent]}`)
+        const response = await fetch(`/auth/mostrarProductos?id=0&filtro=${filtro[document.querySelector('.selecion_a').textContent]}&busqueda=${busqueda.value}`)
         const data = await response.json()
 
         const cantidad = document.querySelector('.cantidad')
@@ -39,6 +52,10 @@ async function mostrar_productos() {
 
             let carta
 
+            let directorio = imagenes.find(item => item.includes(`${element.id}.`))
+            console.log(directorio);
+            
+
             if (window.location.toString().indexOf('/productos')>0) {
 
                 carta = `
@@ -51,7 +68,7 @@ async function mostrar_productos() {
                             </mask>
                             <path d="M6.93398 21.2033C6.30432 21.2033 5.76773 20.9816 5.32423 20.5381C4.88073 20.0946 4.65898 19.558 4.65898 18.9283V6.06582H3.52148V3.79082H8.86223V2.65332H15.1252V3.79082H20.478V6.06582H19.3405V18.9283C19.3405 19.558 19.1187 20.0946 18.6752 20.5381C18.2317 20.9816 17.6952 21.2033 17.0655 21.2033H6.93398ZM17.0655 6.06582H6.93398V18.9283H17.0655V6.06582ZM8.89223 16.9941H11.0297V7.99407H8.89223V16.9941ZM12.9697 16.9941H15.1072V7.99407H12.9697V16.9941Z" />
                         </svg>
-                        <img src="../img/articulos/${element.id}.png" alt="alt"  onerror="error_imagen(this);"/>
+                        <img src="/img/articulos/${directorio}" alt="alt"  onerror="error_imagen(this);"/>
                     </div>
                     <div class="col contendor_cart_nombre">
                         <a href="/agregarProducto?idProducto=${element.id}">${element.descripcion}</a>
@@ -84,7 +101,7 @@ async function mostrar_productos() {
 
 function error_imagen(imagen) {
     imagen.onerror = "";
-    imagen.src = "../img/sin_img.png";
+    imagen.src = "/img/sin_img.png";
     return true;
 }
 

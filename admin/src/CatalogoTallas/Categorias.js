@@ -30,7 +30,7 @@ async function MostrarCategorias() {
         <div class="cart">
             <div class="contendor_cart_nombre">
                 <label class="checkBox_filtro"><input name="radio" type="checkbox"><div class="transition_checkbox"></div></label>
-                <img src="../../img/sin_img.png" alt="alt"/>
+                <img src="/img/sin_img.png" alt="alt"/>
                 <h2>${element.nombre}</h2>
             </div>
             <h2>${element.cantidad} productos</h2>

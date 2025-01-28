@@ -764,7 +764,7 @@ const ObtenerBanners = async (req, res) => {
 
     try {
         
-        const directoruPath = path.join(__dirname, '../img/banners/')
+        const directoruPath = path.join(__dirname, '/img/banners/')
 
         const files = await fs.readdir(directoruPath)
 

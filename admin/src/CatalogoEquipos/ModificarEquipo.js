@@ -1,6 +1,6 @@
 
 const url = window.location.search
-
+const par = new URLSearchParams(url)
 console.log(url.includes('id'));
 
 
@@ -18,7 +18,7 @@ if (url.includes('id')) {
 
     const inputIMG = document.getElementById('image')
 
-    inputIMG.setAttribute('onchange', 'ActualizarIMG(this, event)')
+    inputIMG.setAttribute('onchange', `SubirImagenes(${par.get('id')}, event)`)
     
 
     MostrarEquipo(currentURL.get('id'))
@@ -42,16 +42,18 @@ async function MostrarEquipo(params) {
     console.log(equipo.nombre);
 
     const nombre = document.getElementById('nombre')
-    
+    console.log(nombre);
+    nombre.value = equipo.nombre
 
     const respuestaLogo = await fetch('/auth/obtenerLogo?id=' + params)
     const rutaLogo = await respuestaLogo.json()
 
-    console.log(nombre);
+    console.log(rutaLogo);
+    
 
     const archivo = { files: rutaLogo }
 
-    nombre.value = equipo.nombre
+   
     
     MostrarImagenExistente(archivo)
 
@@ -111,7 +113,7 @@ function MostrarImagenExistente(params) {
         existente.setAttribute('nombre', params.files[0])
         
         const img = document.querySelector('img')
-        img.src = '../img/logos/' + params.files[0].name
+        img.src = '/img/logos/' + params.files[0].name
 
     } else if(params.files.length > 0) {
 
@@ -127,7 +129,7 @@ function MostrarImagenExistente(params) {
         const label = document.createElement('label')
 
         const img = document.createElement('img')
-        img.src = '../img/logos/' + params.files[0].name
+        img.src = '/img/logos/' + params.files[0].name
 
         img.style = 'max-width: 70px;'
 

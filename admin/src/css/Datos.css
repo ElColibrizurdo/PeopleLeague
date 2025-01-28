@@ -14,7 +14,7 @@
             }
              @font-face{
                     font-family:Obviously;
-                    src:url(../../img/fonnts.com-Obviously.otf);
+                    src:url(/img/fonnts.com-Obviously.otf);
                 }   
                 .contenedor{
                     border-radius: 12px;

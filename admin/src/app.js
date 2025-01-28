@@ -4,22 +4,27 @@ const bodyParser = require('body-parser')
 const authRoutes = require('../src/auth/Routes')
 const multer = require('multer')
 
-const uploadFile = multer({dest: 'img/'});
+const uploadFile = multer({dest: '../../img/'});
 
 const app = express()
 const http = require('http')
 const https = require('https')
 const fs = require('fs');
+const exp = require('constants')
 
 app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use('/auth', authRoutes)
+app.use('/img',express.static(path.join(__dirname, '..', '..', 'img')))
+
+
 
 app.use(express.static(path.join(__dirname, '/')))
 app.get('/', (req,res) => {
     res.sendFile(path.join(__dirname, 'Usuarios', 'IniciarSesion.html'))
 })
+
 
 app.get('/bienvenida', (req, res) => {
     res.sendFile(path.join(__dirname,  'Bienvenido', 'Bienvenido.html'))
@@ -132,7 +137,31 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });*/
 
+function deleteExistingImage(name, carpeta,  callback) {
+    
+    fs.readdir(carpeta, (err, files) => {
 
+        console.log('Imagen a borrar: ' + name);
+        console.log('Carpeta de la imagen a borrar: ' + carpeta);
+        
+        
+        const existingFiles = files.find(file => path.parse(file).name === name)
+
+        console.log("Existencia de la iamgen a borrar: " + existingFiles);
+        
+
+        if (existingFiles) {
+            
+            const filePath = path.join(carpeta, existingFiles)
+            fs.unlink(filePath, (err) => {
+                if (err) return callback(err) 
+                callback(null)
+            })
+        } else {
+            callback(null)
+        }
+    })
+}
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) { 
@@ -151,19 +180,19 @@ const storage = multer.diskStorage({
             
 
             if (parts[1] == 'equipo') {
-                uploadPath = path.join(__dirname, 'img', 'logos')
+                uploadPath = path.join(__dirname, '..', '..', 'img', 'logos')
             } else if (parts[1] == 'banners') {
-                uploadPath = path.join(__dirname, 'img', 'banners')
+                uploadPath = path.join(__dirname, '..', '..', 'img', 'banners')
             } else if (parts[1] == 'categoria') {
-                uploadPath = path.join(__dirname, 'img', 'tipo')
+                uploadPath = path.join(__dirname, '..', '..', 'img', 'tipo')
             } else if (parts[1] == 'medida') {
-                uploadPath = path.join(__dirname, 'img', 'medidas')
+                uploadPath = path.join(__dirname, '..', '..', 'img', 'medidas')
             } else if (parts[1] == 'talla') {
-                uploadPath = path.join(__dirname, 'img', 'medidas')
+                uploadPath = path.join(__dirname, '..', '..', 'img', 'medidas')
             } else if (parts[1] == 'jugadores') {
-                uploadPath = path.join(__dirname, 'img', 'jugadores')
+                uploadPath = path.join(__dirname, '..', '..', 'img', 'jugadores')
             } else {
-                uploadPath = path.join(__dirname, 'img', 'articulos')
+                uploadPath = path.join(__dirname, '..', '..', 'img', 'articulos')
             }
 
 
@@ -187,19 +216,12 @@ const storage = multer.diskStorage({
         
 
         let filePath 
-        let baseName = id + path.extname(file.originalname)  
-
-        console.log('Nombre original');
-        console.log(file.mimetype);
-        console.log(id);
-        
-
-        console.log(baseName);
-        console.log(path.extname(file.originalname));
-        
+        let baseName = id 
         
 
         try {
+            console.log('ruta original: ' + req.originalUrl);
+            
             const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl 
             
             
@@ -208,32 +230,33 @@ const storage = multer.diskStorage({
 
             if (parts[1] == 'equipo') {
                 
-                baseName = 'logo_' + id + path.extname(file.originalname)
-                filePath = path.join(__dirname, 'img', 'logos')
+                baseName = 'logo_' + id 
+                filePath = path.join(__dirname, '..', '..', 'img', 'logos')
+                deleteExistingImage
             } else if (parts[1] == 'banners') {
                 
-                baseName = id + path.extname(file.originalname)
-                filePath = path.join(__dirname, 'img', 'banners')
+                baseName = id 
+                filePath = path.join(__dirname, '..', '..', 'img', 'banners')
 
             } else if (parts[1] == 'medida') {
                 
-                baseName = id + path.extname(file.originalname)
-                filePath = path.join(__dirname, 'img', 'medidas')
+                baseName = id 
+                filePath = path.join(__dirname, '..', '..', 'img', 'medidas')
 
             } else if (parts[1] == 'talla') {
                 
-                baseName = id + path.extname(file.originalname)
-                filePath = path.join(__dirname, 'img', 'medidas')
+                baseName = id 
+                filePath = path.join(__dirname, '..', '..', 'img', 'medidas')
 
             } else if (parts[1] == 'jugadores') {
                 
-                baseName = id + path.extname(file.originalname)
-                filePath = path.join(__dirname, 'img', 'jugadores') 
+                baseName = id 
+                filePath = path.join(__dirname, '..', '..', 'img', 'jugadores') 
 
             } else {
 
                 const files = req.files || [];
-                filePath = path.join(__dirname, 'img', 'articulos')
+                filePath = path.join(__dirname, '..', '..', 'img', 'articulos')
 
                 console.log(filePath);
                 
@@ -248,12 +271,12 @@ const storage = multer.diskStorage({
                   if (existingFiles.length > 0) {
                     // Determinar el índice correcto para el próximo archivo
                     const index = existingFiles.length;
-                    baseName = `${id}_${index}${path.extname(file.originalname)}`;
+                    baseName = `${id}_${index}`;
                   
                   } else {
 
                      // Primer archivo: usa el ID como nombre
-                     baseName = `${id}${path.extname(file.originalname)}`; // Usar la extensión original
+                     baseName = `${id}`; // Usar la extensión original
                   }
 
                 
@@ -268,14 +291,28 @@ const storage = multer.diskStorage({
             /*if (fs.existsSync(filePath)) {
                 baseName = `${baseName}_${Date.now()}${path.extname(file.originalname)}`
             }*/
-            console.log(baseName);
+
+            deleteExistingImage(baseName, filePath, (err) => {
+                if (err) {
+                    console.log(err);
+                    
+                }
+
+                baseName = baseName + path.extname(file.originalname)
+
+                console.log(baseName);
+                
+                cb(null, baseName)
+            })
+
             
-            cb(null, baseName)
         } catch (error) {
             console.log(error);
         }      
     }
 })
+
+
 
 const upload = multer({storage: storage})
 
@@ -347,6 +384,8 @@ https.createServer(sslOptions, app).listen(443, () => {
 // server.listen(8080, () => {
 
 // })
+
+
 
 app.listen(3000, () => {
     console.log(`Server corriendo en 3000`);

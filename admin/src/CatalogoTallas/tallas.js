@@ -1,6 +1,19 @@
 
 async function MostrarCat() {
 
+    let imagenes
+
+    try {
+        const responseIMG = await fetch('/auth/obtenerListaIMG?path=' + window.location.pathname)
+        const dataIMG = await responseIMG.json()
+        imagenes = dataIMG
+
+        console.log(dataIMG);
+    } catch (error) {
+        console.log(error);
+        
+    }
+
     const tipo = document.querySelector('.abrir_modal')
 
     const tipos = {
@@ -27,13 +40,14 @@ async function MostrarCat() {
 
     data.forEach(element => {
 
+        const directorio = imagenes.find(item => item.includes(`${element.id}.`))
+
         const carta = `
         <div class="cart">
             <div class="contendor_cart_nombre">
                 <label class="checkBox_filtro"><input name="radio" type="checkbox"><div class="transition_checkbox"></div></label>
-                <img src="../img/medidas/${element.id}.png" alt="alt" title="${element.id}" onerror="error_imagen(this);"/>
+                <img src="/img/medidas/${directorio}" alt="alt" title="${element.id}" onerror="error_imagen(this);"/>
                 <a href="/agregarTalla?id=${element.id}">${element.nombre}</a>
-                <a href="/agregarTalla?id=${element.id}">${element.descripcion}</a>
             </div>
             <h2>${(element.activo.data.toString() === '1' ? 'Activo' : 'Inactivo') }</h2>
                        

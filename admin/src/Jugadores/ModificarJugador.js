@@ -43,7 +43,7 @@ async function MostrarDatos(id) {
         <li id="logo" 
         class="fila" 
         nombre="[object Object]">
-        <label><img src="../img/jugadores/${id}.png" style="max-width: 70px;">
+        <label><img src="/img/jugadores/${id}.png" style="max-width: 70px;">
             <button onclick="BorrarImagen(event, this)">eliminar</button>
         </label></li>`
 

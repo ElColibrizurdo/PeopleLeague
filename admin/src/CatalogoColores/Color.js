@@ -22,7 +22,7 @@ async function MostrarColores() {
 
     console.log(data);
     const cantidad = document.querySelector('.cantidad')
-    cantidad.textContent = ` (${data.length})`
+    cantidad.textContent = ` (${data.row.length})`
 
     data.row.forEach(element => {
 

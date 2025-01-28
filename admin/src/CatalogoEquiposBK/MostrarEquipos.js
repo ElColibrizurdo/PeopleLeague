@@ -40,7 +40,7 @@ async function mostrar_productos() {
                 carta = `
                 <div id="${element.id}" class="cart">
                     <label class="checkBox_filtro"><input name="radio" type="checkbox"><div class="transition_checkbox"></div></label>
-                    <img src="../img/articulos/${element.id}.png" alt="alt"  onerror="error_imagen(this);"/>
+                    <img src="/img/articulos/${element.id}.png" alt="alt"  onerror="error_imagen(this);"/>
                     <div class="contendor_cart_nombre">
                         <a href="/agregarProducto?idProducto=${element.id}">${element.descripcion}</a>
                     </div>
@@ -62,7 +62,7 @@ async function mostrar_productos() {
                 carta = `
                     <div class="cart">
                         <label class="checkBox_filtro"><input name="radio" type="checkbox"><div class="transition_checkbox"></div></label>
-                        <img src="../../img/articulos/${element.id}.png" alt="alt" onerror="error_imagen(this);"/>
+                        <img src="/img/articulos/${element.id}.png" alt="alt" onerror="error_imagen(this);"/>
                         <div class="contendor_cart_nombre">
                             <h2>${element.descripcion}</h2>
                         </div>
@@ -93,7 +93,7 @@ async function mostrar_productos() {
 }
 function error_imagen(imagen) {
     imagen.onerror = "";
-    imagen.src = "../img/sin_img.png";
+    imagen.src = "/img/sin_img.png";
     return true;
 }
 

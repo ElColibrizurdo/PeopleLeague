@@ -7,11 +7,11 @@
     }
     @font-face{
         font-family:Obviously;
-        src:url(../../img/fonnts.com-Obviously.otf);
+        src:url(/img/fonnts.com-Obviously.otf);
     }
     @font-face{
          font-family: Obviously-Bold;
-        src:url(../../img/fonnts.com-Obviously_Bold.otf);
+        src:url(/img/fonnts.com-Obviously_Bold.otf);
     }
     /* ---------- Body ----------------*/
     body{

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../Bienvenido/Bienvenido.css">
     <link rel="stylesheet" href="../css/lapeople.css">
+    <link rel="stylesheet" href="../Productos/Productos.css">
     <script>
         function cambiarClase() {
         var div = document.getElementById("subcontendor_1");
@@ -33,7 +34,7 @@
 <body>
     <div class="header">
         <div class="headear_img">
-            <img src="../img/prueba_header_2.png" alt="alt"/>
+            <img src="/img/prueba_header_2.png" alt="alt"/>
         </div>
         <div class="contenedor-buscador">
             <div class="container-buscador">
@@ -160,9 +161,28 @@
             <div class="contendedor_datos">
                 <h2>Estadisticas</h2>
                 <div class="linea"></div>
-                <h5 id="txt_1">Tus Estadisticas de 
-                    <a class="abrir_modal" id="abrir_modal">Hoy</a>
-                </h5>
+                <div class="contendedor_titulo">
+                    <h1>Tus estadisticas de
+                        <a class="abrir_modal"> Hoy </a>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <mask id="mask0_2168_19732" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9"/>
+                            </mask>
+                            <g mask="url(#mask0_2168_19732)">
+                            <path d="M11.9999 15.0538L6.34619 9.4L7.39994 8.34625L11.9999 12.9463L16.5999 8.34625L17.6537 9.4L11.9999 15.0538Z" fill="#3462D9"/>
+                            </g>
+                            </svg>
+                        <div class="modal_filtro_estadisticas active" id="modal_filtro_estadisticas_1" >
+                            <a class="selecion_a">Hoy</a>
+                            <a>Semanal</a>
+                            <a>Mes</a>
+                            <a>3 Meses</a>
+                            <a>6 Meses</a>
+                            <a>Año</a>
+                        </div>
+                    </h1>
+                    
+                </div>
                 <div class="grupo_cartas">
                     <div class="carta">
                         <h1>Sesiones del sitio</h1>
@@ -181,7 +201,28 @@
             <div class="contendedor_datos">
                 <h2>Usuarios</h2>
                 <div class="linea"></div>
-                <h5>Tus Estadisticas de <a class="abrir_modal" id="abrir_modal_1">Hoy</a></h5>
+                <div class="contendedor_titulo">
+                    <h1>Tus estadisticas de
+                        <a class="abrir_modal"> Hoy </a>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <mask id="mask0_2168_19732" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9"/>
+                            </mask>
+                            <g mask="url(#mask0_2168_19732)">
+                            <path d="M11.9999 15.0538L6.34619 9.4L7.39994 8.34625L11.9999 12.9463L16.5999 8.34625L17.6537 9.4L11.9999 15.0538Z" fill="#3462D9"/>
+                            </g>
+                            </svg>
+                        <div class="modal_filtro_estadisticas active" id="modal_filtro_estadisticas_1" >
+                            <a class="selecion_a">Hoy</a>
+                            <a>Semanal</a>
+                            <a>Mes</a>
+                            <a>3 Meses</a>
+                            <a>6 Meses</a>
+                            <a>Año</a>
+                        </div>
+                    </h1>
+                    
+                </div>
                 <div class="grupo_cartas">
                     <div class="carta">
                         <h1>Usuarios Registrados</h1>
@@ -203,5 +244,72 @@
     <script src="../auth/ManejarSesiones.js"></script>
 </body>
 <script src="../auth/ManejarSesiones.js"></script>
-
+<script>
+    
+    mostrar_productos()
+    
+        const perfilItems = document.querySelectorAll('.abrir_modal');
+    const modalItems = document.querySelectorAll('.modal_filtro_estadisticas');
+    
+    perfilItems.forEach((perfilItem, index) => {
+    const modalItem = modalItems[index];
+    let hideTimeout;
+    
+    const clearAndSetHideTimeout = () => {
+        clearTimeout(hideTimeout);
+        hideTimeout = setTimeout(() => {
+            modalItem.classList.add("active");
+        }, 400);
+    };
+    
+    perfilItem.addEventListener('click', () => {
+        clearTimeout(hideTimeout);
+        modalItem.classList.toggle("active");
+        clearAndSetHideTimeout();
+    });
+    
+    modalItem.addEventListener('click', (event) => {
+        clearTimeout(hideTimeout);
+        clearAndSetHideTimeout();
+    });
+    
+    modalItem.addEventListener('mouseover', () => {
+        clearTimeout(hideTimeout);
+    });
+    
+    modalItem.addEventListener('mouseleave', clearAndSetHideTimeout);
+    
+    document.addEventListener('click', (event) => {
+        if (!modalItem.contains(event.target) && event.target !== perfilItem) {
+            clearAndSetHideTimeout();
+        }
+    });
+    });
+    
+    // Seleccionar los enlaces dentro de cada modal y sus respectivos títulos (relacionados por el índice)
+    modalItems.forEach((modalItem, index) => {
+    const enlaces = modalItem.querySelectorAll('a');
+    const titulo = perfilItems[index]; // El perfil asociado con el modal actual
+    
+    enlaces.forEach(enlace => {
+        enlace.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            // Remover la clase 'selecion_a' de todos los enlaces del mismo modal
+            enlaces.forEach(link => link.classList.remove('selecion_a'));
+            this.classList.add('selecion_a');
+            
+            // Actualizar el texto del perfil correspondiente al modal
+            titulo.textContent = this.textContent;
+            
+            // Asegurar que el modal esté activo (si es necesario)
+            modalItem.classList.add("active");
+    
+            mostrar_productos()
+        });
+    });
+    });
+    
+    
+     </script>
 </html>

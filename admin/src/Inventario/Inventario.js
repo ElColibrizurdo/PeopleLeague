@@ -57,7 +57,7 @@ async function mostrarProductos() {
             
             carta.innerHTML = `
                 <label class="checkBox_filtro"><input name="radio" type="checkbox"><div class="transition_checkbox"></div></label>
-                <img src="../../img/articulos/${element.id}.png" alt="alt" onerror="error_imagen(this);"/>
+                <img src="/img/articulos/${element.id}.png" alt="alt" onerror="error_imagen(this);"/>
                 <div class="contendor_cart_nombre">
                     <h2>${element.descripcion}</h2>
                 </div>

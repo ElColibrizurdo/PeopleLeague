@@ -39,7 +39,7 @@ function GenerarCartas(banners) {
                 
                 <h2>${banner}</h2>
             </div>
-            <img src="../img/banners/${banner}" style="width:300px;" alt="alt"/>
+            <img src="/img/banners/${banner}" style="width:300px;" alt="alt"/>
             <svg xmlns="http://www.w3.org/2000/svg" onclick="BorrarImagen(event, this)" width="24" height="24" viewBox="0 0 24 24"   fill="#6F6D6D">
                 <mask id="mask0_2039_18386" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                 <rect width="24" height="24" />

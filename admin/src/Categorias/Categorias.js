@@ -1,5 +1,18 @@
 async function MostrarCategorias() {
 
+    let imagenes
+
+    try {
+        const responseIMG = await fetch('/auth/obtenerListaIMG?path=' + window.location.pathname)
+        const dataIMG = await responseIMG.json()
+        imagenes = dataIMG
+
+        console.log(dataIMG);
+    } catch (error) {
+        console.log(error);
+        
+    }
+
     const tipo = document.querySelector('.abrir_modal')
 
     const tipos = {
@@ -25,12 +38,14 @@ async function MostrarCategorias() {
     cantidad.textContent = ` (${data.length})`
 
     data.forEach(element => {
+
+        const directorio = imagenes.find(item => item.includes(`${element.id}.`))
     
         const carta = `
         <div id="${element.id}" class="cart">
             <div class="contendor_cart_nombre">
                 <label class="checkBox_filtro"><input name="radio" type="checkbox"><div class="transition_checkbox"></div></label>
-                <img src="../img/tipo/${element.id}.png" alt="alt" title="${element.id}" onerror="error_imagen(this);"/>
+                <img src="/img/tipo/${directorio}" alt="alt" title="${element.id}" onerror="error_imagen(this);"/>
                 <a href="/agregarCategoria?idCategoria=${element.id}">${element.nombre}</a>
             </div>
             <h2>${element.cantidad} productos</h2>
@@ -53,7 +68,7 @@ async function MostrarCategorias() {
 
 function error_imagen(imagen) {
     imagen.onerror = "";
-    imagen.src = "../img/sin_img.png";
+    imagen.src = "/img/sin_img.png";
     return true;
 }
 

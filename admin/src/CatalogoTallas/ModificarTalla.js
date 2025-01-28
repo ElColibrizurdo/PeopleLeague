@@ -28,7 +28,7 @@ async function MostrarTalla(id) {
     console.log(form);
     
     document.getElementById('nombre').value = data.nombre
-    document.getElementById('descripcion').value = data.descripcion
+    document.getElementById('descripcion').value = data.descipcion
 
     const responseIMG = await fetch('/auth/buscarImagenMedida?id=' + id)
     const ruta = await responseIMG.json()
@@ -42,7 +42,7 @@ async function MostrarTalla(id) {
     fila.setAttribute('fila', filas.length)
 
     const img = document.createElement('img')
-    img.src = '../img/medidas/' + ruta.name
+    img.src = '/img/medidas/' + ruta.name
     img.style.maxWidth = '70px'
 
     const label = document.createElement('label')

@@ -225,7 +225,7 @@ async function MostrarDatos(id) {
                     fila.setAttribute('nombre', element.nombre)
                 
                     const img = document.createElement('img')
-                    img.src = '../img/articulos/' + element.nombre
+                    img.src = '/img/articulos/' + element.nombre
                     img.style.maxWidth = '70px'
 
                     const label = document.createElement('label')

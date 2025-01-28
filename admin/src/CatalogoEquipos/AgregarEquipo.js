@@ -22,6 +22,7 @@ async function AgregarEquipo() {
     if (data.affectedRows == 1) {
         
         SubirImagenes(data.insertId)
+        window.location.href = '/catalogoEquipos'
     }
 
 }

@@ -35,6 +35,27 @@ console.log('Manejo imagenes');
 tempFile = []
 
 function ImagenesTemporales(params, event) {
+
+    const path = window.location.pathname
+
+    console.log(params);
+    console.log(event);
+
+    switch (path) {
+        case '/editarEquipo':
+            try {
+                const actual = document.getElementById('logo')
+                actual.remove()
+            } catch (error) {
+                
+            }
+            
+            break;
+    
+        default:
+            break;
+    }
+    
   
     tempFile.push(event.target.files[0])
 
@@ -103,7 +124,7 @@ async function NuevaImagen(params) {
     }
 }
 
-function SubirImagenes(id) {
+function SubirImagenes(id, event) {
     
     try {
         
