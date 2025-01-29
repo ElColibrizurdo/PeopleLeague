@@ -10,7 +10,7 @@ if (url.includes('id')) {
     btn.innerText = 'Guardar'
 
     const btnSubirIMG = document.getElementById('image')
-    btnSubirIMG.setAttribute('onchange', `SubirImagenes(${new URLSearchParams(url).get('id')})`)
+    btnSubirIMG.setAttribute('onchange', `SubirImagenes(${new URLSearchParams(url).get('id')}, event)`)
 }
 
 

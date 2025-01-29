@@ -253,6 +253,11 @@ const storage = multer.diskStorage({
                 baseName = id 
                 filePath = path.join(__dirname, '..', '..', 'img', 'jugadores') 
 
+            } else if (parts[1] == 'categoria') {
+                
+                baseName = id
+                filePath = path.join(__dirname, '..','..','img','tipo')
+
             } else {
 
                 const files = req.files || [];

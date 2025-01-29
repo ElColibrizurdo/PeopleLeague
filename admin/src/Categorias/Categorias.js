@@ -46,7 +46,7 @@ async function MostrarCategorias() {
             <div class="contendor_cart_nombre">
                 <label class="checkBox_filtro"><input name="radio" type="checkbox"><div class="transition_checkbox"></div></label>
                 <img src="/img/tipo/${directorio}" alt="alt" title="${element.id}" onerror="error_imagen(this);"/>
-                <a href="/agregarCategoria?idCategoria=${element.id}">${element.nombre}</a>
+                <a href="/agregarCategoria?id=${element.id}">${element.nombre}</a>
             </div>
             <h2>${element.cantidad} productos</h2>
             <h2>${(element.activo.data.toString() === '1' ? 'Activo' : 'Inactivo') }</h2>

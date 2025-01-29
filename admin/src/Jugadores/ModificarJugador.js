@@ -36,23 +36,37 @@ async function MostrarDatos(id) {
         apodo.value = data.apodo
         numero.value = data.numero
         equipo.value = data.idEquipo
-
-        const lista = document.getElementById('imagenes')
-
-        const img = `
-        <li id="logo" 
-        class="fila" 
-        nombre="[object Object]">
-        <label><img src="/img/jugadores/${id}.png" style="max-width: 70px;">
-            <button onclick="BorrarImagen(event, this)">eliminar</button>
-        </label></li>`
-
-        lista.innerHTML += img
     
         console.log(equipo.value);
 
+        MostrarIMGExistente(id)
+
     } catch (error) {
         
+    }
+}
+
+async function MostrarIMGExistente(id) {
+    
+    const response = await fetch(`/auth/ObtenerIMG?path=${window.location.pathname}&id=${id}`)
+    const data = await response.json()
+
+    console.log(data);
+    
+    if (data) {
+
+        const categoria = `
+        <li id="logo" class="fila" nombre="[object Object]">
+            <label>
+                <img src="/img/jugadores/${data}" style="max-width: 70px;">
+                <button onclick="BorrarImagen(event, this)"> eliminar </button>
+            </label>
+        </li>
+        `
+
+        const lista = document.getElementById('imagenes')
+
+        lista.innerHTML = categoria
     }
 }
 

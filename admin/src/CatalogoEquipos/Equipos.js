@@ -40,7 +40,7 @@ async function MostrarEquipos() {
 
     data.forEach(element => {
 
-        const directorio = imagenes.find(item => item.includes(`${element.id}.`))
+        const directorio = imagenes.find(item => item.includes(`_${element.id}.`))
 
         console.log(directorio);
         

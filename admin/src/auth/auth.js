@@ -832,7 +832,7 @@ const AgregarMedida = async (req, res) => {
 
     try {
         
-        const [row] = await db.query('INSERT INTO medida (nombre, descripcion) VALUES (?,?)', [nombre, descripcion])
+        const [row] = await db.query('INSERT INTO medida (nombre, descipcion) VALUES (?,?)', [nombre, descripcion])
 
         console.log(row);
 
@@ -851,7 +851,7 @@ const ModificarMedida = async (req, res) => {
 
     try {
         
-        const [row] = await db.query('UPDATE medida SET nombre = ?, descripcion = ? WHERE id = ?', [nombre, descripcion, id])
+        const [row] = await db.query('UPDATE medida SET nombre = ?, descipcion = ? WHERE id = ?', [nombre, descripcion, id])
 
         res.json(row)
 
@@ -1333,5 +1333,29 @@ const obtenerListaIMG = async (req, res) => {
     
 }
 
+const ObtenerIMG = async (req ,res) => {
 
-module.exports = {obtenerListaIMG, VerificarToken, ModificarEstado, ModificarStockInvenario, ModificarJugador, MostrarJugador, AgregarJUgador, ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }
+    const url = req.query.path
+    const id = req.query.id
+
+    const pathN = {
+        '/editarEquipo': 'logos',
+        '/agregarTalla': 'medidas',
+        '/agregarCategoria': 'tipo',
+        '/agregarJugador': 'jugadores'
+    }
+
+    const directorio = path.join(__dirname, `../../../img/${pathN[url]}`)    
+    const archivos = await fs.readdir(directorio)
+
+    archivos.forEach(element => {
+
+        if (path.parse(element).name === id) {
+            res.json(element)
+        }
+    })
+
+}
+
+
+module.exports = {ObtenerIMG, obtenerListaIMG, VerificarToken, ModificarEstado, ModificarStockInvenario, ModificarJugador, MostrarJugador, AgregarJUgador, ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }

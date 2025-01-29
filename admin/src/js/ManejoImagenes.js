@@ -37,24 +37,52 @@ tempFile = []
 function ImagenesTemporales(params, event) {
 
     const path = window.location.pathname
+    const url = window.location.search
 
-    console.log(params);
-    console.log(event);
+    console.log(path);
+   // console.log(event);
 
-    switch (path) {
-        case '/editarEquipo':
-            try {
-                const actual = document.getElementById('logo')
-                actual.remove()
-            } catch (error) {
-                
-            }
+   if (url.includes('id') || url.includes('id')) {
+
+        let actual
+
+        switch (path) {
+            case '/editarEquipo':
+                try {
+                    actual = document.getElementById('logo')
+                } catch (error) {
+                    
+                }
+                break;
+            case '/agregarTalla':
+                try {
+                    actual = document.querySelector('.fila')
+                } catch (error) {
+                    
+                }
+                break;
+            case '/agregarCategoria':
+                try {
+                    actual = document.getElementById('logo')
+                    console.log(actual);
+                    
+                    
+                } catch (error) {
+                    
+                }
+                break;
+            default:
+                break;
+        }
+        console.log(actual);
+        
+        if (actual) {
             
-            break;
+            actual.remove()
+        }
+   }
+
     
-        default:
-            break;
-    }
     
   
     tempFile.push(event.target.files[0])
@@ -184,6 +212,7 @@ function SubirImagenes(id, event) {
         console.error('Error al subir la imagen:', error);
     });
 }
+
 
 
 console.log(window.location.pathname);
