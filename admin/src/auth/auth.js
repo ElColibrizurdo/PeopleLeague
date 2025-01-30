@@ -9,6 +9,13 @@ const { log } = require('console')
 const bcrypt = require('bcrypt');
 const { arch } = require('os');
 
+const pathN = {
+    '/editarEquipo': 'logos',
+    '/agregarTalla': 'medidas',
+    '/agregarCategoria': 'tipo',
+    '/agregarJugador': 'jugadores'
+}
+
 const estadisticas = async (req, res) => {
 
     const tiempo = req.query.tiempo
@@ -547,20 +554,20 @@ const BuscarImagen = async (req, res) => {
 
 const EliminarImagen = async (req, res) => {
 
-    const id = req.query.directorio
+    const dir = req.query.directorio
+    const id = req.query.name
 
-    console.log(req.originalurl);
+    console.log('url original: ' + req.originalurl);
     console.log(req.get('host'));
-    
-    const filePath = path.join(__dirname, '..', id)
 
-    console.log(filePath);
+    console.log(id);
     
+    const directorio = path.join(__dirname, `../../../${id}`)
 
     try {
         console.log("EliminarImagen:", id);
         
-        await fs.unlink(filePath)
+        await fs.unlink(directorio)
         res.json('se elimino la imagen')
 
     } catch (error) {
@@ -1338,12 +1345,7 @@ const ObtenerIMG = async (req ,res) => {
     const url = req.query.path
     const id = req.query.id
 
-    const pathN = {
-        '/editarEquipo': 'logos',
-        '/agregarTalla': 'medidas',
-        '/agregarCategoria': 'tipo',
-        '/agregarJugador': 'jugadores'
-    }
+    
 
     const directorio = path.join(__dirname, `../../../img/${pathN[url]}`)    
     const archivos = await fs.readdir(directorio)

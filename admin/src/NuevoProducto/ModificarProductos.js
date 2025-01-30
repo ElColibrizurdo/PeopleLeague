@@ -172,8 +172,11 @@ async function MostrarDatos(id) {
     console.log("MostrarDatos(id):" + id);
     console.log("MostrarDatos(id):", id);
     
-    const response = await fetch(`/auth/mostrarProductos?id=${id}&filtro=00`)
+    const response = await fetch(`/auth/mostrarProductos?id=${id}&filtro=00&busqueda=`)
     const data = await response.json()
+
+    console.log(data);
+    
 
 //    const responseC = await fetch('/auth/colores?id=' + id)//    const dataC = await responseC.json() //   console.log(data);
 

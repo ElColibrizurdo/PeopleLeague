@@ -15,12 +15,9 @@ async function BorrarImagen(event, params) {
         carta.remove()
     }
 
-    const carta = document.querySelector
-    
-
     try {
         
-        respoinse = await fetch(`/auth/eliminarIMG?directorio=${img.pathname}`)
+        respoinse = await fetch(`/auth/eliminarIMG?name=${img.pathname}&directorio=${window.location.pathname}`)
         const data = await respoinse.json()
 
         console.log(data);

@@ -147,7 +147,7 @@ async function RemoverVariante(params) {
     const img = new URL(params.previousElementSibling.src)
     console.log(img.pathname);
 
-    const response = await fetch('/auth/eliminarIMG?directorio=' + img.pathname)
+    const response = await fetch(`/auth/eliminarIMG?name=${img.pathname}&directorio=${window.location.pathname}`)
     const data = response.json()
     
     console.log(data);
