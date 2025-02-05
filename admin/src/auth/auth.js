@@ -1359,5 +1359,49 @@ const ObtenerIMG = async (req ,res) => {
 
 }
 
+const ObtenerAdmin = async ( req, res) => {
 
-module.exports = {ObtenerIMG, obtenerListaIMG, VerificarToken, ModificarEstado, ModificarStockInvenario, ModificarJugador, MostrarJugador, AgregarJUgador, ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }
+    const id = req.query.id     
+
+    console.log(id);
+    
+
+    try {
+
+        const [row] = await db.query('SELECT Nombres, ApellidoPrimero, ApellidoSegundo, email, fechaNacimiento  FROM usuario WHERE id = ?', [id])
+        console.log(row);
+        
+        res.json(row)
+        
+    } catch (error) {
+        
+    }
+}
+
+const ModificarAdmin = async (req, res) => {
+
+    const { id, nombre, apeP, apeS, email, fecha} = req.body
+
+    console.log(id);
+    console.log(nombre);
+    console.log(apeP);
+    console.log(apeS);
+    console.log(email);
+    console.log(fecha);
+
+    try {
+        
+        const [row] = await db.query('UPDATE usuario SET nombres = ?, apellidoprimero = ?, apellidosegundo = ?, email = ?, fechaNacimiento = ? WHERE id = ?', [nombre, apeP, apeS, email, fecha, id])
+        console.log(row);
+
+        res.json(row)
+        
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+
+module.exports = {ModificarAdmin, ObtenerAdmin, ObtenerIMG, obtenerListaIMG, VerificarToken, ModificarEstado, ModificarStockInvenario, ModificarJugador, MostrarJugador, AgregarJUgador, ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }

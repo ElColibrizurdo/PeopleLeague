@@ -33,7 +33,8 @@ async function MostrarUsuarios() {
             <div class="cart">
                 <label class="checkBox_filtro"><input name="radio" type="checkbox"><div class="transition_checkbox"></div></label>
                 <div class="contendor_cart_nombre">
-                    <h2>${element.name}</h2>
+                    <a href="/agregarUsuario?idAdmin=${element.id}">${element.name}</a>
+
                 </div>
                 <div class="contenedor_rol">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
