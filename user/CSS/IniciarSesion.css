@@ -8,7 +8,7 @@
             body{
                 margin: 0; 
                 height: 100vh; 
-                background-image:url("../../img/fondo_singup.png");
+                background-image:url("..//img/fondo_singup.png");
                 background-size: cover; 
                 background-repeat: no-repeat; 
                 background-position: center;
@@ -18,7 +18,7 @@
             }
              @font-face{
                     font-family:Obviously;
-                    src:url(../../img/fonnts.com-Obviously.otf);
+                    src:url(..//img/fonnts.com-Obviously.otf);
                 }   
                 .contenedor{
                     height: 800px;

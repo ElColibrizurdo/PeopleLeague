@@ -19,6 +19,8 @@ const options = {
 
 app.use(bodyParser.json());
 
+app.use('/img', express.static(path.join(__dirname, '..', 'img')))
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/auth', authRoutes);

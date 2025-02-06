@@ -184,7 +184,7 @@
     
     <div class="nav_top">
         <a class="union_header" href="/home" onmouseover="this.style='z-index: 1;';">
-            <img src="../img/prueba_header_2.png" class="union_header_img" alt="alt" />
+            <img src="/img/prueba_header_2.png" class="union_header_img" alt="alt" />
         </a>
         <div class="nav_top_links">
             <div class="nav_top_1">
@@ -308,7 +308,7 @@
             
             <div class="carta_carrito" onclick="abrir_producto()">
                 <div class="img_carrito_cart">
-                    <img src="../img/prueba_cart.png"  alt="alt"/>
+                    <img src="/img/prueba_cart.png"  alt="alt"/>
                 </div>
                 <div class="txt_carta_carrito">
                     <div class="txt_carta_carrito_titulo">    
@@ -537,16 +537,16 @@
                 </div>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="../img/fondo_promocional_1.png"   alt="...">
+                        <img src="/img/fondo_promocional_1.png"   alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img src="../img/fondo_promocional_2.png"   alt="...">
+                        <img src="/img/fondo_promocional_2.png"   alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img src="../img/fondo_promocional_3.png"   alt="...">
+                        <img src="/img/fondo_promocional_3.png"   alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img src="../img/fondo_promocional_4.png"   alt="...">
+                        <img src="/img/fondo_promocional_4.png"   alt="...">
                     </div>
                 </div>       
             </div>
@@ -681,7 +681,7 @@
                         <div class="carta_estado">
                             <a>Preventa</a>
                         </div>
-                        <img src="../img/prueba_cart.png"  class="img_carta"alt="...">
+                        <img src="/img/prueba_cart.png"  class="img_carta"alt="...">
                     </div>
                     <div class="div_txt_carta">
                         <div class="txt_carta_1">
@@ -765,18 +765,18 @@
         
               <div class="promocional_infito">
                 <div class="promocional_infito-slide">
-                    <img src="../img/slider_promocional_1.png" alt="alt"/>
-                    <img src="../img/slider_promocional_2.png " alt="alt"/>
+                    <img src="/img/slider_promocional_1.png" alt="alt"/>
+                    <img src="/img/slider_promocional_2.png " alt="alt"/>
                 </div>
                 <div class="promocional_infito-slide">
-                    <img src="../img/slider_promocional_1.png" alt="alt"/>
-                    <img src="../img/slider_promocional_2.png" alt="alt"/>
+                    <img src="/img/slider_promocional_1.png" alt="alt"/>
+                    <img src="/img/slider_promocional_2.png" alt="alt"/>
                 </div>
             </div>
             <div class="footer">
               <div class="footer_contenedor">
                   <div class="contenedor_terminos">
-                      <img src="../img/logo_pl_footer.png" alt="alt"/>
+                      <img src="/img/logo_pl_footer.png" alt="alt"/>
                       <p class="contenedor_terminos_titulo">Terminos y condiciones</p>
                       <a class="contenedor_terminos_txt">Política de privacidad</a>
                       <a class="contenedor_terminos_txt">Aviso legal</a>
@@ -784,7 +784,7 @@
                       <a class="contenedor_terminos_txt">Contactos</a>
                   </div>
                   <div class="contenedor_noticias">
-                      <img class="contenedor_noticias_img" src="../img/fondo_promocional_1.png"  alt="alt"/>
+                      <img class="contenedor_noticias_img" src="/img/fondo_promocional_1.png"  alt="alt"/>
                       <div class="contenedor_noticias_txt">
                           <h2 class="contenedor_noticias_txt_titulo">Recibe descuentos y noticias</h2>
                           <h3 class="contenedor_noticias_txt_subtitulo">Suscribete para recibir  ofertas especiales directo a tu correo</h3>

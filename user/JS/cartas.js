@@ -35,7 +35,7 @@ function CrearCards(element, contenedor) {
     //Imagen del producto
     const img = document.createElement('img')
     img.classList.add('img_carta')
-    img.src = '../img/articulos/' + element.id + '.png'
+    img.src = '/img/articulos/' + element.id + '.png'
 
     //Parte texto de la carta
     const card_div_text = document.createElement('div')

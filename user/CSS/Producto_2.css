@@ -6,7 +6,7 @@ font-family:Obviously;
 }
 @font-face{
     font-family:Obviously;
-    src:url(../img/fonnts.com-Obviously.otf);
+    src:url(/img/fonnts.com-Obviously.otf);
 }   
 body{
 
@@ -195,7 +195,7 @@ left: 0;
                             align-items: center;
                         }
                         .cuerpo_modal_perfil{
-                            background-image: url("../img/img_fondo_perfil_modal.png");
+                            background-image: url("/img/img_fondo_perfil_modal.png");
                             background-size: cover; 
                             background-repeat: no-repeat; 
                             padding-top: 24px;
@@ -503,7 +503,7 @@ left: 0;
         display: flex;
         justify-content:  center;
         align-items: center;
-        background-image:url("../img/fondo_singup.png");
+        background-image:url("/img/fondo_singup.png");
         background-size: cover; 
         background-repeat: no-repeat; 
         background-position: center;

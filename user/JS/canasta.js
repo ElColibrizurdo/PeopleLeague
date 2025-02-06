@@ -86,7 +86,7 @@ async function addProductoRelacionado(idProducto){
              //Imagen del producto
              const img = document.createElement('img')
              img.classList.add('img_carta')
-             img.src = '../img/articulos/' + element.id + '.png'
+             img.src = '/img/articulos/' + element.id + '.png'
 
              console.log(img.src)
 
@@ -184,18 +184,18 @@ async function Mostrar_Producto(data) {
     console.log(images);
     const imagesS = document.querySelector('.img_secundarias')
 
-    let img = `<img src="../img/articulos/${producto.id}.png" class="img-principal img-secundaria selecta" alt="alt"/>`
+    let img = `<img src="/img/articulos/${producto.id}.png" class="img-principal img-secundaria selecta" alt="alt"/>`
     imagesS.innerHTML += img
     
     images.forEach((element, indice) => {
         
-        const img = `<img src="../img/articulos/${element}" class="img-principal img-secundaria" alt="alt"/>`
+        const img = `<img src="/img/articulos/${element}" class="img-principal img-secundaria" alt="alt"/>`
 
         imagesS.innerHTML += img
     })
 
     const imgP = document.querySelector('.img-principal')
-    imgP.src = '../img/articulos/' + producto.id + '.png'
+    imgP.src = '/img/articulos/' + producto.id + '.png'
 
     /*const label_descripcion = document.getElementById('label-descripcion')
     label_descripcion.innerHTML = producto.descripcion*/

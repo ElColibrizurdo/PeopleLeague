@@ -61,7 +61,7 @@ function crear_card(element, contador) {
         const div_agregar = document.createElement('div')
         const btn_agregar = document.createElement('button')
                     
-        img.src = "../img/kirbo.png"
+        img.src = "/img/kirbo.png"
         img.classList.add('position-absolute', 'img-fluid')
 
         equipo.textContent = element.equipo

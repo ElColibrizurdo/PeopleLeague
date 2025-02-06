@@ -7,7 +7,7 @@
     }
     @font-face{
         font-family:Obviously;
-        src:url(../img/fonnts.com-Obviously.otf);
+        src:url(/img/fonnts.com-Obviously.otf);
     }   
 body{
     
@@ -196,7 +196,7 @@ body{
                         align-items: center;
                     }
                     .cuerpo_modal_perfil{
-                        background-image: url("../img/img_fondo_perfil_modal.png");
+                        background-image: url("/img/img_fondo_perfil_modal.png");
                         background-size: cover; 
                         background-repeat: no-repeat; 
                         padding-top: 24px;
@@ -504,7 +504,7 @@ body{
     }
         .promocional_principal{
             grid-area: promocional_principal;
-            background-image: url(../img/Promocional_home.png);
+            background-image: url(/img/Promocional_home.png);
             background-size: auto 100%;
             background-repeat: no-repeat; 
             background-position: center;
@@ -524,7 +524,7 @@ body{
         }
         .logos{
             grid-area: logos;
-            background-image: url(../img/letras_fondo.png);
+            background-image: url(/img/letras_fondo.png);
             background-size: auto 100%;
             display: flex; 
             flex-wrap: wrap;
@@ -597,7 +597,7 @@ body{
           }
 
           .radio-tile-group .input-container .radio-button:checked + .radio-tile {
-            background-image: url(../img/sticker_2.png);
+            background-image: url(/img/sticker_2.png);
           }
 
 
@@ -885,7 +885,7 @@ justify-content: center;
             overflow: hidden;
         }
         .radio-tile-group .input-container .radio-button:checked + .radio-tile {
-            background-image: url(../img/sticker_2.png);
+            background-image: url(/img/sticker_2.png);
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;

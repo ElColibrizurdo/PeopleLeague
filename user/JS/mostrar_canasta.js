@@ -104,7 +104,7 @@ function Crear_card(producto, total, cantidad, idCanasta, columna, etiqueta, num
     img_carrito_cart.classList.add('img_carrito_cart')
 
     const img = document.createElement('img')
-    img.src = '../img/articulos/' + producto[0][0].id + '.png'
+    img.src = '/img/articulos/' + producto[0][0].id + '.png'
 
     img_carrito_cart.appendChild(img)
 
