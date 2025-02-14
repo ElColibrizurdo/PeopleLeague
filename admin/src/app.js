@@ -11,10 +11,24 @@ const http = require('http')
 const https = require('https')
 const fs = require('fs');
 const exp = require('constants')
+const cookieParser = require('cookie-parser');
+const cors = require('cors')
 
 app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({extended:true}))
+
+
+app.use(cookieParser()); 
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}))
+
 app.use('/auth', authRoutes)
 app.use('/img',express.static(path.join(__dirname, '..', '..', 'img')))
 
@@ -120,6 +134,10 @@ app.get('/agregarJugador', (req, res) => {
 
 app.get('/agregarUsuario', ( req, res) => {
     res.sendFile(path.join(__dirname, 'Admins', 'CrearAdmin.html'))
+})
+
+app.get('/recuperar', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Usuarios', 'RecuperarContra.html'))
 })
 
 

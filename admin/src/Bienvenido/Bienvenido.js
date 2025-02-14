@@ -10,6 +10,8 @@ async function Estadisticas(paramas) {
     const registrados = document.getElementById('registrados')
     const invitados = document.getElementById('invitados')
 
+    console.log(tiempo);
+    
     console.log(tiempo[0].getAttribute('value'));
     console.log(tiempo[1].getAttribute('value'));
     

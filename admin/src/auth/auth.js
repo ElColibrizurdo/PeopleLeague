@@ -5,9 +5,12 @@ const fs =  require('fs').promises
 const jwt = require('jsonwebtoken');
 const path = require('path')
 const multer = require('multer');
-const { log } = require('console')
+const { log, error } = require('console')
 const bcrypt = require('bcrypt');
 const { arch } = require('os');
+const { json } = require('stream/consumers');
+const express = require('express');
+
 
 const pathN = {
     '/editarEquipo': 'logos',
@@ -255,17 +258,21 @@ const CambiarEstado = async (req, res) => {
 
 const login = async (req, res) => {
 
-    const correo = req.query.correo
-    const pass = req.query.pass
+    const { correo, pass } = req.body
     const userAgent = req.query.agent
 
-    console.log("login:", req.query);
+    console.log(correo);
+    
 
     try {
         
-        const [row] = await db.query('SELECT EXISTS ( SELECT 1, password FROM usuario WHERE email = ?) AS resultado', [correo])
+        const sqlExiste = 'SELECT EXISTS ( SELECT 1, password FROM usuario WHERE email = ?) AS resultado'
+        console.log(sqlExiste);
+        
+
+        const [existe] = await db.query(sqlExiste, correo)
            
-        if (row[0].resultado == 1) {
+        if (existe[0].resultado == 1) {
 
             const [hash] = await db.query('SELECT password FROM usuario WHERE email = ?', [correo])
            
@@ -276,12 +283,21 @@ const login = async (req, res) => {
             
                 const token = jwt.sign(datos[0], 'adpabasta', {expiresIn: '7d'})
 
+                console.log(datos);
+                
+
                 await db.query('INSERT INTO sesion (idUsuario, navegador) VALUES (?,?)', [datos[0].id, userAgent])
                 
                 console.log(token);
                 
+                res.cookie('token', token, {
+                    maxAge: 7 * 24 * 60 * 60 * 1000,
+                    httpOnly: true,
+                    secure: false,  
+                    sameSite: 'Lax'
+                });
 
-                res.json({token, esValido})
+                res.json({esValido})
             } else {
                 res.json({esValido})
             }
@@ -297,15 +313,25 @@ const login = async (req, res) => {
 
 const VerificarToken = async (req, res) => {
 
-    const token = req.query.token
-
-    console.log(token);
-
-    const decode = jwt.decode(token)
-
-    console.log(decode);
+    const token = req.cookies?.token
     
-    res.json(decode)
+    console.log('token: ', token)
+    
+    if (!token) return res.json({autentificacion: false})
+
+    jwt.verify(token, 'adpabasta', (error, usuario) => {
+        if (error) {
+            return res.json({autentificacion: false})
+        }
+
+        console.log(usuario);
+        
+        return res.json({
+            autentificacion: true, 
+            nombre: usuario.Nombres,
+            ape: usuario.ApellidoPrimero
+        })
+    })
 }
 
 const EliminarProducto = async (req, res) => {
@@ -1403,5 +1429,63 @@ const ModificarAdmin = async (req, res) => {
     }
 }
 
+const ModificarContraAdmin = async (req, res) => {
 
-module.exports = {ModificarAdmin, ObtenerAdmin, ObtenerIMG, obtenerListaIMG, VerificarToken, ModificarEstado, ModificarStockInvenario, ModificarJugador, MostrarJugador, AgregarJUgador, ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }
+    const {id, c, cc} = req.body
+    
+    try {
+        
+        if (!id || !c || !cc) {
+            res.status(400).json({error: 'Debes de tener los campos de contraseña'})
+        }
+
+        const saltrounds = 19
+
+        const hash = await bcrypt.hash(c, saltrounds)
+
+        const sql = 'UPDATE usuario SET password = ? WHERE id = ?'
+
+        const [result] = await db.query(sql, [hash, id])
+
+        if (result.affectedRows > 0) {
+            res.json({msg: 'La contraseña se a cambiado exitosamente'})
+        } else {
+            res.status(400).json({error: 'Error al cambiar la contraseña'})
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const ModifictContraConEmail = async (req, res) => {
+
+    const {email, name, pass} = req.body
+
+    try {
+
+        if (!email || !name || !pass) {
+            res.status(400).json({error: 'Todos los campos deben de ser obligatorios'})
+        }
+
+        const saltrounds = 19
+
+        const hash = await bcrypt.hash(pass, saltrounds)
+
+        const sql = 'UPDATE usuario SET password = ? WHERE name = ? AND email = ?'
+
+        const [result] = await db.query(sql, [hash, name, email])
+
+        if (result.affectedRows > 0) {
+            res.json({msg: 'Se cambio la contraseña'})
+        } else {
+            res.status(400).json({error: 'Error al actualizar la contraseña'})
+        }
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+module.exports = {ModifictContraConEmail, ModificarContraAdmin, ModificarAdmin, ObtenerAdmin, ObtenerIMG, obtenerListaIMG, VerificarToken, ModificarEstado, ModificarStockInvenario, ModificarJugador, MostrarJugador, AgregarJUgador, ModificarProductoTipo, BuscarImagenMedida, MostrarMedida, ObtenerBanners,  ObtenerJugadores, EliminarImagen, BuscarImagenEquipo, ModificarEquipo, ModificarNoGuia, ModificarNoGuia, MostrarTalla, EliminarEquipo, AgregarEquipo, MostrarEquipos, ModificarEstatusEntrega, MostrarPedidos, MostrarCompras, EliminarCategoria, ModificarCategoria, ModificarColor, AgregarColor, EliminarColor, ModificarMedida, AgregarMedida, EliminarMedida, SubirImagenProducto, AgregarColorProducto, AgregarMedidaProducto, ELiminarColorDeProducto, ActualizarProducto, BuscarImagenes, ExtraerEquipos, ExtraerJugadores, ExtraerColores, ExtraerColoresProducto, ExtraerMedidas, ExtraerMedidasProducto, EliminarColaborador, CrearColaborador, MostrarUsuarios, estadisticas, mostrar_productos, agregar_producto, ObtenerTipos, AgregarCategoria, CambiarEstado, login, EliminarProducto }

@@ -1,14 +1,19 @@
 async function VerificarToken() {
     
-    const token = localStorage.getItem('token')
 
-    const response = await fetch(`/auth/verificarToken?token=${token}`)
+    const response = await fetch(`/auth/verificarToken`, {
+        method: 'POST',
+        credentials: 'include'
+    })
     const data = await response.json()
 
     console.log(data);
-    
-    const name = document.querySelector('.id_name_usuario')
-    name.textContent = data.Nombres + ' ' + data.ApellidoPrimero 
+
+    if (data.autentificacion) {
+        
+        const name = document.querySelector('.id_name_usuario')
+        name.textContent = data.nombre + ' ' + data.ape 
+    }    
 }
 
 VerificarToken()

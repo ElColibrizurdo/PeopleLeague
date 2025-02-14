@@ -13,15 +13,24 @@ async function IniciarSesion() {
         console.log(pass.value);
 
 
-        const response = await fetch(`/auth/login?correo=${correo.value}&pass=${pass.value}`)
+        const response = await fetch('/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                correo: correo.value,
+                pass: pass.value
+            }),
+            credentials: 'include'
+        })
         const data = await response.json()
 
         console.log(data);
     
 
         if (data.esValido) {
-            
-            localStorage.setItem('token', data.token)
+          
             carga.classList.add('d-none')
             window.location.href = '/bienvenida'
 
@@ -37,3 +46,4 @@ async function IniciarSesion() {
         
     }    
 }
+

@@ -6,7 +6,12 @@ if (url.get('idAdmin')) {
     console.log(url.get('idAdmin'));
     MostrarAdmin()
 
-    
+    const btnCC = `
+        <button class="btn_CC btn_inciarSesion" onclick="ModificarCAdmin(this, event)" id="CC">Cambiar contraseña</button>
+    `
+
+    const caja = document.querySelector('.btn_logIn')
+    caja.innerHTML += btnCC
 }
 
 async function MostrarAdmin() {
@@ -38,34 +43,6 @@ async function MostrarAdmin() {
     }
 }
 
-// async function ModificarAdmin(this, event) {
-    
-//     event.preventDefault()
-
-//     let formData = new FormData(this)
-
-//     const response = await fetch('/auth/modificarAdmin', {
-//         method: "POST",
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//             id: url.get('idAdmin'),
-//             nombre: formData.get('nombre'),
-//             apeP: formData.get('apePa'),
-//             apeS: formData.get('apeMa'),
-//             email: formData.get('email')
-            
-//         })
-//     })
-
-//     const data = await response.json()
-
-//     console.log(data);
-    
-
-    
-// }
 
 formulario.addEventListener('submit', async function (event) {
     
@@ -95,7 +72,8 @@ formulario.addEventListener('submit', async function (event) {
                     apeP: formData.apePa.value,
                     apeS: formData.apeMa.value,
                     email: formData.email.value,
-                    fecha: formData.fecha.value
+                    fecha: formData.fecha.value,
+                    c: formData.con
                     
                 })
             })
@@ -114,3 +92,47 @@ formulario.addEventListener('submit', async function (event) {
         }
     }
 })
+
+async function ModificarCAdmin(params, event) {
+    
+    event.preventDefault()
+    console.log(params);
+
+    const c = document.getElementById('contra')
+    const cc = document.getElementById('contra')
+        
+    try {
+
+        const carga = document.getElementById('carga')
+        
+        carga.classList.remove('d-none')
+            
+        const response = await fetch('/auth/ModificarCAdmin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: url.get('idAdmin'),
+                c: c.value,
+                cc: cc.value
+            })
+        })
+
+        const data = await response.json()
+
+        if (data.msg) {
+            alert(data.msg)
+            c.value = ''
+            cc.value = ''
+        } else {
+            alert(data.error)
+        }
+
+        carga.classList.add('d-none')
+
+    } catch (error) {
+        console.log(error);
+            
+    }
+}
