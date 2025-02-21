@@ -2,9 +2,8 @@ async function MostrarCategorias(id) {
     
     console.log(id);
     
-    const consulta = 'WHERE id = ' + id
 
-    const response = await fetch('/auth/categorias?tipo=' + consulta)
+    const response = await fetch('/auth/categorias?tipo=' + id)
     const data = await response.json()
 
     const nombre = document.getElementById('nombre')
@@ -36,9 +35,7 @@ async function ModificarCategoria() {
 
     const data = await response.json()
 
-    if (data.affectedRows == 1) {
-        alert('Se modifico el color')
-    }
+    alert(data.message)
     
 }
 
@@ -86,5 +83,9 @@ async function MostrarIMGExistente(id) {
         const lista = document.getElementById('imagenes')
 
         lista.innerHTML = categoria
+
+        const btnF = document.getElementById('finalizar')
+
+        btnF.textContent = 'ACTUALIZAR'
     }
 }

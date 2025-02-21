@@ -2,7 +2,7 @@
 async function MostrarCat() {
 
     let imagenes
-
+    
     try {
         const responseIMG = await fetch('/auth/obtenerListaIMG?path=' + window.location.pathname)
         const dataIMG = await responseIMG.json()
@@ -43,7 +43,7 @@ async function MostrarCat() {
         const directorio = imagenes.find(item => item.includes(`${element.id}.`))
 
         const carta = `
-        <div class="cart">
+        <div class="cart" val>
             <div class="contendor_cart_nombre">
                 <label class="checkBox_filtro"><input name="radio" type="checkbox"><div class="transition_checkbox"></div></label>
                 <img src="/img/medidas/${directorio}" alt="alt" title="${element.id}" onerror="error_imagen(this);"/>
@@ -51,7 +51,7 @@ async function MostrarCat() {
             </div>
             <h2>${(element.activo.data.toString() === '1' ? 'Activo' : 'Inactivo') }</h2>
                        
-            <svg xmlns="http://www.w3.org/2000/svg" onclick="cambiarClase_eliminar()" width="24" height="24" viewBox="0 0 24 24"   fill="#6F6D6D">
+            <svg xmlns="http://www.w3.org/2000/svg" onclick="cambiarClase_eliminar(this)" width="24" height="24" viewBox="0 0 24 24"   fill="#6F6D6D">
                 <mask id="mask0_2039_18386" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                 <rect width="24" height="24" />
                 </mask>
@@ -63,6 +63,29 @@ async function MostrarCat() {
         fila.innerHTML += carta
 
     });
+    
+}
+
+async function cambiarClase_eliminar(params) {
+    
+    const nodo_padre = params.parentNode
+
+    const img = nodo_padre.querySelector('img')
+
+    const response = await fetch('/auth/eliminarMedida', {
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({ id: img.getAttribute('title')})
+
+    })
+
+    const data = await response.json()
+
+    nodo_padre.remove()
+
+    console.log(data);
     
 }
 

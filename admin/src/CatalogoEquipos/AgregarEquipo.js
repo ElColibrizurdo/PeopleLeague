@@ -4,27 +4,35 @@ async function AgregarEquipo() {
 
     const formData = new FormData(form)
 
-    const responde = await fetch('/auth/agregarEquipo', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            nombre: formData.get('nombre')
+    if (formData.get('nombre').trim()) {
+            
+        const responde = await fetch('/auth/agregarEquipo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nombre: formData.get('nombre')
+            })
         })
-    })
 
 
-    const data = await responde.json()
+        const data = await responde.json()
 
-    console.log(data);
-    
-    if (data.affectedRows == 1) {
+        console.log(data);
         
-        SubirImagenes(data.insertId)
-        window.location.href = '/catalogoequipos'
+        if (data.affectedRows == 1) {
+            
+            SubirImagenes(data.insertId)
+            window.location.href = '/catalogoequipos'
+        }
+
+    } else {
+
+        alert('Por favor introduce nombre para registrar al equipo')
     }
 
+    
 }
 
 let inpuImage

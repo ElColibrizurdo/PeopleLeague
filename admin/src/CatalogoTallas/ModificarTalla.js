@@ -65,31 +65,38 @@ async function MostrarTalla(id) {
 async function ModificarMedidas() {
 
     console.log('pepe');
-    
+    const nombre = document.getElementById('nombre')
 
     try {
-        
-        const response = await fetch('/auth/actualizarMedida', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: new URLSearchParams(url).get('id'),
-                nombre: document.getElementById('nombre').value,
-                descripcion: document.getElementById('descripcion').value
+
+        if (nombre.value.trim()) {
+               
+            const response = await fetch('/auth/actualizarMedida', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: new URLSearchParams(url).get('id'),
+                    nombre: nombre.value,
+                    descripcion: document.getElementById('descripcion').value
+                })
             })
-        })
 
-        const data = await response.json()
+            const data = await response.json()
 
-        console.log(data);
-
-        if (data.message) {
+            console.log(data);
             
+
             alert(data.message)
-            
+
+            if (data.res) {
+                
+                window.parent.location = '/catalogotallas'
+                
+            }
         }
+        
         
 
     } catch (error) {

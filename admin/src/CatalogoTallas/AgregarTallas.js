@@ -15,37 +15,34 @@ async function AgregarRegistro() {
 
     const form = document.getElementById('form')
 
-    const formData = new FormData(form)
+    const formData = new FormData(form)    
 
-    
-
-    const responde = await fetch('/auth/agregarMedida', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            nombre: formData.get('nombre'),
-            descripcion: formData.get('descripcion')
-        })
-    })
-
-    const data = await responde.json()
-
-    console.log(data);
-    
-
-    if (data.a == 1) {
+    if (formData.get('nombre').trim()) {
         
-        SubirImagenes(data.id)
+        const responde = await fetch('/auth/agregarMedida', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nombre: formData.get('nombre'),
+                descripcion: formData.get('descripcion')
+            })
+        })
 
-        window.location.href = '/catalogotallas'
+        const data = await responde.json()
+
+        console.log(data);
+
+        if (data.res) {
+            
+            SubirImagenes(data.id)
+            alert(data.message)
+            window.location.href = '/catalogotallas'
+        }
+
+        console.log(data);
     }
-
-
-   
-
-    console.log(data);
     
 
 }

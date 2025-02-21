@@ -327,6 +327,8 @@ async function ObtenerJugadores() {
 
 
 
+
+
 ExtraerCategoriasColores()
 ExtraerEquipos()
 ObtenerJugadores()

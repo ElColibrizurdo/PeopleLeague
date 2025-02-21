@@ -199,12 +199,22 @@ const ObtenerTipos = async (req, res) => {
 
     const tipo = req.query.tipo
 
-    console.log(tipo);
+    console.log('El tipo es: ', tipo);
+
+    let consulta
+
+    if (tipo) {
+        consulta = tipo
+    } else {
+        consulta = '%'
+    }
+    
+    console.log(consulta);
     
 
     try {
 
-        const [row] = await db.query("SELECT t.nombre, t.activo, t.id, (SELECT COUNT(*) FROM producto p WHERE idTipo = t.id) AS cantidad, case when id='+ tipo +' then 'selected' else '' end as selected  FROM tipoproducto t Where t.activo = 1 " )
+        const [row] = await db.query("SELECT t.nombre, t.activo, t.id, (SELECT COUNT(*) FROM producto p WHERE idTipo = t.id) AS cantidad, case when id='+ tipo +' then 'selected' else '' end as selected  FROM tipoproducto t Where t.activo = 1 AND t.id LIKE ?" , [consulta])
 
         /*
         row.forEach((element, indice) => {
@@ -212,6 +222,8 @@ const ObtenerTipos = async (req, res) => {
         })
         console.log("ObtenerTipos:", row);
         */
+
+        
         
         res.json(row)
 
@@ -266,7 +278,7 @@ const login = async (req, res) => {
 
     try {
         
-        const sqlExiste = 'SELECT EXISTS ( SELECT 1, password FROM usuario WHERE email = ?) AS resultado'
+        const sqlExiste = 'SELECT EXISTS ( SELECT 1, password FRO1 usuario WHERE email = ?) AS resultado'
         console.log(sqlExiste);
         
 
@@ -770,11 +782,13 @@ const SubirImagenProducto = async (req, res) => {
 
 const EliminarColor = async (req, res) => {
 
-    const id = req.body
-    
+    const id = req.body.id
+
     try {
         
-        const [row] = await db.query('UPDATE color SET activo = 0 WHERE id = ?' , [id])
+        const [row] = await db.query('UPDATE color SET activo = 00 WHERE id = ?' , [id])
+        
+        console.log(row);
         
         res.json(row)
 
@@ -845,13 +859,18 @@ const ModificarColor = async (req, res) => {
 
 const EliminarMedida = async (req, res) => {
 
-    const id = req.body
+    const id = req.body.id
+
+    console.log(id);
+    
     
     try {
         
-        const [row] = await db.query('UPDATE color SET activo = 0 WHERE id = ?' , [id])
+        const [row] = await db.query('UPDATE medida SET activo = 0 WHERE id = ?' , [id])
         
         res.json(row)
+
+        
 
     } catch (error) {
         console.log(error);
@@ -869,8 +888,9 @@ const AgregarMedida = async (req, res) => {
 
         console.log(row);
 
-        res.json({a: row.affectedRows, id: row.insertId})
-        
+        row.affectedRows === 1
+            ? res.json({message: 'Se agrego correctamente la Talla nueva', res: true, id: row.insertId})
+            : res.json({message: 'No se pudo agregar correctamente la Talla nueva'})    
 
     } catch (error) {
         console.log(error);
@@ -886,7 +906,15 @@ const ModificarMedida = async (req, res) => {
         
         const [row] = await db.query('UPDATE medida SET nombre = ?, descipcion = ? WHERE id = ?', [nombre, descripcion, id])
 
-        res.json(row)
+        console.log(row);
+
+        row.changedRows === 1
+            ? res.json({message: 'Se a actualiozado correctamente la talla', res: true})
+            : row.changedRows === 0 && row.affectedRows === 1
+            ? res.json({message: 'Cambia un valor para poder actualizar', res: false})
+            : res.json({message: 'No se pudo actualiozar correctamente la talla', res: false})
+
+        
 
     } catch (error) {
         res.json({message: error.sqlMessage})
@@ -904,7 +932,11 @@ const ModificarCategoria = async (req, res) => {
         
         const [row] = await db.query('UPDATE tipoproducto SET nombre = ? WHERE id = ?', [nombre, id])
 
-        res.json(row)
+        row.changedRows === 1
+            ? res.json({message: 'Se actualizao la categora'})
+            : row.changedRows === 0 && row.affectedRows === 1
+                ? res.json({message: 'Para actualizar introduce datos diferentes'})
+                : res.json({message: 'No se pudo actulizar la categoria'})
 
     } catch (error) {
         console.log(error);
@@ -1029,11 +1061,14 @@ const ExtraerMedidas = async (req, res) => {
 
     const id = req.query.id
 
-    console.log(id);
+    console.log("Medidas: " + id);
 
     try {
-        const [row] = await db.query("SELECT v.id, v.nombre, v.descripcion, v.activo, v.fechaAlta, case when id=? then 'selected' else '' end as selected  FROM medida v WHERE activo = 1 ", [id])
+        const [row] = await db.query("SELECT v.id, v.nombre, v.descipcion, v.activo, v.fechaAlta, case when id=? then 'selected' else '' end as selected  FROM medida v WHERE activo = 1 ", [id])
         //const [rows] = await db.query('SELECT idMedida FROM productomedidas WHERE idProducto = ?', [id])
+
+        console.log(row);
+        
 
         res.json({row})    //({row, rows})
 
@@ -1049,7 +1084,7 @@ const MostrarMedida = async (req, res) => {
 
     try {
         
-        const [row] = await db.query('SELECT nombre, descipcion FROM medida WHERE id = ?', [parseInt(id)])
+        const [row] = await db.query('SELECT nombre, descipcion FROM medida WHERE id = ? ', [parseInt(id)])
 
         console.log(row[0]);
         
@@ -1068,7 +1103,7 @@ const ExtraerMedidasProducto = async (req, res) => {
 
 
     try {        
-        const [row] = await db.query('SELECT pm.idProducto, pm.idMedida, v.nombre, v.descripcion, v.activo FROM productomedidas pm inner join medida v ON v.id=pm.idMedida WHERE pm.idProducto = ?', [id])
+        const [row] = await db.query('SELECT pm.idProducto, pm.idMedida, v.nombre, v.descipcion, v.activo FROM productomedidas pm inner join medida v ON v.id=pm.idMedida WHERE pm.idProducto = ?', [id])
         console.log("ExtraerMedidasProducto/row:", id+":"+row.length);
 
        // console.log("ExtraerMedidasProducto/row:", row);
@@ -1148,8 +1183,13 @@ const ModificarEquipo = async (req, res) => {
         const [row] = await db.query('UPDATE equipo SET nombre = ? WHERE id = ?' , [nombre, id])
 
         console.log('EL equipo se :', row);
+
+        if (row.changedRows == 1) {
+            
+            return res.json({res: true, message: 'Cambios guardados exitosamente'})
+        }
     
-        res.json(row)
+        return res.json({message: 'No se pudieron guardar lo cambios'})
 
     } catch (error) {
         console.log(error);

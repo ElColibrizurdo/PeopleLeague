@@ -75,8 +75,11 @@ async function ModificarEquipo(params) {
         const response = await fetch(`/auth/modificarEquipo?name=${nombre.value}&id=${id}`)
         const data = await response.json()
 
-        console.log(data);
-//        cerrarPage()
+        alert(data.message)
+
+        if (data.res && data.res == true) {
+            window.parent.location = '/catalogoequipos'
+        }
 
     } catch (error) {
         console.log(error);

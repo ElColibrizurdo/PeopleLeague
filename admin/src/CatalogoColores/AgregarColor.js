@@ -4,6 +4,9 @@ async function AgregarColor() {
 
     const formData = new FormData(form)
 
+    console.log(formData.get('nombre'));
+    
+
     const responde = await fetch('/auth/agregarColor', {
         method: 'POST',
         headers: {
@@ -20,5 +23,4 @@ async function AgregarColor() {
 
     console.log(data);
     
-
 }

@@ -41,7 +41,7 @@ async function ModificarColor() {
 
     const data = await response.json()
 
-    if (data.affectedRows == 1) {
+    if (data.changedRows == 1) {
         alert('Se modifico el color')
     }
     

@@ -15,17 +15,28 @@ async function ExtraerCatTipo(id, ctrl) {
 
 async function ExtraerCatMedida(id, ctrl) {
 
+    console.log('extrallendo medidas');
+    console.log(ctrl);
+    
+
     try {
         
         ctrl.innerHTML = ''
 
         const responseM = await fetch('/auth/medidas?id='+id)
         const dataM = await responseM.json()
+
+        console.log(dataM);
+        
+
         //const selectorM = document.getElementById('medida')
         dataM.row.forEach(element => {
     
             const medida = `<option value="${element.id}"  ${element.selected} >${element.id +'-'+ element.nombre +'-'+ element.descripcion}</option>
             `
+            console.log(medida);
+            
+
             ctrl.innerHTML += medida
         })
 
@@ -184,6 +195,7 @@ async function MostrarDatos(id) {
     let nombre = document.getElementById('nombre')
     let precio = document.getElementById('precio')
     let estado = document.getElementById('estatus')
+    let stock = document.getElementById('stock')
 
     let tipo = document.getElementById('tipo')
     let equipo = document.getElementById('equipos')
@@ -201,7 +213,8 @@ async function MostrarDatos(id) {
 
     if (id>0) {
         data.forEach(async element => {
-
+            console.log(element);
+            
             console.log("element.id:" + element.id);
         if (element.id == id) {
 
@@ -210,6 +223,7 @@ async function MostrarDatos(id) {
             nombre.value = element.descripcion
             precio.value = element.precio
             estado.value = element.estado
+            stock.value = element.stock
 
             //ExtraerCatTipo(element.idTipo, tipo)
             ExtraerCatEquipo(element.idEquipo, equipo)
@@ -334,6 +348,7 @@ async function ModificarProducto() {
         const precio = document.getElementById('precio')
         const numero = document.getElementById('numero')
         const estado = document.getElementById('estatus')
+        const stock = document.getElementById('stock')
 
         const tipo = document.getElementById('tipo')
         const equipo = document.getElementById('equipos')
@@ -377,7 +392,7 @@ async function ModificarProducto() {
                     jugador: jugador.value,
                     numero: jugador.options[jugador.value].getAttribute('numero'),
                     estado: estado.value,
-                    stock: 0,
+                    stock: stock.value,
                     imagenes: idProducto+'.png',
                     coloresID: coloresID,
                     medidasID: medidasID
