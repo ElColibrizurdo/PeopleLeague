@@ -278,7 +278,7 @@ const login = async (req, res) => {
 
     try {
         
-        const sqlExiste = 'SELECT EXISTS ( SELECT 1, password FRO1 usuario WHERE email = ?) AS resultado'
+        const sqlExiste = 'SELECT EXISTS ( SELECT 1, password FROM (SELECT * FROM usuario WHERE role = "admin") AS admins WHERE email = ?) AS resultado'
         console.log(sqlExiste);
         
 
@@ -617,8 +617,10 @@ const EliminarImagen = async (req, res) => {
 const ActualizarProducto = async (req, res) => {
     console.log("ActualizarProducto/req.body:", req.body);
 
-    const { id, descripcion, precio, tipo, equipo, jugador, numero, estado, stock, imagenes, coloresID, medidasID } = req.body
-            // nombre, precio, tipo, equipo, jugador, numero, stock, stado, imagenes, coloresID, medidasID
+    const { id, descripcion, precio, tipo, equipo, jugador, 
+        numero, estado, stock, imagenes, coloresID, medidasID } = req.body
+        // nombre, precio, tipo, equipo, jugador, numero, stock, stado, imagenes, coloresID, medidasID
+    
     let sNumero 
     let sequipo = '' 
     let sjugador = jugador
@@ -641,12 +643,12 @@ const ActualizarProducto = async (req, res) => {
         //console.log("ActualizarProducto/existe:", existe[0].existe);        
         let coloresIDs = coloresID
         console.log("ActualizarProducto/coloresID:", coloresIDs);        
-        //if (existe[0].existe > 0) {
+        if (existe[0].existe > 0) {
             const row2 = await db.query('INSERT INTO productocolor (idProducto, idColor) Select ? as idProducto, id  From color c Where id in ( ? ) ', [id, coloresIDs])
 
             console.log("ActualizarProducto:row Insert:", row2);
             res.json(row2)
-        //}
+        }
     } catch (error) {
         console.log(error);
     }    
@@ -655,10 +657,10 @@ const ActualizarProducto = async (req, res) => {
         const existe2 = db.query('DELETE FROM productomedidas WHERE idProducto = ? ', [id])
         //console.log("ActualizarProducto/existe:", existe2.existe);                
         console.log("ActualizarProducto/medidasID:", medidasID);        
-       // if (existe[0].existe >0) {            
+        if (existe[0].existe >0) {            
             const row3 = await db.query('INSERT INTO productomedidas (idProducto, idMedida) Select ? as idProducto, id From medida c Where id in ( ? ) ', [id, medidasID])
             res.json(row3)
-       // }
+        }
     } catch (error) {
         console.log(error);
     }    
