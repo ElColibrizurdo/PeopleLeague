@@ -169,12 +169,17 @@ async function AgregarProducto() {
         nombres.push(element.getAttribute('nombre'))
     })
 
-    const colores = document.querySelectorAll('.colores')
+    const coloresLista = document.getElementById('colores')
+    const colores = coloresLista.querySelectorAll('li')
+
+    console.log(colores);
+    
+
     let coloresID = []
 
     colores.forEach(element => {
         
-        coloresID.push(element.getAttribute('color'))
+        coloresID.push(element.getAttribute('value'))
     })
 
     console.log(coloresID);
@@ -325,10 +330,43 @@ async function ObtenerJugadores() {
     }
 }
 
+async function ExtraerCatMedida(id, ctrl) {
+
+    console.log('extrallendo medidas');
+    console.log(ctrl);
+    
+
+    try {
+        
+        ctrl.innerHTML = ''
+
+        const responseM = await fetch('/auth/medidas?id='+id)
+        const dataM = await responseM.json()
+
+        console.log(dataM);
+        
+
+        //const selectorM = document.getElementById('medida')
+        dataM.row.forEach(element => {
+    
+            const medida = `<option value="${element.id}"  ${element.selected} >${element.id +'-'+ element.nombre +'-'+ element.descripcion}</option>
+            `
+            console.log(medida);
+            
+
+            ctrl.innerHTML += medida
+        })
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
 
 
+let medida = document.getElementById('medida')
 
-
+ExtraerCatMedida(0, medida)
 ExtraerCategoriasColores()
 ExtraerEquipos()
 ObtenerJugadores()

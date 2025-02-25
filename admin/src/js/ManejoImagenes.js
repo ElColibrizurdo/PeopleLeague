@@ -69,6 +69,13 @@ function ImagenesTemporales(params, event) {
                 }
                 break;
             default:
+                try {
+                    
+                    actual = document.getElementById('logo')
+
+                } catch (error) {
+                    
+                }
                 break;
         }
         console.log(actual);

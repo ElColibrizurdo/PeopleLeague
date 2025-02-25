@@ -118,10 +118,12 @@ const agregar_producto = async (req, res) => {
 
     console.log(jugador);
     console.log(typeof(jugador));
+    console.log('El numnero es: ' + numero);
     
     
-    if(numero == null){
-
+    if(numero == null || numero == 'null'){
+        console.log('pasamos por null');
+        
         qNumero = null
     } else {
 
@@ -160,23 +162,29 @@ const agregar_producto = async (req, res) => {
         const row = await db.query('INSERT INTO producto (idTipo, descripcion, idEquipo, idJugador, numero, precio, stock, estado) VALUES (?,?, ?,?, ?,?,?,?)'
             , [qTipo, nombre, qEquipo, qJugador, qNumero, qPrecio, stock, estatus])
 
-        console.log("agregar_producto: row: " , row);
+        console.log("agregar_producto: row: ");
+        console.log(row[0].insertId);
+        
 
         if (row[0].insertId) {
 
+            console.log('Se a insertado una ID');
+            console.log('Se van a insertar los colores: ' + coloresID);
+            
+
             coloresID.forEach(async element => {
                 const rowC = await db.query('INSERT INTO productocolor (idProducto, idColor) VALUES (?,?)', [row[0].insertId, element])
-                console.log(rowC);
+                console.log("AgregandoProductoColor: " + rowC);
             })
 
-            console.log(medidasID);
+            console.log('Se van a insertar las medidas: ' + medidasID);
             
 
             if (medidasID) {
                 
                 medidasID.forEach(async element => {
                     const rowM = await db.query('INSERT INTO productomedidas (idProducto, idMedida) VALUES (?,?)', [row[0].insertId, element])
-                    console.log(rowM);
+                    console.log('AgregandoProductoMedidas: ' + rowM);
                 })
             }
 
@@ -632,35 +640,47 @@ const ActualizarProducto = async (req, res) => {
         const row = await db.query('UPDATE producto SET idTipo = ?, descripcion = ?, idEquipo = ?, idJugador = ?, numero = ?, precio = ?, estado = ?, stock = ? WHERE id = ? '
             , [tipo, descripcion, equipo, sjugador, sNumero, precio, estado, stock, id])
         
-            console.log("ActualizarProducto:row:", row);
+            //console.log("ActualizarProducto:row:", row);
         res.json(row)
     } catch (error) {
         console.log(error);        
     }
 
     try {
-        const existe = db.query('DELETE FROM productocolor WHERE idProducto = ? ', [id])
+        const existe = await db.query('SELECT EXISTS ( SELECT 1 FROM productocolor WHERE idProducto = ? ) AS resultado', [id])
         //console.log("ActualizarProducto/existe:", existe[0].existe);        
         let coloresIDs = coloresID
+        console.log('Resultado existe: : ');
+        console.log(existe[0][0]);
+        
+        
         console.log("ActualizarProducto/coloresID:", coloresIDs);        
-        if (existe[0].existe > 0) {
-            const row2 = await db.query('INSERT INTO productocolor (idProducto, idColor) Select ? as idProducto, id  From color c Where id in ( ? ) ', [id, coloresIDs])
-
-            console.log("ActualizarProducto:row Insert:", row2);
-            res.json(row2)
+        if (existe[0][0].resultado > 0) {
+            const borrar = await db.query('DELETE FROM productocolor WHERE idProducto = ? ', [id])    
         }
+
+        const row2 = await db.query('INSERT INTO productocolor (idProducto, idColor) Select ? as idProducto, id  From color c Where id in ( ? ) ', [id, coloresIDs])
+
+        console.log("ActualizarProducto:row Insert:", row2);
+        res.json(row2)
+
     } catch (error) {
         console.log(error);
     }    
 
     try {
-        const existe2 = db.query('DELETE FROM productomedidas WHERE idProducto = ? ', [id])
+        const existe2 = await db.query('SELECT EXISTS ( SELECT 1 FROM productomedidas WHERE idProducto = ?) AS resultado ', [id])
         //console.log("ActualizarProducto/existe:", existe2.existe);                
         console.log("ActualizarProducto/medidasID:", medidasID);        
-        if (existe[0].existe >0) {            
-            const row3 = await db.query('INSERT INTO productomedidas (idProducto, idMedida) Select ? as idProducto, id From medida c Where id in ( ? ) ', [id, medidasID])
-            res.json(row3)
+        console.log("BusquedaMedidas: ", existe2[0][0]);
+        
+        if (existe2[0][0].resultado > 0) {
+            const borrar = await db.query('DELETE FROM productomedidas WHERE idProducto = ?', [id])
         }
+
+        const row3 = await db.query('INSERT INTO productomedidas (idProducto, idMedida) Select ? as idProducto, id From medida c Where id in ( ? ) ', [id, medidasID])
+        res.json(row3)
+
     } catch (error) {
         console.log(error);
     }    
@@ -1389,7 +1409,8 @@ const obtenerListaIMG = async (req, res) => {
         '/catalogotallas': 'medidas',
         '/MostrarCategorias': 'tipo',
         '/productos': 'articulos',
-        '/jugadorez': 'jugadores',
+        '/jugadores': 'jugadores',
+        '/agregarJugador': 'jugadores',
         '/inventario': 'articulos',
         '/agregarBanner': 'banners'
     }

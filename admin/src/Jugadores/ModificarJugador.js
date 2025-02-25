@@ -9,7 +9,7 @@ if (new URLSearchParams(window.location.search).get('idJugador')) {
     btnModificar.setAttribute('onclick', `ModificarJugador(${new URLSearchParams(window.location.search).get('idJugador')})`)
 
     const btnSubirIMG = document.getElementById('image')
-    btnSubirIMG.setAttribute('onchange', `SubirImagenes(${new URLSearchParams(window.location.search).get('idJugador')})`)
+    btnSubirIMG.setAttribute('onchange', `SubirImagenes(${new URLSearchParams(window.location.search).get('idJugador')}, event)`)
 
 }
 
@@ -48,17 +48,24 @@ async function MostrarDatos(id) {
 
 async function MostrarIMGExistente(id) {
     
-    const response = await fetch(`/auth/ObtenerIMG?path=${window.location.pathname}&id=${id}`)
+
+    const response = await fetch(`/auth/obtenerListaIMG?path=${window.location.pathname}`)
     const data = await response.json()
 
     console.log(data);
+
     
-    if (data) {
+    const directorio = data.find(item => item.includes(`_${id}.`))
+
+    if (directorio) {
+
+        console.log(directorio);
+        
 
         const categoria = `
         <li id="logo" class="fila" nombre="[object Object]">
             <label>
-                <img src="/img/jugadores/${data}" style="max-width: 70px;">
+                <img src="/img/jugadores/${directorio}" style="max-width: 70px;">
                 <button onclick="BorrarImagen(event, this)"> eliminar </button>
             </label>
         </li>
