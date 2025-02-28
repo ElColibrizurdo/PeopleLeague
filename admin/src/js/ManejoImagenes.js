@@ -158,6 +158,9 @@ async function NuevaImagen(params) {
 
 function SubirImagenes(id, event) {
     
+    console.log(id);
+    
+
     try {
         
         ImagenesTemporales(id, event)
@@ -186,6 +189,7 @@ function SubirImagenes(id, event) {
         '/catalogoequipos': '?equipo',
         '/agregarBanner': '?banners',
         '/agregarProducto': '?producto',
+        '/agregarproducto': '?producto',
         '/editarEquipo': '?equipo',
         '/agregarTalla': '?talla',
         '/agregarJugador': '?jugadores'

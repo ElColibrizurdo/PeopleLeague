@@ -184,7 +184,15 @@ async function AgregarProducto() {
 
     console.log(coloresID);
 
-    
+    const medidasLista = document.getElementById('medidas')
+    const medidas = medidasLista.querySelectorAll('li')
+
+    let medidasID = []
+
+    medidas.forEach(element => {
+
+        medidasID.push(element.getAttribute('value'))
+    })
     
 
     try {
@@ -204,15 +212,19 @@ async function AgregarProducto() {
                 jugador: formData.get('jugadores'),
                 numero: select.options[select.selectedIndex].getAttribute('numero'),
                 stock: parseInt(formData.get('stock')),
-                estatus: parseInt(formData.get('estatus'))
+                estatus: parseInt(formData.get('estatus')),
+                medidasID
             })
         })
     
         const data = await responde.json()
-
-        console.log(data[0].insertId);
+        console.log(data);
         
-        SubirImagenes(data[0].insertId)
+        if (data.res) {
+            
+            SubirImagenes(data.id)    
+        }
+        
         parent.location.href = '/productos'
 
     } catch (error) {

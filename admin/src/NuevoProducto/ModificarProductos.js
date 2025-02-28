@@ -173,6 +173,10 @@ async function ExtraerMedidasProducto(id, ctrl) {
 
     const response = await fetch('/auth/medidasProducto?id='+id)
     const data = await response.json()
+
+    console.log(data);
+    
+
     data.row.forEach(element => {
         elemLi(ctrl, ' - ' + element.nombre + ' - ' + element.descripcion, element.idMedida)
     })
@@ -186,6 +190,8 @@ async function MostrarDatos(id) {
     const response = await fetch(`/auth/mostrarProductos?id=${id}&filtro=00&busqueda=`)
     const data = await response.json()
 
+    console.log('la data es: ');
+    
     console.log(data);
     
 
@@ -211,7 +217,7 @@ async function MostrarDatos(id) {
     tipo.value = data[0].idTipo
     
 
-    if (id>0) {
+    if (id.trim() !== "") {
         data.forEach(async element => {
             console.log(element);
             
@@ -362,8 +368,7 @@ async function ModificarProducto() {
         let coloresID = []
         let medidasID = []
 
-        console.log(jugador.value);
-        console.log(jugador.options[jugador.value].getAttribute('numero'));
+        console.log(numero)
         
         
 
@@ -375,7 +380,7 @@ async function ModificarProducto() {
             medidasID.push( medidas.children[p2].value );
         };
         
-        if(idProducto > 0){
+        if(idProducto){
             console.log("ModificarProducto(): "+idProducto+" nombre:"+nombre.innerHTML+" IDs: "+coloresID+" : "+medidasID)
             const responde = await fetch('/auth/actualizarProducto', {
 
@@ -416,7 +421,7 @@ async function ModificarProducto() {
                     tipo: tipo.value,
                     equipo: equipo.value,
                     jugador: jugador.value,
-                    numero: numero.value,
+                    numero: jugador.options[jugador.value].getAttribute('numero'),
                     estado: estado.value,
                     stock: 0,
                     imagenes: idProducto+'.png',
@@ -547,7 +552,11 @@ if (new URLSearchParams(window.location.search).get('idProducto')) {
 
     const btnInsertIMG = document.getElementById('image')
 
-    btnInsertIMG.setAttribute('onchange', `SubirImagenes(${new URLSearchParams(window.location.search).get('idProducto')}, event)`)
+    const id = new URLSearchParams(window.location.search).get('idProducto')
+
+    console.log(id);
+
+    btnInsertIMG.setAttribute('onchange', `SubirImagenes("${id}", event)`)
 
     const btnCambiarTipo = document.getElementById('tipo')
     btnCambiarTipo.setAttribute('onchange', 'CambiarTipoProducto(this, event)')

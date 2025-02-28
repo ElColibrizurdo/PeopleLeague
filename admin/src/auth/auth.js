@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const { arch } = require('os');
 const { json } = require('stream/consumers');
 const express = require('express');
+const { v4: uuidv4, v4, v1, v3} = require('uuid')
 
 
 const pathN = {
@@ -98,6 +99,12 @@ const mostrar_productos = async (req, res) => {
         )
         //console.log("mostrar_productos(query):", productos);
 
+        console.log('Los produictos son: ');
+         console.log(ordo)
+         console.log(cuando[filtro])
+        console.log(busqueda)
+        
+         
         res.json(productos)
         
     } catch (error) {
@@ -119,6 +126,8 @@ const agregar_producto = async (req, res) => {
     console.log(jugador);
     console.log(typeof(jugador));
     console.log('El numnero es: ' + numero);
+    console.log('Los colores id: ' + coloresID);
+    
     
     
     if(numero == null || numero == 'null'){
@@ -158,32 +167,37 @@ const agregar_producto = async (req, res) => {
     
 
     try {
+            
+        const { nanoid } = await import('nanoid');
         
-        const row = await db.query('INSERT INTO producto (idTipo, descripcion, idEquipo, idJugador, numero, precio, stock, estado) VALUES (?,?, ?,?, ?,?,?,?)'
-            , [qTipo, nombre, qEquipo, qJugador, qNumero, qPrecio, stock, estatus])
+        const idNano = nanoid(10)
+
+        const row = await db.query('INSERT INTO producto (id, idTipo, descripcion, idEquipo, idJugador, numero, precio, stock, estado) VALUES (?,?,?, ?,?, ?,?,?,?)'
+            , [idNano, qTipo, nombre, qEquipo, qJugador, qNumero, qPrecio, stock, estatus])
 
         console.log("agregar_producto: row: ");
-        console.log(row[0].insertId);
+        console.log(row[0]);
         
 
-        if (row[0].insertId) {
+        if (row[0].affectedRows) {
 
             console.log('Se a insertado una ID');
             console.log('Se van a insertar los colores: ' + coloresID);
             
 
             coloresID.forEach(async element => {
-                const rowC = await db.query('INSERT INTO productocolor (idProducto, idColor) VALUES (?,?)', [row[0].insertId, element])
+                const rowC = await db.query('INSERT INTO productocolor (idProducto, idColor) VALUES (?,?)', [idNano, element])
                 console.log("AgregandoProductoColor: " + rowC);
             })
 
             console.log('Se van a insertar las medidas: ' + medidasID);
             
+            
 
             if (medidasID) {
                 
                 medidasID.forEach(async element => {
-                    const rowM = await db.query('INSERT INTO productomedidas (idProducto, idMedida) VALUES (?,?)', [row[0].insertId, element])
+                    const rowM = await db.query('INSERT INTO productomedidas (idProducto, idMedida) VALUES (?,?)', [idNano, element])
                     console.log('AgregandoProductoMedidas: ' + rowM);
                 })
             }
@@ -193,11 +207,14 @@ const agregar_producto = async (req, res) => {
 
         console.log("row[0].insertId:" , row[0].insertId);
 
+        row.affectedRows == 1 ? 
+            res.status(200).json({res: false}):
+            res.status(400).json({res: true, id: idNano})
+            
+    
 
 
-
-        return res.status(400).json(row)
-
+        
     } catch (error) {
         console.log(error);
     }
@@ -279,10 +296,7 @@ const CambiarEstado = async (req, res) => {
 const login = async (req, res) => {
 
     const { correo, pass } = req.body
-    const userAgent = req.query.agent
-
-    console.log(correo);
-    
+    const userAgent = req.query.agent    
 
     try {
         
@@ -1125,10 +1139,16 @@ const ExtraerMedidasProducto = async (req, res) => {
 
 
     try {        
+
+        console.log(id);
+        
+
         const [row] = await db.query('SELECT pm.idProducto, pm.idMedida, v.nombre, v.descipcion, v.activo FROM productomedidas pm inner join medida v ON v.id=pm.idMedida WHERE pm.idProducto = ?', [id])
         console.log("ExtraerMedidasProducto/row:", id+":"+row.length);
 
-       // console.log("ExtraerMedidasProducto/row:", row);
+        console.log("ExtraerMedidasProducto/row:" +  row);
+        console.log(row);
+        
         res.json({row})
 
     } catch (error) {

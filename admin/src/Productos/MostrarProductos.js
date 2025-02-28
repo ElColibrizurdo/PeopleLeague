@@ -62,7 +62,7 @@ async function mostrar_productos() {
                 <div id="${element.id}" class="row cart">
                     <div class="col-1">
                         <!-- <label class="checkBox_filtro"><input name="radio" type="checkbox"><div class="transition_checkbox"></div></label> -->
-                        <svg class="col" xmlns="http://www.w3.org/2000/svg" onclick="cambiarClase_eliminar(${element.id})" width="24" height="24" viewBox="0 0 24 24"   fill="#6F6D6D">
+                        <svg class="col" xmlns="http://www.w3.org/2000/svg" onclick="cambiarClase_eliminar('${element.id}')" width="24" height="24" viewBox="0 0 24 24"   fill="#6F6D6D">
                             <mask id="mask0_2039_18386" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                             <rect width="24" height="24" />
                             </mask>

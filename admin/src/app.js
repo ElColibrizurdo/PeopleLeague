@@ -14,6 +14,7 @@ const exp = require('constants')
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
 
+
 app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({extended:true}))
@@ -246,6 +247,9 @@ const storage = multer.diskStorage({
             const parts = fullUrl.split('?')
             let uploadDir;
 
+            console.log('La id es: ' + id);
+            
+
             if (parts[1] == 'equipo') {
                 
                 baseName = 'logo_' + id 
@@ -314,6 +318,9 @@ const storage = multer.diskStorage({
             /*if (fs.existsSync(filePath)) {
                 baseName = `${baseName}_${Date.now()}${path.extname(file.originalname)}`
             }*/
+
+            console.log('El nombre actual es: ' + baseName);
+            
 
             deleteExistingImage(baseName, filePath, (err) => {
                 if (err) {
