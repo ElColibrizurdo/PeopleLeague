@@ -8,7 +8,8 @@ const { response } = require('express');
 const nodemailer = require('nodemailer');
 const { text, json } = require('body-parser');
 const { log } = require('console');
-const fs = require('fs')
+const fs = require('fs').promises
+const path = require('path')
 
 require('dotenv').config()
 
@@ -193,11 +194,7 @@ const ingresar_producto_canasta = async (req, res) => {
 
     const { cantidad, id, id_producto, numero, nombre, precio, talla, color } = req.body;    
 
-    
- 
-    console.log('Nombre personalizado: ' + nombre);
-    console.log('Color: ' + color);
-    
+    console.log(req.body);
     
     let message = ''
 
@@ -872,23 +869,20 @@ const recuperar_imagenes = async (req, res) => {
 
     const id = req.query.id
 
-    console.log('recuperar_imagenes:' + id)
+    console.log('recuperar_imagenes: ' + id)
 
     try {
         const path = require('path');
 
-        /*const route = `./${id}.png`;
-        console.log(path.extname(route));
-        console.log(path.sep); 
-        console.log(__dirname);
-        console.log(path.normalize(__dirname+path.sep+'..'+path.sep+'..'+path.sep))
-        console.log(path.dirname('/articulos'))*/
-        console.log(path.normalize(__dirname+path.sep+'..'+path.sep+'..'+path.sep)+'img'+path.sep+'articulos')
 
-        const files = fs.readdirSync(path.normalize(__dirname+path.sep+'..'+path.sep+'..'+path.sep)+path.sep+'img'+path.sep+'articulos')
-        console.log('files:' + files.length)
+       
+        const directorio = await fs.readdir('./../img/articulos')
+        console.log(directorio);
         
-        const archivos = files.filter(file => file.startsWith(`${id}_`))
+        const archivos = directorio.filter(file => file.startsWith(id))
+        console.log(archivos);
+        
+        
         
         res.json(archivos)
         
@@ -899,4 +893,29 @@ const recuperar_imagenes = async (req, res) => {
     }
 }
 
-module.exports = { recuperar_imagenes, determinar_ubicacion, mostrar_paises, mostrar_filtros, recuperar_contra, recuperar_colores_producto, barra_buscar, FiltrosHome, RealizarVenta, verificarContra, cliente_existe, cantidad_cesta, guardar_metodos, registrar_cliente, obtener_tipoProducto, obtener_Compras, demostrar_like, dar_like, cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };
+const obtener_lista_img = async (req, res) => {
+
+    const ruta = req.headers.referer
+    
+
+    try {
+        
+        const pathN = {
+            'tienda': 'articulos'
+        }
+
+        const directorio = path.join(__dirname, `../../../img/${pathN[ruta.split('/')[3]]}`)
+        console.log('directorio: ' + directorio);
+        
+
+        const lista = await fs.readdir(directorio)
+
+        res.json(lista)
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+module.exports = { obtener_lista_img, recuperar_imagenes, determinar_ubicacion, mostrar_paises, mostrar_filtros, recuperar_contra, recuperar_colores_producto, barra_buscar, FiltrosHome, RealizarVenta, verificarContra, cliente_existe, cantidad_cesta, guardar_metodos, registrar_cliente, obtener_tipoProducto, obtener_Compras, demostrar_like, dar_like, cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };

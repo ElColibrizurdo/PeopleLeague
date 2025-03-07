@@ -164,8 +164,11 @@ async function addProductoRelacionado(idProducto){
 
 async function Mostrar_Producto(data) {
 
+    console.log( data);
+    
+
+
     const producto = data.producto[0][0]
-    console.log(data);
     
 
     const label_nombre = document.getElementById('label-nombre')
@@ -180,25 +183,26 @@ async function Mostrar_Producto(data) {
 
     const response = await fetch('/auth/recuperarImagenes?id=' + producto.id)
     const images = await response.json()
-
-    console.log(images);
     const imagesS = document.querySelector('.img_secundarias')
 
-    let img = `<img src="/img/articulos/${producto.id}.png" class="img-principal img-secundaria selecta" alt="alt"/>`
-    imagesS.innerHTML += img
+    let img = `<img src="/img/articulos/${images[0]}" class="img-principal img-secundaria selecta" alt="alt"/>`
+    
     
     images.forEach((element, indice) => {
         
+        console.log(element);
+        
+
         const img = `<img src="/img/articulos/${element}" class="img-principal img-secundaria" alt="alt"/>`
 
         imagesS.innerHTML += img
     })
 
     const imgP = document.querySelector('.img-principal')
-    imgP.src = '/img/articulos/' + producto.id + '.png'
+    imgP.src = '/img/articulos/' + images[0]
 
-    /*const label_descripcion = document.getElementById('label-descripcion')
-    label_descripcion.innerHTML = producto.descripcion*/
+    console.log(producto);
+    
 
     if (data.medidas) {
         
@@ -210,13 +214,13 @@ async function Mostrar_Producto(data) {
         MostrarColores(data.color[0])   
     }
 
-    if (producto.idTipo != 9) {
+    // if (producto.idTipo != 9) {
         
-        const divPersonalizar = document.querySelector('.contendor_descripcion_producto_pedido_talla')
-        const divPersonalizar2 = document.querySelector('.contenedor_descripcion_producto_pedido_personalizacion_nombre')
-        divPersonalizar.remove()
-        divPersonalizar2.remove()
-    }
+    //     const divPersonalizar = document.querySelector('.contendor_descripcion_producto_pedido_talla')
+    //     const divPersonalizar2 = document.querySelector('.contenedor_descripcion_producto_pedido_personalizacion_nombre')
+    //     divPersonalizar.remove()
+    //     divPersonalizar2.remove()
+    // }
 }
 
 function MostrarColores(colores) {
@@ -241,6 +245,7 @@ function MostrarColores(colores) {
 }
 
 function MostrarMedidas(colores) {
+    console.log('los colores son ');
     
     //const contenedor_ul = document.querySelector('.contenedor_descripcion_producto_color')
     const subcontenedor = document.getElementById('medidas') //.querySelector('.radio-tile-group_selector_color')
@@ -298,6 +303,8 @@ function parseJwts (token) {
 function Mostrar_Medidas(medidas) {
     
     const contenedor_tallas = document.querySelector('.radio-tile-group')
+    console.log(contenedor_tallas);
+    
 
     medidas.forEach(element => {
 
@@ -429,17 +436,16 @@ const btn_ingresar = document.getElementById('btn-ingresar')
 
 //btn_ingresar.innerText = traduccion.user.name
 
-document.querySelector('.atras').addEventListener('click', function () {
+// document.querySelector('.atras').addEventListener('click', function () {
     
-    history.back()
-    console.log('ya ta');
+//     history.back()
     
-})
+// })
 
-document.querySelector('.atras').addEventListener('click', function () {
+// document.querySelector('.atras').addEventListener('click', function () {
     
-    history.back()
-})
+//     history.back()
+// })
 
 function Derecha() {
     

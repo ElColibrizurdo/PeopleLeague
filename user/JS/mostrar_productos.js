@@ -3,6 +3,7 @@ console.log(window.location.href);
 let cantiadCartas = 16
 
 let arrayPrincipal = []
+
 function obtener_productis(tipos, equipos, stock, equipos2, buscador, minMax) {
     console.log("obtener_productis(): ");
 
@@ -37,18 +38,41 @@ function obtener_productis(tipos, equipos, stock, equipos2, buscador, minMax) {
 
 }
 
+function EncontrarIMGLista(lista, id) {
+    return lista.reduce((prev, curr) =>
+        Math.abs(curr - `${id}.`) < Math.abs(prev - `${id}.`) ? curr : prev
+    )
+}
 
-function CrearCard(data) {
+async function CrearCard(data) {
 
     if (arrayPrincipal.length > 0) {
         arrayPrincipal = []
     }
+
+    console.log('Vamos a ver la lista de imagnes ');
+    
+
+    const listaR = await fetch('/auth/obtnerListaIMG')
+    const listaIMG = await listaR.json()
+
 
 
     var contador = 0
     var arrauNuevo = []
     
     data.forEach(async (element, indice) => {
+        
+        console.log(listaIMG.find(item => item.startsWith(`${element.id}.`)));    
+        
+        const nombreIMG = listaIMG.find(item => item.startsWith(`${element.id}.`))
+
+        // const card = `
+
+        //     <div class="carta" tipo="4" equipo="3"><a href="/canasta?id=${element.id}" class="link"><div class="contenedor_img_carta"><img class="img_carta" src="/img/articulos/10.png"></div><div class="div_txt_carta"><div class="txt_carta"><div class="txt_carta_1"><p title="Playera Roja">Playera Roja</p></div><div class="txt_carta_2"><p>100.00</p><label class="container_corazon"><input type="checkbox" alt="10" number="10" title="10" class="productos" onchange="DarLike(this)" onclick=" validaSesionLike(this); ">
+        //     <svg id="Layer_1" onclick=" cambiar_iniciar_sesion(10) " version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        //     <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path></svg>
+        //     </label></div></div></div></a></div> `
 
         contador += 1
 
@@ -82,7 +106,7 @@ function CrearCard(data) {
 
         const img = document.createElement('img')
         img.classList.add('img_carta')
-        img.src = '/img/articulos/' + element.id + '.png'
+        img.src = '/img/articulos/' + nombreIMG
 
         //Parte texto de la carta
         const card_div_text = document.createElement('div')

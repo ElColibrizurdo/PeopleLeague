@@ -33,13 +33,10 @@ app.use(cors({
 app.use('/auth', authRoutes)
 app.use('/img',express.static(path.join(__dirname, '..', '..', 'img')))
 
-
-
 app.use(express.static(path.join(__dirname, '/')))
 app.get('/', (req,res) => {
     res.sendFile(path.join(__dirname, 'Usuarios', 'IniciarSesion.html'))
 })
-
 
 app.get('/bienvenida', (req, res) => {
     res.sendFile(path.join(__dirname,  'Bienvenido', 'Bienvenido.html'))

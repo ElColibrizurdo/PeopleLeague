@@ -1,7 +1,10 @@
 async function inicio() {
     
-    const btn = document.getElementById('btn_carrito')
+    const btn = document.querySelector('.btn_carrito')
     var div = document.getElementById("lista_carrito");
+
+    console.log(btn);
+    
     
     try {
         btn.addEventListener('mousedown', async function() {
@@ -71,6 +74,7 @@ async function Obtener_datos(id, total, cantidad, idCanasta, columna, etiqueta, 
     
 
     try {
+        
 
         const response = await fetch('/auth/producto', {
 
@@ -82,7 +86,7 @@ async function Obtener_datos(id, total, cantidad, idCanasta, columna, etiqueta, 
         })
 
         const data = await response.json();
-        console.log(numero);
+        console.log(data);
         
         Crear_card(data.producto, total, cantidad, idCanasta, columna, etiqueta, numero)
 

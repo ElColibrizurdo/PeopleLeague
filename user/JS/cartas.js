@@ -37,6 +37,9 @@ function CrearCards(element, contenedor) {
     img.classList.add('img_carta')
     img.src = '/img/articulos/' + element.id + '.png'
 
+    console.log(element.id);
+    
+
     //Parte texto de la carta
     const card_div_text = document.createElement('div')
     card_div_text.classList.add('div_txt_carta')
@@ -71,6 +74,11 @@ function CrearCards(element, contenedor) {
     chkbox_deseo.classList.add('productos')
     chkbox_deseo.setAttribute('onchange', 'DarLike(this)')
     chkbox_deseo.setAttribute('onclick', 'validarSesion(this)')
+
+    DarLike(chkbox_deseo)
+
+    console.log(chkbox_deseo);
+    
 
     const svgContent = `
         <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">

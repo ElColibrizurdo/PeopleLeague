@@ -41,6 +41,9 @@ async function ObtenerFavoritos() {
             })
 
             const favoritos = await fResponse.json()
+
+            console.log(favoritos);
+            
             
             if (favoritos.row) {
                 //CrearCards(element)
@@ -56,6 +59,8 @@ async function ObtenerFavoritos() {
         console.log(contador);
         
     } catch (error) {
+        console.log();
+        
     }
 }
 
@@ -262,11 +267,15 @@ function ImprimirProductos(card) {
 }
 
 async function DarLike(boton) {
+
+    console.log(boton);
+    
     
     const number =  boton.getAttribute('number')
     const sesion = localStorage.getItem('sesion')
     let estado 
     
+    boton.checked = true
 
     if (boton.checked) {
         console.log(boton);
@@ -289,6 +298,9 @@ async function DarLike(boton) {
         })
 
         const data = await response.json()
+
+        console.log(data);
+        
         
         if (data.ok) {
             console.log('To salio bien');

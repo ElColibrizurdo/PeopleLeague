@@ -1,0 +1,4 @@
+admin/package.json
+dump-ventaspeople-*.sql
+admin/node_modules/
+admin/package-lock.json
