@@ -918,4 +918,18 @@ const obtener_lista_img = async (req, res) => {
     }
 }
 
-module.exports = { obtener_lista_img, recuperar_imagenes, determinar_ubicacion, mostrar_paises, mostrar_filtros, recuperar_contra, recuperar_colores_producto, barra_buscar, FiltrosHome, RealizarVenta, verificarContra, cliente_existe, cantidad_cesta, guardar_metodos, registrar_cliente, obtener_tipoProducto, obtener_Compras, demostrar_like, dar_like, cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };
+
+const cantidad_producto = async (req, res) => {
+
+    try {
+         
+        const [row] = await db.query('SELECT count(*) AS cantidad FROM producto WHERE activo = 1')
+        
+        res.json(row)
+
+    } catch (error) {
+        
+    }
+}
+
+module.exports = { cantidad_producto, obtener_lista_img, recuperar_imagenes, determinar_ubicacion, mostrar_paises, mostrar_filtros, recuperar_contra, recuperar_colores_producto, barra_buscar, FiltrosHome, RealizarVenta, verificarContra, cliente_existe, cantidad_cesta, guardar_metodos, registrar_cliente, obtener_tipoProducto, obtener_Compras, demostrar_like, dar_like, cerrar_sesion, eliminar_producto_canasta, modificar_cantidad, register, login, ingresar_producto_canasta, mostrar_canasta, obtener_producto };

@@ -9,10 +9,11 @@ async function ObtenerFavoritos() {
     const contenedor = document.getElementById('id_grupo_cartas') //.querySelector('.grupo_cartas')
     contenedor.innerHTML = ''
 
-    const minMax = []
+    const minMax = [0,10000]
     const tipos = []
     const equipos = []
     const stock = []
+    
     
     try {
         
@@ -21,7 +22,7 @@ async function ObtenerFavoritos() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({tipos, equipos, stock, buscar : '%', minMax})
+            body: JSON.stringify({tipos, equipos, stock, buscar : '%', minMax, index: 1})
         })
 
         const data = await response.json()

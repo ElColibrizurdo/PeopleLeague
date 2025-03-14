@@ -6,6 +6,14 @@ let arrayPrincipal = []
 
 function obtener_productis(tipos, equipos, stock, equipos2, buscador, minMax) {
     console.log("obtener_productis(): ");
+    console.log(minMax);
+    
+
+    const btnGroup = document.querySelector('input[name="radio"]:checked').parentNode
+    console.log(btnGroup);
+    
+    const index = btnGroup.querySelector('.radio-tile-label').textContent
+    console.log(index);
 
     let buscar = '%'
     if (buscador.length>0){
@@ -22,13 +30,13 @@ function obtener_productis(tipos, equipos, stock, equipos2, buscador, minMax) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({tipos, equipos, stock, equipos2, buscar, minMax})
+        body: JSON.stringify({tipos, equipos, stock, equipos2, buscar, minMax, index})
     })
         .then(response => response.json())
         .then(data => {
             console.log(data);
             
-            CrearCard(data)
+            CrearCard(data, index)
         })
 
         //if (equipos2[1]==undefined)
@@ -44,11 +52,7 @@ function EncontrarIMGLista(lista, id) {
     )
 }
 
-async function CrearCard(data) {
-
-    if (arrayPrincipal.length > 0) {
-        arrayPrincipal = []
-    }
+async function CrearCard(data, index) {
 
     console.log('Vamos a ver la lista de imagnes ');
     
@@ -168,21 +172,11 @@ async function CrearCard(data) {
         card.setAttribute('tipo', element.idTipo)
         card.setAttribute('equipo', element.idEquipo)
 
-        if (contador == cantiadCartas) {
-
-            arrauNuevo.push(card)
-            arrayPrincipal.push(arrauNuevo)
-            contador = 0
-            arrauNuevo = []
-
-        } else {
-
-            arrauNuevo.push(card)
-        }
+        arrayPrincipal.push(card)
+        
 
     })
-    arrayPrincipal.push(arrauNuevo)
-    ImprimirProductos(arrayPrincipal, 0)
+    ImprimirProductos(arrayPrincipal, index)
 }
 
 function ImprimirProductos(array, numero) {
@@ -190,39 +184,98 @@ function ImprimirProductos(array, numero) {
 
 
     const container = document.getElementById('gridContainer')  //.querySelector('.grupo_cartas')
-    const pagination = document.querySelector('.radio-tile-group')
+    // const pagination = document.querySelector('.radio-tile-group')
 
     container.innerHTML = ''
-    pagination.innerHTML = ''
+    // pagination.innerHTML = ''
     
     array.forEach((element, indice) => {
 
-        if (indice == numero) {
+        // if (indice == numero) {
             
-            element.forEach(element => {
+        //     element.forEach(element => {
 
-                container.appendChild(element)
-            })
-        }
+        //         container.appendChild(element)
+        //     })
+        // }
 
-        const button = document.createElement('a')
-        button.classList.add('pag_num')
-        button.textContent = indice + 1
-        if (indice == numero) {
-            button.classList.add('selected')
-        }
-        button.onclick = function () {
+        // const button = document.createElement('a')
+        // button.classList.add('pag_num')
+        // button.textContent = indice + 1
+        // if (indice == numero) {
+        //     button.classList.add('selected')
+        // }
+        // button.onclick = function () {
             
-            CambiarPagina(this)
-        }
-        pagination.appendChild(button)
+        //     CambiarPagina(this)
+        // }
+        // pagination.appendChild(button)
 
-        localStorage.setItem('indice', numero)
-        button.classList.add
+        // localStorage.setItem('indice', numero)
+        // button.classList.add
 
+        container.appendChild(element)
         EjecutarScripts()
     })
 
+    
+    ManejarNavegacion(numero)
+
+}
+
+
+async function ManejarNavegacion(numero) {
+
+    const pagination = document.querySelector('.radio-tile-group')
+    pagination.innerHTML = ''
+
+    const response = await fetch(`/auth/cantidadProductos`)
+    const data = await response.json()
+
+    numero = numero - 1
+    console.log(data);
+    console.log(numero);
+    
+    
+    const cantidadP = Math.ceil(data[0].cantidad / 16)
+
+    console.log(cantidadP);
+
+    for (let i = 0; i < cantidadP; i++) {
+
+        const element = i + 1;
+        let checado = ''
+
+        if (i == numero) {
+            checado = 'checked'
+        }
+
+        const btn = `
+        <div class="input-container">
+            <input class="radio-button" type="radio" name="radio" ${checado}>
+            <div class="radio-tile">
+                <label  class="radio-tile-label">${element}</label>
+            </div>
+        </div> `
+
+        pagination.innerHTML += btn
+
+        localStorage.setItem('indice', numero)
+    }
+
+    const btnPaginacion = document.querySelectorAll('input[name="radio"]')
+
+    console.log(btnPaginacion)
+
+    btnPaginacion.forEach(element => {
+        console.log(element);
+        
+        element.addEventListener('click', (event) => {
+            console.log(element);
+            
+            CambiarPagina(element)
+        })
+    })
 }
 
 async function EjecutarScripts() {
@@ -232,34 +285,40 @@ async function EjecutarScripts() {
 
 function CambiarPagina(boton) {
     
-    const paginas = document.querySelectorAll('.pag_num')
-    const paginasArray = Array.from(paginas)
+    // const paginas = document.querySelectorAll('.pag_num')
+    // const paginasArray = Array.from(paginas)
     
-    const pagina = document.querySelector('.selected')
+    // const pagina = document.querySelector('.selected')
     
-    const indi = paginasArray.indexOf(pagina)
+    // const indi = paginasArray.indexOf(pagina)
     
-    if (boton.childNodes.length != 1) {
+    // if (boton.childNodes.length != 1) {
 
-        console.log('Hola');
+    //     console.log('Hola');
         
-        const indice = parseInt(localStorage.getItem('indice'))
+    //     const indice = parseInt(localStorage.getItem('indice'))
         
-        if (boton.getAttribute('aria-label') == 'Next' && (arrayPrincipal.length - 1) != indice ) {
+    //     if (boton.getAttribute('aria-label') == 'Next' && (arrayPrincipal.length - 1) != indice ) {
         
-            paginas
-            ImprimirProductos(arrayPrincipal, indice + 1 )
+    //         paginas
+    //         ImprimirProductos(arrayPrincipal, indice + 1 )
             
-        } else if (boton.getAttribute('aria-label') == 'Previous' && indice != 0) {
+    //     } else if (boton.getAttribute('aria-label') == 'Previous' && indice != 0) {
             
-            ImprimirProductos(arrayPrincipal, indice - 1 )          
-        } 
-    } else {
+    //         ImprimirProductos(arrayPrincipal, indice - 1 )          
+    //     } 
+    // } else {
 
-        ImprimirProductos(arrayPrincipal, parseInt(boton.textContent)-1)
-    }
+    //     ImprimirProductos(arrayPrincipal, parseInt(boton.textContent)-1)
+    // }
 
-        
+
+    console.log(boton);
+    
+    const barra = window.document.querySelector('.buscador')
+
+    FiltrarDatos(barra)
+    
  } 
 
 function FiltrarDatos(buton) {
@@ -331,6 +390,9 @@ function FiltrarDatos(buton) {
     minMax.push(document.getElementById("range-min").value)
     minMax.push(document.getElementById("range-max").value)   
 
+    console.log(arrayEquipos);
+    console.log(minMax);
+    
 
     obtener_productis(arrayTipos, arrayEquipos, arrayStocks, arrayEquipos2, arrayFiltrado, minMax )
 

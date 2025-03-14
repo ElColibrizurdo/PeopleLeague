@@ -84,25 +84,30 @@ app.get('/datos', (req, res) => {
 
 app.post('/data', async (req, res) => {
 
-    const { tipos, equipos, stock, buscar, minMax } = req.body;
+    const { tipos, equipos, stock, buscar, minMax, index } = req.body;
 
     if (!Array.isArray(tipos) || !Array.isArray(equipos)) {
         return res.status(400).json({ error: 'Tipos y equipos deben ser arrays' });
     }
+    
 
     let values = [];
     let equiposCondition = '';
     let tiposCondition = '';
     let queryWhere = ''
+    let queryCantidad = ''
 
     console.log("/data/buscar: " + buscar);
     console.log("/data/minMax: " + minMax);
+
+    const inicio = (index * 16) - 16
+    const fin = index * 16
 
     try {
         let queryEquipo = ''
             let queryTipo = ''
         let query = "SELECT p.id, p.idTipo, p.descripcion, p.idEquipo, p.precio, p.numeroLikes, p.estado FROM producto p ";
-        queryWhere +=  ` WHERE p.activo= 1 `
+        queryWhere +=  ` WHERE p.activo= 1`
 
         console.log("query:" + query);
 
@@ -131,13 +136,16 @@ app.post('/data', async (req, res) => {
                 queryWhere += ` AND p.precio between ${minMax[0]} and ${minMax[1]}`
             }
 
-
+            
         }
 
-        query += queryEquipo + queryTipo + queryWhere
+        queryCantidad = ` LIMIT 16 OFFSET ${inicio}`
+        query += queryEquipo + queryTipo + queryWhere + queryCantidad
+
+        console.log("query final: " + query);
+        
 
         const [rows] = await db.query(query, values);
-        console.log(query);
         
         
         res.json(rows);
